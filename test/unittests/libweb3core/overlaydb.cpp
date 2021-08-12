@@ -854,7 +854,8 @@ TEST(OverlayDB, insertWitness)
     EXPECT_TRUE(
         odb.lookupAux(h256("0x73302a5bcacacc06b6e499ccce6d33d7f4f7bb4b7e39cb37b8a53b5bd935d7ac")) ==
         value);
-    TestBlockChain bc(TestBlockChain::defaultGenesisBlock());
+    TestBlock genesis = TestBlockChain::defaultGenesisBlock();
+    TestBlockChain bc(genesis);
 
     BlockChain& bcRef = bc.interfaceUnsafe();
     bcRef.rescue(odb);

@@ -448,8 +448,8 @@ TEST(OverlayDB, insertWitness)
         "0a03fabab27c88ed87d4cfcfb7a413e06157c4cc957f3669376e54d427fef4702bf80a08028e39e9e"
         "83b795423503794dbc71b38435cc56a735873df4e1ec69824744598080a05ae05f74af922dbd6001b"
         "4db74aacdbdbf301b1f6296d4e777fde5822a977cdd80808080");
-    odb.insertAux(h256("0x14e40ce555eec947546596812fd50499374a316c50f41edd8ad29bf81303b864"),
-        &value));
+    odb.insertAux(
+        h256("0x14e40ce555eec947546596812fd50499374a316c50f41edd8ad29bf81303b864"), &value);
 
     value = fromHex("e09e382d4a481436a839dfc482a9ad4871b9a997aef0326f0435e957ab5a06d603");
     odb.insertAux(
@@ -615,10 +615,11 @@ TEST(OverlayDB, insertWitness)
         "597344aa6a72474fd9c8f79e1eedec47fd13f6d688080808080");
     odb.insertAux(
         h256("0xd567c75a1a07520c115a323c2c2d4da0e7d39ffc7e57e03d4b485e4cc0d3aaef"), &value);
-    value =
-        fromHex("e49e36debc737f3d47cc69320791f39cbe9ff40c2317d542a1bb0fa444b451e58483b94113")
-            odb.insertAux(
-                h256("0x236936f355aa3b50e01ad69597344aa6a72474fd9c8f79e1eedec47fd13f6d68"), &value);
+
+    value = fromHex("e49e36debc737f3d47cc69320791f39cbe9ff40c2317d542a1bb0fa444b451e58483b94113");
+    odb.insertAux(
+        h256("0x236936f355aa3b50e01ad69597344aa6a72474fd9c8f79e1eedec47fd13f6d68"), &value);
+
     value = fromHex(
         "f90211a0e82a7f032e748e98ee62a58b21e6dfea00217fa3472ed4c3dfb59fdaaeafaa06a0a3fa5944b161"
         "927af44eb6ab04ece941cd20dd6bef10efbf7fe1572d684efd53a090bee9f4e56740f186d4e8d887233ec4"

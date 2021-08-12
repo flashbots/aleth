@@ -849,7 +849,9 @@ TEST(OverlayDB, insertWitness)
     EXPECT_TRUE(
         odb.lookupAux(h256("0x73302a5bcacacc06b6e499ccce6d33d7f4f7bb4b7e39cb37b8a53b5bd935d7ac")) ==
         value);
-    BlockChain blockChain;
+    BlockChain blockChain();
     blockChain.rescue(odb);
+
+    Block block();
 
 }

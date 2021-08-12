@@ -134,7 +134,7 @@ TEST(OverlayDB, insertWitness)
         "7b75d95b82288356a35a48f47dc11a80");
     EXPECT_TRUE(
         odb.lookupAux(h256("0x13ef19ad441fbe074a8476683d4d61905711a98583add8056abeae99f30612f6")) ==
-        &value);
+        value);
 
     // value = fromHex(
     //     "f90211a0d0a39eb346df1b25316d9d4788d0adffb4059ae395f473bf46840c213abba074a04314c7857a57"

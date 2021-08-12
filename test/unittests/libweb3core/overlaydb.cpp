@@ -4,6 +4,12 @@
 
 #include <libdevcore/DBFactory.h>
 #include <libdevcore/OverlayDB.h>
+#include <libethereum/Block.h>
+#include <libethereum/BlockChain.h>
+#include <test/tools/libtesteth/TestHelper.h>
+#include <test/tools/libtesteth/BlockChainHelper.h>
+#include <libethereum/GenesisInfo.h>
+#include <libethereum/ChainParams.h>
 
 #include <gtest/gtest.h>
 
@@ -843,4 +849,7 @@ TEST(OverlayDB, insertWitness)
     EXPECT_TRUE(
         odb.lookupAux(h256("0x73302a5bcacacc06b6e499ccce6d33d7f4f7bb4b7e39cb37b8a53b5bd935d7ac")) ==
         value);
+    BlockChain blockChain;
+    blockChain.rescue(odb);
+
 }

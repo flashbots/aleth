@@ -10,8 +10,6 @@
 #include <libethereum/GenesisInfo.h>
 #include <test/tools/libtesteth/BlockChainHelper.h>
 #include <test/tools/libtesteth/TestHelper.h>
-#include <libethereum/GenesisInfo.h>
-#include <libethereum/ChainParams.h>
 
 #include <gtest/gtest.h>
 
@@ -21,6 +19,7 @@ using namespace db;
 using namespace dev::db;
 using namespace dev::eth;
 using namespace dev::test;
+namespace utf = boost::unit_test;
 
 TEST(OverlayDB, basicUsage)
 {

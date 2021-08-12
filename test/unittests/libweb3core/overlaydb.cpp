@@ -118,7 +118,7 @@ TEST(OverlayDB, insertWitness)
 
     odb.insertAux(
         h256("0x13ef19ad441fbe074a8476683d4d61905711a98583add8056abeae99f30612f6"), &value);
-    value = &fromHex(
+    value = fromHex(
         "f90211a0ae7d7e6221b3625b3766796fa64c6913106a5babf4e67babeede45d4c62a9a2da076092a85bf62"
         "f9050dc3c24b040f6cdbd66a0b80fb2b9870b199dd4dfd517826a0bbf0e28c4890595607fc87cdbd577172"
         "6aa1d54490106f48a020abbafdb62752a0c13516a0e2f72c63ff1f91c4f22a35ea33cf84fbeb220cc2927c"

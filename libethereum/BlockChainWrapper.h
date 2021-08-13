@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Account.h"
 #include "BlockDetails.h"
 #include "BlockQueue.h"
@@ -20,6 +22,68 @@
 #include <unordered_map>
 #include <unordered_set>
 
+namespace std
+{
+template <>
+struct hash<pair<dev::h256, unsigned>>
+{
+    size_t operator()(pair<dev::h256, unsigned> const& _x) const
+    {
+        return hash<dev::h256>()(_x.first) ^ hash<unsigned>()(_x.second);
+    }
+};
+}  // namespace std
+
+namespace dev
+{
+class OverlayDB;
+
+namespace eth
+{
+static const h256s NullH256s;
+
+class State;
+class Block;
+class ImportPerformanceLogger;
+
+DEV_SIMPLE_EXCEPTION(AlreadyHaveBlock);
+DEV_SIMPLE_EXCEPTION(FutureTime);
+DEV_SIMPLE_EXCEPTION(TransientError);
+DEV_SIMPLE_EXCEPTION(FailedToWriteChainStart);
+DEV_SIMPLE_EXCEPTION(UnknownBlockNumber);
+
+// TODO: Move all this Genesis stuff into Genesis.h/.cpp
+std::unordered_map<Address, Account> const& genesisState();
+
+db::Slice toSlice(h256 const& _h, unsigned _sub = 0);
+db::Slice toSlice(uint64_t _n, unsigned _sub = 0);
+
+using BlocksHash = std::unordered_map<h256, bytes>;
+using TransactionHashes = h256s;
+using UncleHashes = h256s;
+
+enum
+{
+    ExtraDetails = 0,
+    ExtraBlockHash,
+    ExtraTransactionAddress,
+    ExtraLogBlooms,
+    ExtraReceipts,
+    ExtraBlocksBlooms
+};
+
+using ProgressCallback = std::function<void(unsigned, unsigned)>;
+
+class VersionChecker
+{
+public:
+    VersionChecker(boost::filesystem::path const& _dbPath, h256 const& _genesisHash);
+};
+
+/**
+ * @brief Implements the blockchain database. All data this gives is disk-backed.
+ * @threadsafe
+ */
 
 class BlockChainWrapper
 {
@@ -33,13 +97,15 @@ public:
     /// parent + 1, ... parent + @a _generations).
     /// @returns set including the header-hash of every parent (including @a _parent) up to and
     /// including generation + @a _generations together with all their quoted uncles.
-    h256Hash allKinFrom(h256 const& _parent, unsigned _generations) const;
+    h256Hash allKinFrom(h256 const&, unsigned) const;
 
-    bool isKnow(h256 const& hash);
-    bytes block(h256 const& _hash) const;
-    BlockDetails parentHashOfBlock(h256 const& _hash) const;
+    bool isKnow(h256 const&);
+    bytes block(h256 const&) const;
+    BlockDetails parentHashOfBlock(h256 const&) const;
 
 private:
     OverlayDb state;
     std::unique_ptr<LastBlockHashesFace> m_lastBlockHashes;
 };
+}  // namespace eth
+}  // namespace dev

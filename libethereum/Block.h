@@ -15,7 +15,7 @@
 #include <libdevcore/RLP.h>
 #include <libdevcore/TrieDB.h>
 #include <libethcore/BlockHeader.h>
-#include <libethcore/ChainOperationParams.h
+#include <libethcore/ChainOperationParams.h>
 #include "BlockChainWrapper.h"
 #include <libethcore/Exceptions.h>
 #include <array>

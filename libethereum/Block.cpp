@@ -438,7 +438,7 @@ BlockChainWrapper Block::GetBlockChainWrapper(OverlayDB witnessDb)
     //    m_currentBlock, m_previousBlock
 }
 
-void Block::updateThisBlock(VerifiedBlockRef const& _block) {}
+void Block::updateThisBlock(/*VerifiedBlockRef const& _block*/) {}
 
 void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witnessDb)
 {

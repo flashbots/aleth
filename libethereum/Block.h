@@ -283,7 +283,7 @@ public:
 
     BlockChainWrapper GetBlockChainWrapper(OverlayDB witnessDb);
 
-    void updateThisBlock(VerifiedBlockRef const& _block);
+    void updateThisBlock();
 
     void ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witnessDb);
 

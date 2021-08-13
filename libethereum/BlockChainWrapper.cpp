@@ -16,7 +16,7 @@ LastBlockHashesFace const& lastBlockHashes() const
 /// including generation + @a _generations together with all their quoted uncles.
 h256Hash BlockChainWrapper::allKinFrom(h256 const& _parent, unsigned _generations) const {}
 
-bool BlockChainWrapper::isKnow(h256 const& hash)
+bool BlockChainWrapper::isKnown(h256 const& hash)
 {
     return false;
 }

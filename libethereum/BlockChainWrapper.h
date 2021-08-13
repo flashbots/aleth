@@ -40,45 +40,15 @@ class OverlayDB;
 
 namespace eth
 {
-static const h256s NullH256s;
-
 class State;
 class Block;
 class ImportPerformanceLogger;
-
-DEV_SIMPLE_EXCEPTION(AlreadyHaveBlock);
-DEV_SIMPLE_EXCEPTION(FutureTime);
-DEV_SIMPLE_EXCEPTION(TransientError);
-DEV_SIMPLE_EXCEPTION(FailedToWriteChainStart);
-DEV_SIMPLE_EXCEPTION(UnknownBlockNumber);
-
-// TODO: Move all this Genesis stuff into Genesis.h/.cpp
-std::unordered_map<Address, Account> const& genesisState();
-
-db::Slice toSlice(h256 const& _h, unsigned _sub = 0);
-db::Slice toSlice(uint64_t _n, unsigned _sub = 0);
 
 using BlocksHash = std::unordered_map<h256, bytes>;
 using TransactionHashes = h256s;
 using UncleHashes = h256s;
 
-enum
-{
-    ExtraDetails = 0,
-    ExtraBlockHash,
-    ExtraTransactionAddress,
-    ExtraLogBlooms,
-    ExtraReceipts,
-    ExtraBlocksBlooms
-};
-
 using ProgressCallback = std::function<void(unsigned, unsigned)>;
-
-class VersionChecker
-{
-public:
-    VersionChecker(boost::filesystem::path const& _dbPath, h256 const& _genesisHash);
-};
 
 /**
  * @brief Implements the blockchain database. All data this gives is disk-backed.
@@ -99,13 +69,15 @@ public:
     /// including generation + @a _generations together with all their quoted uncles.
     h256Hash allKinFrom(h256 const&, unsigned) const;
 
-    bool isKnow(h256 const&);
+    bool isKnown(h256 const&);
     bytes block(h256 const&) const;
     BlockDetails parentHashOfBlock(h256 const&) const;
+    BlockDetails parentHashOfBlock() const { return parentHashOfBlock(the); }
 
 private:
     OverlayDb state;
     std::unique_ptr<LastBlockHashesFace> m_lastBlockHashes;
+    h256 const& the;
 };
 }  // namespace eth
 }  // namespace dev

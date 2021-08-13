@@ -587,9 +587,9 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
     }
 
     // Question Should I seal and applyRewards? I think I don't
-    assert(_bc.sealEngine());
-    DEV_TIMED_ABOVE("applyRewards", 500)
-    applyRewards(rewarded, _bc.sealEngine()->blockReward(m_currentBlock.number()));
+//    assert(_bc.sealEngine());
+//    DEV_TIMED_ABOVE("applyRewards", 500)
+//    applyRewards(rewarded, _bc.sealEngine()->blockReward(m_currentBlock.number()));
 
     // Question. I think we don't have to use this
     // Commit all cached state changes to the state trie.

@@ -617,7 +617,7 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
     }
 }
 
-u256 Block::enact(VerifiedBlockRef const& _block, BlockChain const& _bc, OverlayDB db)
+u256 Block::enact(VerifiedBlockRef const& _block, BlockChain const& _bc)
 {
     noteChain(_bc);
 

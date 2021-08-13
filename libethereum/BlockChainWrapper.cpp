@@ -1,6 +1,6 @@
 #include "BlockChainWrapper.h"
 
-BlockChainWrapper::BlockChainWrapper(OverlayDb state)
+BlockChainWrapper::BlockChainWrapper(OverlayDB state)
 {
     // Set last_block_hashes
 }

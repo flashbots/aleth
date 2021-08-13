@@ -22,18 +22,6 @@
 #include <unordered_map>
 #include <unordered_set>
 
-namespace std
-{
-template <>
-struct hash<pair<dev::h256, unsigned>>
-{
-    size_t operator()(pair<dev::h256, unsigned> const& _x) const
-    {
-        return hash<dev::h256>()(_x.first) ^ hash<unsigned>()(_x.second);
-    }
-};
-}  // namespace std
-
 namespace dev
 {
 class OverlayDB;
@@ -58,7 +46,7 @@ using ProgressCallback = std::function<void(unsigned, unsigned)>;
 class BlockChainWrapper
 {
 public:
-    BlockChainWrapper(OverlayDb state);
+    BlockChainWrapper(OverlayDB);
     ~BlockChainWrapper();
 
     LastBlockHashesFace const& lastBlockHashes() const { return *m_lastBlockHashes; }
@@ -77,7 +65,7 @@ public:
 private:
     OverlayDb state;
     std::unique_ptr<LastBlockHashesFace> m_lastBlockHashes;
-    h256 const& the;
+    h256 the;
 };
 }  // namespace eth
 }  // namespace dev

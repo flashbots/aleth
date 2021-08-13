@@ -63,7 +63,7 @@ public:
     BlockDetails parentHashOfBlock() const { return parentHashOfBlock(the); }
 
 private:
-    OverlayDb state;
+    OverlayDB state;
     std::unique_ptr<LastBlockHashesFace> m_lastBlockHashes;
     h256 the;
 };

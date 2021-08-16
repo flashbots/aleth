@@ -80,7 +80,7 @@ bool BlockChainWrapper::isKnown(h256 const& hash)
 {
     // TODO update
     h256 pep = hash;
-    pep.contains(_parent);
+    pep.contains(hash);
     return false;
 }
 

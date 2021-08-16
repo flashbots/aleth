@@ -49,7 +49,7 @@ public:
     BlockChainWrapper(OverlayDB);
     ~BlockChainWrapper();
 
-    LastBlockHashesFace const& lastBlockHashes();
+    LastBlockHashesFace lastBlockHashes();
 
     /// Get all blocks not allowed as uncles given a parent (i.e. featured as uncles/main in parent,
     /// parent + 1, ... parent + @a _generations).

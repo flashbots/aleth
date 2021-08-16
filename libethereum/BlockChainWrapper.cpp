@@ -71,7 +71,7 @@ h256Hash BlockChainWrapper::allKinFrom(h256 const& _parent, unsigned _generation
     {
         _generations = _generations + 1;
     }
-    return h256Hash(_parent);
+    return h256Hash();
 }
 
 bool BlockChainWrapper::isKnown(h256 const& hash)

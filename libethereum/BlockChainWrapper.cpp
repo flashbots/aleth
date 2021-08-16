@@ -23,4 +23,6 @@ bool BlockChainWrapper::isKnown(h256 const& hash)
 
 bytes BlockChainWrapper::block(h256 const& _hash) const {}
 
-BlockDetails BlockChainWrapper::parentHashOfBlock(h256 const& _hash) const {}
+BlockDetails BlockChainWrapper::parentHashOfBlock(h256 _hash) {
+    return dev::eth::BlockDetails();
+}

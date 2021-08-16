@@ -5,9 +5,9 @@ BlockChainWrapper::BlockChainWrapper(OverlayDB state)
     // Set last_block_hashes
 }
 
-LastBlockHashesFace const& lastBlockHashes() const
+LastBlockHashesFace lastBlockHashes()
 {
-    return *m_lastBlockHashes;
+    return null;
 }
 
 /// Get all blocks not allowed as uncles given a parent (i.e. featured as uncles/main in parent,

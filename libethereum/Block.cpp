@@ -429,10 +429,10 @@ u256 Block::enactOn(VerifiedBlockRef const& _block, BlockChain const& _bc)
     return ret;
 }
 
-BlockChainWrapper Block::GetBlockChainWrapper(OverlayDB witnessDb)
+BlockChainWrapper* Block::GetBlockChainWrapper(OverlayDB witnessDb)
 {
     BlockChainWrapper _bc(witnessDb);
-    return _bc;
+    return &_bc;
     // Need update previous block something like, need get the data from the witness:
     //    m_previousBlock = witnessDb.lookupAux
     //    m_currentBlock, m_previousBlock
@@ -495,7 +495,8 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
         ex << errinfo_receipts(receipts);
         BOOST_THROW_EXCEPTION(ex);
     }
-    // TODO What is logBloom?
+    // TODO What is logBloom
+    // TODO
     if (m_currentBlock.logBloom() != logBloom())
     {
         InvalidLogBloom ex;
@@ -587,28 +588,28 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
     }
 
     // Question Should I seal and applyRewards? I think I don't
-//    assert(_bc.sealEngine());
-//    DEV_TIMED_ABOVE("applyRewards", 500)
-//    applyRewards(rewarded, _bc.sealEngine()->blockReward(m_currentBlock.number()));
+    assert(_bc.sealEngine());
+    DEV_TIMED_ABOVE("applyRewards", 500)
+    applyRewards(rewarded, _bc.sealEngine()->blockReward(m_currentBlock.number()));
 
     // Question. I think we don't have to use this
-    // Commit all cached state changes to the state trie.
-    //    bool removeEmptyAccounts =
-    //        m_currentBlock.number() >= _bc.chainParams().EIP158ForkBlock;  // TODO: use
-    //        EVMSchedule
-    //    DEV_TIMED_ABOVE("commit", 500)
-    //    m_state.commit(removeEmptyAccounts ? State::CommitBehaviour::RemoveEmptyAccounts :
-    //                                         State::CommitBehaviour::KeepEmptyAccounts);
-    //
-    //    // Hash the state trie and check against the state_root hash in m_currentBlock.
-    //    if (m_currentBlock.stateRoot() != m_previousBlock.stateRoot() &&
-    //        m_currentBlock.stateRoot() != rootHash())
-    //    {
-    //        auto r = rootHash();
-    //        m_state.db().rollback();  // TODO: API in State for this?
-    //        BOOST_THROW_EXCEPTION(
-    //            InvalidStateRoot() << Hash256RequirementError(m_currentBlock.stateRoot(), r));
-    //    }
+//     Commit all cached state changes to the state trie.
+        bool removeEmptyAccounts =
+            m_currentBlock.number() >= _bc.chainParams().EIP158ForkBlock;  // TODO: use
+            EVMSchedule
+        DEV_TIMED_ABOVE("commit", 500)
+        m_state.commit(removeEmptyAccounts ? State::CommitBehaviour::RemoveEmptyAccounts :
+                                             State::CommitBehaviour::KeepEmptyAccounts);
+
+        // Hash the state trie and check against the state_root hash in m_currentBlock.
+        if (m_currentBlock.stateRoot() != m_previousBlock.stateRoot() &&
+            m_currentBlock.stateRoot() != rootHash())
+        {
+            auto r = rootHash();
+            m_state.db().rollback();  // TODO: API in State for this?
+            BOOST_THROW_EXCEPTION(
+                InvalidStateRoot() << Hash256RequirementError(m_currentBlock.stateRoot(), r));
+        }
 
     if (m_currentBlock.gasUsed() != gasUsed())
     {

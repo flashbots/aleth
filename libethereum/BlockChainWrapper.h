@@ -49,7 +49,7 @@ public:
     BlockChainWrapper(OverlayDB);
     ~BlockChainWrapper();
 
-    LastBlockHashesFace const& lastBlockHashes() const { return *m_lastBlockHashes; }
+    LastBlockHashesFace const& lastBlockHashes();
 
     /// Get all blocks not allowed as uncles given a parent (i.e. featured as uncles/main in parent,
     /// parent + 1, ... parent + @a _generations).
@@ -64,7 +64,6 @@ public:
 
 private:
     OverlayDB state;
-    std::unique_ptr<LastBlockHashesFace> m_lastBlockHashes;
     h256 the;
 };
 }  // namespace eth

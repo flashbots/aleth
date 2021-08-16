@@ -48,13 +48,16 @@ using ProgressCallback = std::function<void(unsigned, unsigned)>;
 
 BlockChainWrapper::BlockChainWrapper(OverlayDB state)
 {
+    // TODO update
     _state = state;
     // Set last_block_hashes
 }
 
-LastBlockHashesFace lastBlockHashes()
+std::vector<h256> lastBlockHashes()
 {
-    return *m_lastBlockHashes;
+    // TODO update
+    std::vector<h256> latestHashes;
+    return latestHashes;
 }
 
 /// Get all blocks not allowed as uncles given a parent (i.e. featured as uncles/main in parent,
@@ -63,17 +66,27 @@ LastBlockHashesFace lastBlockHashes()
 /// including generation + @a _generations together with all their quoted uncles.
 h256Hash BlockChainWrapper::allKinFrom(h256 const& _parent, unsigned _generations) const
 {
-    return h256Hash();
+    // TODO update
+    if (_generations == 5)
+    {
+        _generations = _generations + 1;
+    }
+    return h256Hash(_parent);
 }
 
 bool BlockChainWrapper::isKnown(h256 const& hash)
 {
+    // TODO update
+    h256 pep = hash;
     return false;
 }
 
-bytes BlockChainWrapper::block(h256 const& _hash) const {}
+bytes BlockChainWrapper::block(h256 const& _hash) const {
+    bytes pep = std::vector<byte>();
+    return pep;
+}
 
-dev::h256 BlockChainWrapper::parentHashOfBlock(h256 _hash)
+h256 BlockChainWrapper::parentHashOfBlock(h256 _hash)
 {
     return _hash;
 }

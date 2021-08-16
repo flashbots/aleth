@@ -65,7 +65,6 @@ public:
 private:
     OverlayDB _state;
     h256 the;
-    std::unique_ptr<LastBlockHashesFace> m_lastBlockHashes;
 };
 }  // namespace eth
 }  // namespace dev

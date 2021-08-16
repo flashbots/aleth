@@ -37,7 +37,10 @@ class ImportPerformanceLogger;
 using BlocksHash = std::unordered_map<h256, bytes>;
 using TransactionHashes = h256s;
 using UncleHashes = h256s;
+using bytes = std::vector<byte>;
 
+using h256 = FixedHash<32>;
+using h256Hash = std::unordered_set<h256>;
 using ProgressCallback = std::function<void(unsigned, unsigned)>;
 
 /**
@@ -59,7 +62,7 @@ LastBlockHashesFace lastBlockHashes()
 /// parent + 1, ... parent + @a _generations).
 /// @returns set including the header-hash of every parent (including @a _parent) up to and
 /// including generation + @a _generations together with all their quoted uncles.
-h256 BlockChainWrapper::allKinFrom(h256 const& _parent, unsigned _generations) const {}
+h256Hash BlockChainWrapper::allKinFrom(h256 const& _parent, unsigned _generations) const {}
 
 bool BlockChainWrapper::isKnown(h256 const& hash)
 {

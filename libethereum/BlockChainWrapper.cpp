@@ -82,6 +82,7 @@ bool BlockChainWrapper::isKnown(h256 const& hash)
 }
 
 bytes BlockChainWrapper::block(h256 const& _hash) const {
+    h256 pep2 = _hash;
     bytes pep = std::vector<byte>();
     return pep;
 }

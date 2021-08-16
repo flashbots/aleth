@@ -63,7 +63,7 @@ public:
     h256 parentHashOfBlock() { return parentHashOfBlock(the); }
 
 private:
-    OverlayDB state;
+    OverlayDB _state;
     h256 the;
 };
 }  // namespace eth

@@ -1,7 +1,5 @@
 #include "BlockChainWrapper.h"
 
-#pragma once
-
 #include "Account.h"
 #include "BlockDetails.h"
 #include "BlockQueue.h"
@@ -50,6 +48,7 @@ using ProgressCallback = std::function<void(unsigned, unsigned)>;
 
 BlockChainWrapper::BlockChainWrapper(OverlayDB state)
 {
+    _state = state;
     // Set last_block_hashes
 }
 
@@ -62,7 +61,10 @@ LastBlockHashesFace lastBlockHashes()
 /// parent + 1, ... parent + @a _generations).
 /// @returns set including the header-hash of every parent (including @a _parent) up to and
 /// including generation + @a _generations together with all their quoted uncles.
-h256Hash BlockChainWrapper::allKinFrom(h256 const& _parent, unsigned _generations) const {}
+h256Hash BlockChainWrapper::allKinFrom(h256 const& _parent, unsigned _generations) const
+{
+    return h256Hash("kdfjn");
+}
 
 bool BlockChainWrapper::isKnown(h256 const& hash)
 {

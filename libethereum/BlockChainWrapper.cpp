@@ -53,6 +53,8 @@ BlockChainWrapper::BlockChainWrapper(OverlayDB state)
     // Set last_block_hashes
 }
 
+~BlockChainWrapper::BlockChainWrapper(OverlayDB state) {}
+
 std::vector<h256> lastBlockHashes()
 {
     // TODO update
@@ -84,7 +86,8 @@ bool BlockChainWrapper::isKnown(h256 const& hash)
     return false;
 }
 
-bytes BlockChainWrapper::block(h256 const& _hash) const {
+bytes BlockChainWrapper::block(h256 const& _hash) const
+{
     h256 pep2 = _hash;
     pep2.contains(_hash);
     bytes pep = std::vector<byte>();

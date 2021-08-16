@@ -71,6 +71,8 @@ h256Hash BlockChainWrapper::allKinFrom(h256 const& _parent, unsigned _generation
     {
         _generations = _generations + 1;
     }
+    h256 pep = _parent;
+    pep.contains(_parent);
     return h256Hash();
 }
 
@@ -78,11 +80,13 @@ bool BlockChainWrapper::isKnown(h256 const& hash)
 {
     // TODO update
     h256 pep = hash;
+    pep.contains(_parent);
     return false;
 }
 
 bytes BlockChainWrapper::block(h256 const& _hash) const {
     h256 pep2 = _hash;
+    pep2.contains(_hash);
     bytes pep = std::vector<byte>();
     return pep;
 }

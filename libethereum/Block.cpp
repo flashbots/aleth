@@ -431,8 +431,8 @@ u256 Block::enactOn(VerifiedBlockRef const& _block, BlockChain const& _bc)
 
 BlockChainWrapper* Block::GetBlockChainWrapper(OverlayDB witnessDb)
 {
-    BlockChainWrapper _bc(witnessDb);
-    return &_bc;
+    BlockChainWrapper* _bc(witnessDb);
+    return _bc;
     // Need update previous block something like, need get the data from the witness:
     //    m_previousBlock = witnessDb.lookupAux
     //    m_currentBlock, m_previousBlock
@@ -442,7 +442,7 @@ void Block::updateThisBlock(/*VerifiedBlockRef const& _block*/) {}
 
 void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witnessDb)
 {
-    BlockChainWrapper _bc = GetBlockChainWrapper(witnessDb);
+    BlockChainWrapper* _bc = GetBlockChainWrapper(witnessDb);
     DEV_TIMED_FUNCTION_ABOVE(500);
 
     // m_currentBlock is assumed to be prepopulated and reset.

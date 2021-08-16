@@ -53,7 +53,7 @@ BlockChainWrapper::BlockChainWrapper(OverlayDB state)
     // Set last_block_hashes
 }
 
-~BlockChainWrapper::BlockChainWrapper(OverlayDB state) {}
+BlockChainWrapper::~BlockChainWrapper(OverlayDB state) {}
 
 std::vector<h256> lastBlockHashes()
 {

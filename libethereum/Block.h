@@ -210,6 +210,7 @@ public:
     /// Construct state object from arbitrary point in blockchain.
     void populateFromChain(BlockChain const& _bc, h256 const& _hash);
 
+    void executeWithWitness(std::vector<h256> _lh, Transaction _t);
     /// Execute a given transaction.
     /// This will append @a _t to the transaction list and change the state accordingly.
     ExecutionResult execute(LastBlockHashesFace const& _lh, Transaction const& _t,

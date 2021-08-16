@@ -470,7 +470,7 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
         {
             // Need to find a way of get latest Blocks from the witness,
             // Maybe a pre-process of the input? TODO
-            execute(_bc.lastBlockHashes(), tr);
+            executeWithWitness(_bc.lastBlockHashes(), tr);
         }
         catch (Exception& ex)
         {
@@ -588,28 +588,28 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
     }
 
     // Question Should I seal and applyRewards? I think I don't
-//    assert(_bc.sealEngine());
+    //    assert(_bc.sealEngine());
     DEV_TIMED_ABOVE("applyRewards", 500)
-//    applyRewards(rewarded, _bc.sealEngine()->blockReward(m_currentBlock.number()));
+    //    applyRewards(rewarded, _bc.sealEngine()->blockReward(m_currentBlock.number()));
 
     // Question. I think we don't have to use this
-//     Commit all cached state changes to the state trie.
-//        bool removeEmptyAccounts =
-//            m_currentBlock.number() >= _bc.chainParams().EIP158ForkBlock;  // TODO: use
-//            EVMSchedule
-//        DEV_TIMED_ABOVE("commit", 500)
-//        m_state.commit(removeEmptyAccounts ? State::CommitBehaviour::RemoveEmptyAccounts :
-//                                             State::CommitBehaviour::KeepEmptyAccounts);
+    //     Commit all cached state changes to the state trie.
+    //        bool removeEmptyAccounts =
+    //            m_currentBlock.number() >= _bc.chainParams().EIP158ForkBlock;  // TODO: use
+    //            EVMSchedule
+    //        DEV_TIMED_ABOVE("commit", 500)
+    //        m_state.commit(removeEmptyAccounts ? State::CommitBehaviour::RemoveEmptyAccounts :
+    //                                             State::CommitBehaviour::KeepEmptyAccounts);
 
-        // Hash the state trie and check against the state_root hash in m_currentBlock.
-        if (m_currentBlock.stateRoot() != m_previousBlock.stateRoot() &&
-            m_currentBlock.stateRoot() != rootHash())
-        {
-            auto r = rootHash();
-            m_state.db().rollback();  // TODO: API in State for this?
-            BOOST_THROW_EXCEPTION(
-                InvalidStateRoot() << Hash256RequirementError(m_currentBlock.stateRoot(), r));
-        }
+    // Hash the state trie and check against the state_root hash in m_currentBlock.
+    if (m_currentBlock.stateRoot() != m_previousBlock.stateRoot() &&
+        m_currentBlock.stateRoot() != rootHash())
+    {
+        auto r = rootHash();
+        m_state.db().rollback();  // TODO: API in State for this?
+        BOOST_THROW_EXCEPTION(
+            InvalidStateRoot() << Hash256RequirementError(m_currentBlock.stateRoot(), r));
+    }
 
     if (m_currentBlock.gasUsed() != gasUsed())
     {
@@ -617,6 +617,7 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
                                   bigint(m_currentBlock.gasUsed()), bigint(gasUsed())));
     }
 }
+
 
 u256 Block::enact(VerifiedBlockRef const& _block, BlockChain const& _bc)
 {
@@ -818,6 +819,12 @@ u256 Block::enact(VerifiedBlockRef const& _block, BlockChain const& _bc)
     }
 
     return tdIncrease;
+}
+
+void Block::executeWithWitness(vector<h256> _lh, Transaction _t)
+{
+    _lh.push_back(h256("dkjfs"));
+    _t = Transaction();
 }
 
 ExecutionResult Block::execute(

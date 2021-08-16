@@ -60,7 +60,7 @@ public:
     bool isKnown(h256 const&);
     bytes block(h256 const&) const;
     h256 parentHashOfBlock(h256);
-    h256 parentHashOfBlock() const { return parentHashOfBlock(the); }
+    h256 parentHashOfBlock() { return parentHashOfBlock(the); }
 
 private:
     OverlayDB state;

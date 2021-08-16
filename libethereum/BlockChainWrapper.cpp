@@ -54,7 +54,7 @@ BlockChainWrapper::BlockChainWrapper(OverlayDB state)
 
 LastBlockHashesFace lastBlockHashes()
 {
-    return null;
+    return *m_lastBlockHashes;
 }
 
 /// Get all blocks not allowed as uncles given a parent (i.e. featured as uncles/main in parent,
@@ -63,7 +63,7 @@ LastBlockHashesFace lastBlockHashes()
 /// including generation + @a _generations together with all their quoted uncles.
 h256Hash BlockChainWrapper::allKinFrom(h256 const& _parent, unsigned _generations) const
 {
-    return h256Hash("kdfjn");
+    return h256Hash();
 }
 
 bool BlockChainWrapper::isKnown(h256 const& hash)

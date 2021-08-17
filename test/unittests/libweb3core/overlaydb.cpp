@@ -125,18 +125,18 @@ TEST(OverlayDB, insertWitness)
         std::string key;
         std::string value;
 
-        std::getline(iss, key, ','));
-        std::getline(iss, value, ','));
+        std::getline(iss, key, ',');
+        std::getline(iss, value, ',');
         bytes valueBytes = fromHex(value);
-        odb.insertAux(h256(key), &value);
+        odb.insertAux(h256(key), &valueBytes;
 
-        EXPECT_TRUE(odb.lookupAux(h256(key)) == value);
+        EXPECT_TRUE(odb.lookupAux(h256(key)) == valueBytes);
     }
 
-    TestBlock genesis = TestBlockChain::defaultGenesisBlock();
-    TestBlockChain bc(genesis);
-
-    BlockChain& bcRef = bc.interfaceUnsafe();
+//    TestBlock genesis = TestBlockChain::defaultGenesisBlock();
+//    TestBlockChain bc(genesis);
+//
+//    BlockChain& bcRef = bc.interfaceUnsafe();
     //    Block block;
     //    block.enact(&(VerifiedBlockRef some), bc);
     //

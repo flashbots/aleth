@@ -13,7 +13,7 @@
 #include <sstream>
 #include <fstream>
 #include <string>
-
+#include <nlohmann/json.hpp>
 
 #include <gtest/gtest.h>
 
@@ -24,6 +24,7 @@ using namespace dev::db;
 using namespace dev::eth;
 using namespace dev::test;
 namespace utf = boost::unit_test;
+using json = nlohmann::json;
 
 TEST(OverlayDB, basicUsage)
 {
@@ -106,31 +107,38 @@ TEST(OverlayDB, rollback)
     EXPECT_TRUE(!odb.get().size());
 }
 
+TEST(OverlayDB, readNBlocks)
+{
+    std::ifstream i("file.json");
+    json j;
+    i >> j;
+}
+
 TEST(OverlayDB, insertWitness)
 {
     std::unique_ptr<db::DatabaseFace> db = DBFactory::create(DatabaseKind::MemoryDB);
     ASSERT_TRUE(db);
 
-    OverlayDB odb(std::move(db));
-
-    EXPECT_TRUE(!odb.get().size());
-    auto hash = "sdlfkdslfk";
-    std::ifstream infile(hash);
-    std::string line;
-
-    while (std::getline(infile, line))
-    {
-        std::istringstream iss(line);
-        std::string key;
-        std::string value;
-
-        std::getline(iss, key, ',');
-        std::getline(iss, value, ',');
-        bytes valueBytes = fromHex(value);
-        odb.insertAux(h256(key), &valueBytes);
-
-        EXPECT_TRUE(odb.lookupAux(h256(key)) == valueBytes);
-    }
+//    OverlayDB odb(std::move(db));
+//
+//    EXPECT_TRUE(!odb.get().size());
+//    auto hash = "sdlfkdslfk";
+//    std::ifstream infile(hash);
+//    std::string line;
+//
+//    while (std::getline(infile, line))
+//    {
+//        std::istringstream iss(line);
+//        std::string key;
+//        std::string value;
+//
+//        std::getline(iss, key, ',');
+//        std::getline(iss, value, ',');
+//        bytes valueBytes = fromHex(value);
+//        odb.insertAux(h256(key), &valueBytes);
+//
+//        EXPECT_TRUE(odb.lookupAux(h256(key)) == valueBytes);
+//    }
 
 //    TestBlock genesis = TestBlockChain::defaultGenesisBlock();
 //    TestBlockChain bc(genesis);

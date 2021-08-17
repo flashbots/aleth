@@ -13,7 +13,7 @@
 #include <sstream>
 #include <fstream>
 #include <string>
-#include <nlohmann/json.hpp>
+//#include <nlohmann/json.hpp>
 
 #include <gtest/gtest.h>
 
@@ -24,7 +24,7 @@ using namespace dev::db;
 using namespace dev::eth;
 using namespace dev::test;
 namespace utf = boost::unit_test;
-using json = nlohmann::json;
+//using json = nlohmann::json;
 
 TEST(OverlayDB, basicUsage)
 {
@@ -109,9 +109,9 @@ TEST(OverlayDB, rollback)
 
 TEST(OverlayDB, readNBlocks)
 {
-    std::ifstream i("file.json");
-    json j;
-    i >> j;
+//    std::ifstream i("file.json");
+//    json j;
+//    i >> j;
 }
 
 TEST(OverlayDB, insertWitness)

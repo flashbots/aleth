@@ -121,14 +121,13 @@ TEST(OverlayDB, insertWitness)
     while (std::getline(infile, line))
     {
         std::istringstream iss(line);
-        int a, b;
         std::string key;
         std::string value;
 
         std::getline(iss, key, ',');
         std::getline(iss, value, ',');
         bytes valueBytes = fromHex(value);
-        odb.insertAux(h256(key), &valueBytes;
+        odb.insertAux(h256(key), &valueBytes);
 
         EXPECT_TRUE(odb.lookupAux(h256(key)) == valueBytes);
     }

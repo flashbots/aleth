@@ -6,6 +6,7 @@
 #include "Block.h"
 
 #include "BlockChain.h"
+#include "BlockChainWrapper.h"
 #include "Executive.h"
 #include "ExtVM.h"
 #include "GenesisInfo.h"

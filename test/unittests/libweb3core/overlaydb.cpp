@@ -10,8 +10,8 @@
 #include <libethereum/GenesisInfo.h>
 #include <test/tools/libtesteth/BlockChainHelper.h>
 #include <test/tools/libtesteth/TestHelper.h>
-#include <sstream>
 #include <fstream>
+#include <sstream>
 #include <string>
 //#include <nlohmann/json.hpp>
 
@@ -24,7 +24,7 @@ using namespace dev::db;
 using namespace dev::eth;
 using namespace dev::test;
 namespace utf = boost::unit_test;
-//using json = nlohmann::json;
+// using json = nlohmann::json;
 
 TEST(OverlayDB, basicUsage)
 {
@@ -107,17 +107,17 @@ TEST(OverlayDB, rollback)
     EXPECT_TRUE(!odb.get().size());
 }
 
-TEST(OverlayDB, readNBlocks)
-{
-//    std::ifstream i("file.json");
-//    json j;
-//    i >> j;
-}
+// TEST(OverlayDB, readNBlocks)
+//{
+//     std::ifstream i("file.json");
+//     json j;
+//     i >> j;
+// }
 
-TEST(OverlayDB, insertWitness)
-{
-    std::unique_ptr<db::DatabaseFace> db = DBFactory::create(DatabaseKind::MemoryDB);
-    ASSERT_TRUE(db);
+// TEST(OverlayDB, insertWitness)
+//{
+//     std::unique_ptr<db::DatabaseFace> db = DBFactory::create(DatabaseKind::MemoryDB);
+//     ASSERT_TRUE(db);
 
 //    OverlayDB odb(std::move(db));
 //
@@ -144,13 +144,13 @@ TEST(OverlayDB, insertWitness)
 //    TestBlockChain bc(genesis);
 //
 //    BlockChain& bcRef = bc.interfaceUnsafe();
-    //    Block block;
-    //    block.enact(&(VerifiedBlockRef some), bc);
-    //
-    //    block.enact(&(VerifiedBlockRef some), wrapper)
-    //    struct wrapper {
-    //        blockchain
-    //        overlaydb
-    //    };
-    //    - Modify the Block::enact;
-}
+//    Block block;
+//    block.enact(&(VerifiedBlockRef some), bc);
+//
+//    block.enact(&(VerifiedBlockRef some), wrapper)
+//    struct wrapper {
+//        blockchain
+//        overlaydb
+//    };
+//    - Modify the Block::enact;
+//}

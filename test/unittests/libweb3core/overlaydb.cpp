@@ -4,26 +4,26 @@
 
 #include <libdevcore/DBFactory.h>
 #include <libdevcore/OverlayDB.h>
-#include <libethereum/Block.h>
-#include <libethereum/BlockChain.h>
-#include <libethereum/ChainParams.h>
-#include <libethereum/GenesisInfo.h>
-#include <test/tools/libtesteth/BlockChainHelper.h>
-#include <test/tools/libtesteth/TestHelper.h>
-#include <fstream>
-#include <sstream>
-#include <string>
+//#include <libethereum/Block.h>
+//#include <libethereum/BlockChain.h>
+//#include <libethereum/ChainParams.h>
+//#include <libethereum/GenesisInfo.h>
+//#include <test/tools/libtesteth/BlockChainHelper.h>
+//#include <test/tools/libtesteth/TestHelper.h>
+//#include <fstream>
+//#include <sstream>
+//#include <string>
 //#include <nlohmann/json.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace std;
-using namespace dev;
-using namespace db;
-using namespace dev::db;
-using namespace dev::eth;
-using namespace dev::test;
-namespace utf = boost::unit_test;
+//using namespace dev;
+//using namespace db;
+//using namespace dev::db;
+//using namespace dev::eth;
+//using namespace dev::test;
+//namespace utf = boost::unit_test;
 // using json = nlohmann::json;
 
 TEST(OverlayDB, basicUsage)
@@ -107,12 +107,15 @@ TEST(OverlayDB, rollback)
     EXPECT_TRUE(!odb.get().size());
 }
 
-// TEST(OverlayDB, readNBlocks)
-//{
+ TEST(OverlayDB, readNBlocks)
+{
 //     std::ifstream i("file.json");
 //     json j;
 //     i >> j;
-// }
+//
+
+
+ }
 
 // TEST(OverlayDB, insertWitness)
 //{

@@ -55,7 +55,7 @@ BlockChainWrapper::BlockChainWrapper(OverlayDB state)
 
 BlockChainWrapper::~BlockChainWrapper() {}
 
-std::vector<h256> lastBlockHashes()
+std::vector<h256> BlockChainWrapper::lastBlockHashes()
 {
     // TODO update
     std::vector<h256> latestHashes;

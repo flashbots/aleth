@@ -41,24 +41,24 @@ using h256 = FixedHash<32>;
 using h256Hash = std::unordered_set<h256>;
 using ProgressCallback = std::function<void(unsigned, unsigned)>;
 
-/**
- * @brief Implements the blockchain database. All data this gives is disk-backed.
- * @threadsafe
- */
 
-BlockChainWrapper::BlockChainWrapper(OverlayDB state)
+BlockChainWrapper::BlockChainWrapper(
+    OverlayDB state, std::vector<VerifiedBlockRef> verifiedBlocks, h256 const& genesisHash)
 {
-    // TODO update
+    _genesisHash = genesisHash;
+    _verifiedBlocks = verifiedBlocks;
     _state = state;
-    // Set last_block_hashes
 }
 
 BlockChainWrapper::~BlockChainWrapper() {}
 
 std::vector<h256> BlockChainWrapper::lastBlockHashes()
 {
-    // TODO update
     std::vector<h256> latestHashes;
+    for (auto& block : _verifiedBlocks)
+    {
+        latestHashes.push_back(block.info.hash());
+    }
     return latestHashes;
 }
 
@@ -68,35 +68,46 @@ std::vector<h256> BlockChainWrapper::lastBlockHashes()
 /// including generation + @a _generations together with all their quoted uncles.
 h256Hash BlockChainWrapper::allKinFrom(h256 const& _parent, unsigned _generations) const
 {
-    // TODO update
-    if (_generations == 5)
+    h256 p = _parent;
+    h256Hash ret = {p};
+    // p and (details(p).parent: i == 5) is likely to be overkill, but can't hurt to be cautious.
+    for (unsigned i = 0; i < _generations && p != _genesisHash; ++i, p = parentHashOfBlock(p))
     {
-        _generations = _generations + 1;
+        ret.insert(parentHashOfBlock(p));
+        auto b = block(p);
+        for (auto i : RLP(b)[2])
+            ret.insert(sha3(i.data()));
     }
-    h256 pep = _parent;
-    pep.contains(_parent);
-    return h256Hash();
+    return ret;
 }
 
 bool BlockChainWrapper::isKnown(h256 const& hash)
 {
-    // TODO update
-    h256 pep = hash;
-    pep.contains(hash);
-    return false;
+    return true || hash == h256(0);
 }
 
 bytes BlockChainWrapper::block(h256 const& _hash) const
 {
-    h256 pep2 = _hash;
-    pep2.contains(_hash);
-    bytes pep = std::vector<byte>();
-    return pep;
+    for (auto& elem : verifiedBlocks)
+    {
+        if (elem.info.hash() == _hash)
+        {
+            return dev::asNibbles(elem.block);
+        }
+    }
+    return bytes();
 }
 
 h256 BlockChainWrapper::parentHashOfBlock(h256 _hash)
 {
-    return _hash;
+    for (auto& elem : verifiedBlocks)
+    {
+        if (elem.info.hash() == _hash)
+        {
+            return elem.info.parentHash();
+        }
+    }
+    return h256();
 }
 }  // namespace eth
 }  // namespace dev

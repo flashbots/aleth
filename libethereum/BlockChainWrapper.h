@@ -46,7 +46,7 @@ using ProgressCallback = std::function<void(unsigned, unsigned)>;
 class BlockChainWrapper
 {
 public:
-    BlockChainWrapper(OverlayDB);
+    BlockChainWrapper(OverlayDB, std::vector<VerifiedBlockRef>, h256);
     ~BlockChainWrapper();
 
     std::vector<h256> lastBlockHashes();
@@ -60,11 +60,11 @@ public:
     bool isKnown(h256 const&);
     bytes block(h256 const&) const;
     h256 parentHashOfBlock(h256);
-    h256 parentHashOfBlock() { return parentHashOfBlock(the); }
 
 private:
     OverlayDB _state;
-    h256 the;
+    std::vector<VerifiedBlockRef> _verifiedBlocks;
+    h256 m_genesisHash;
 };
 }  // namespace eth
 }  // namespace dev

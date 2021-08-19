@@ -430,21 +430,36 @@ u256 Block::enactOn(VerifiedBlockRef const& _block, BlockChain const& _bc)
     return ret;
 }
 
-BlockChainWrapper Block::GetBlockChainWrapper(OverlayDB witnessDb)
+BlockChainWrapper Block::GetBlockChainWrapper(
+    OverlayDB witnessDb, vector<VerifiedBlockRef> previousBlocks, h256 genesis)
 {
-    BlockChainWrapper _bc = BlockChainWrapper(witnessDb);
+    // TODO Ask Tomasz about what should be the value of AccountStartNonce (Not complete sure about
+    // the value)
+    State temp(256, witnessDb);
+    m_state(temp);
+    BlockChainWrapper _bc = BlockChainWrapper(witnessDb, previousBlocks, genesis);
     return _bc;
     // Need update previous block something like, need get the data from the witness:
     //    m_previousBlock = witnessDb.lookupAux
     //    m_currentBlock, m_previousBlock
 }
 
-void Block::updateThisBlock(/*VerifiedBlockRef const& _block*/) {}
-
-void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witnessDb)
+void Block::updateBlock(
+    VerifiedBlockRef const& _currentBlock, VerifiedBlockRef const& _previousBlock)
 {
-    BlockChainWrapper _bc = GetBlockChainWrapper(witnessDb);
+    m_previousBlock = _previousBlock.info;
+    m_currentBlock = _currentBlock.info;
+    unique_ptr<SealEngineFace> se(ChainParams(genesisInfo(networkName)).createSealEngine());
+    m_sealEngine = se;
+}
+
+void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witnessDb,
+    vector<VerifiedBlockRef> previousBlocks, h256 genesis)
+{
+    BlockChainWrapper _bc = GetBlockChainWrapper(witnessDb, previousBlocks, genesis);
     DEV_TIMED_FUNCTION_ABOVE(500);
+
+    updateBlock(_block, previousBlocks[0]);
 
     // m_currentBlock is assumed to be prepopulated and reset.
     assert(m_previousBlock.hash() == _block.info.parentHash());
@@ -471,7 +486,7 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
         {
             // Need to find a way of get latest Blocks from the witness,
             // Maybe a pre-process of the input? TODO
-            executeWithWitness(_bc.lastBlockHashes(), tr);
+            executeTransactionWithWitness(_bc.lastBlockHashes(), tr);
         }
         catch (Exception& ex)
         {
@@ -496,8 +511,6 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
         ex << errinfo_receipts(receipts);
         BOOST_THROW_EXCEPTION(ex);
     }
-    // TODO What is logBloom
-    // TODO
     if (m_currentBlock.logBloom() != logBloom())
     {
         InvalidLogBloom ex;
@@ -822,10 +835,29 @@ u256 Block::enact(VerifiedBlockRef const& _block, BlockChain const& _bc)
     return tdIncrease;
 }
 
-void Block::executeWithWitness(vector<h256> _lh, Transaction _t)
+ExecutionResult Block::executeTransactionWithWitness(
+    LastBlockHashesFace _lh, Transaction _t, Permanence _p, OnOpFunc const& _onOp)
 {
-    _lh.push_back(h256("dkjfs"));
-    _t = Transaction();
+    if (isSealed())
+        BOOST_THROW_EXCEPTION(InvalidOperationOnSealedBlock());
+
+    // Uncommitting is a non-trivial operation - only do it once we've verified as much of the
+    // transaction as possible.
+    uncommitToSeal();
+
+    EnvInfo const envInfo{info(), _lh, gasUsed(), m_sealEngine->chainParams().chainID};
+    std::pair<ExecutionResult, TransactionReceipt> resultReceipt =
+        m_state.execute(envInfo, *m_sealEngine, _t, _p, _onOp);
+
+    if (_p == Permanence::Committed)
+    {
+        // Add to the user-originated transactions that we've executed.
+        m_transactions.push_back(_t);
+        m_receipts.push_back(resultReceipt.second);
+        m_transactionSet.insert(_t.sha3());
+    }
+
+    return resultReceipt.first;
 }
 
 ExecutionResult Block::execute(

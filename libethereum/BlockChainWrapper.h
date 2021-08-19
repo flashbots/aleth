@@ -43,13 +43,27 @@ using ProgressCallback = std::function<void(unsigned, unsigned)>;
  * @threadsafe
  */
 
+class LastBlockHashesWrapper : public eth::LastBlockHashesFace
+{
+public:
+    LastBlockHashesFace(h256s hashes) { latestHashes(hashes); }
+    h256s precedingHashes(h256 const& /* _mostRecentHash */) const override
+    {
+        return h256s(256, h256());
+    }
+    void clear() override {}
+
+private:
+    h256s latestHashes;
+};
+
 class BlockChainWrapper
 {
 public:
     BlockChainWrapper(OverlayDB, std::vector<VerifiedBlockRef>, h256);
     ~BlockChainWrapper();
 
-    std::vector<h256> lastBlockHashes();
+    eth::LastBlockHashesWrapper lastBlockHashes();
 
     /// Get all blocks not allowed as uncles given a parent (i.e. featured as uncles/main in parent,
     /// parent + 1, ... parent + @a _generations).
@@ -61,8 +75,11 @@ public:
     bytes block(h256 const&) const;
     h256 parentHashOfBlock(h256);
 
+    SealEngineFace* sealEngine() const { return m_sealEngine.get(); }
+
 private:
     OverlayDB _state;
+    std::shared_ptr<SealEngineFace> m_sealEngine;  // consider shared_ptr.
     std::vector<VerifiedBlockRef> _verifiedBlocks;
     h256 m_genesisHash;
 };

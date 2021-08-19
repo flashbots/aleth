@@ -6,6 +6,7 @@
 #pragma once
 
 #include "Account.h"
+#include "BlockChainWrapper.h"
 #include "GasPricer.h"
 #include "State.h"
 #include "Transaction.h"
@@ -16,7 +17,6 @@
 #include <libdevcore/TrieDB.h>
 #include <libethcore/BlockHeader.h>
 #include <libethcore/ChainOperationParams.h>
-#include "BlockChainWrapper.h"
 #include <libethcore/Exceptions.h>
 #include <array>
 #include <unordered_map>
@@ -210,7 +210,8 @@ public:
     /// Construct state object from arbitrary point in blockchain.
     void populateFromChain(BlockChain const& _bc, h256 const& _hash);
 
-    void executeWithWitness(std::vector<h256> _lh, Transaction _t);
+    void executeTransactionWithWitness(LastBlockHashesWrapper _lh, Transaction _t,
+        Permanence _p = Permanence::Committed, OnOpFunc const& _onOp = OnOpFunc());
     /// Execute a given transaction.
     /// This will append @a _t to the transaction list and change the state accordingly.
     ExecutionResult execute(LastBlockHashesFace const& _lh, Transaction const& _t,

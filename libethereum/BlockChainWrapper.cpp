@@ -52,14 +52,15 @@ BlockChainWrapper::BlockChainWrapper(
 
 BlockChainWrapper::~BlockChainWrapper() {}
 
-std::vector<h256> BlockChainWrapper::lastBlockHashes()
+LastBlockHashesWrapper BlockChainWrapper::lastBlockHashes()
 {
-    std::vector<h256> latestHashes;
+    h256s latestHashes;
     for (auto& block : _verifiedBlocks)
     {
         latestHashes.push_back(block.info.hash());
     }
-    return latestHashes;
+    LastBlockHashesWrapper ret(latestHashes);
+    return ret;
 }
 
 /// Get all blocks not allowed as uncles given a parent (i.e. featured as uncles/main in parent,

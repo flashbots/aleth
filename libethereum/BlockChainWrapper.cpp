@@ -42,7 +42,7 @@ using h256Hash = std::unordered_set<h256>;
 using ProgressCallback = std::function<void(unsigned, unsigned)>;
 
 
-LastBlockHashesFace::LastBlockHashesFace(h256s hashes)
+LastBlockHashesWrapper::LastBlockHashesWrapper(h256s hashes)
 {
     latestHashes(hashes);
 }

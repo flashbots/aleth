@@ -33,6 +33,7 @@ class Block;
 class ImportPerformanceLogger;
 
 using BlocksHash = std::unordered_map<h256, bytes>;
+using h256s = std::vector<h256>;
 using TransactionHashes = h256s;
 using UncleHashes = h256s;
 
@@ -46,7 +47,7 @@ using ProgressCallback = std::function<void(unsigned, unsigned)>;
 class LastBlockHashesWrapper : public eth::LastBlockHashesFace
 {
 public:
-    LastBlockHashesFace(h256s);
+    LastBlockHashesWrapper(h256s);
     h256s precedingHashes(h256 const& /* _mostRecentHash */) const override
     {
         return h256s(256, h256());

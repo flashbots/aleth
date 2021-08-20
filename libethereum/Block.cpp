@@ -838,7 +838,7 @@ u256 Block::enact(VerifiedBlockRef const& _block, BlockChain const& _bc)
 }
 
 ExecutionResult Block::executeTransactionWithWitness(
-    LastBlockHashesFace const& _lh, Transaction _t, Permanence _p, OnOpFunc const& _onOp)
+    LastBlockHashesWrapper const& _lh, Transaction _t, Permanence _p, OnOpFunc const& _onOp)
 {
     if (isSealed())
         BOOST_THROW_EXCEPTION(InvalidOperationOnSealedBlock());

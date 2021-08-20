@@ -452,7 +452,7 @@ void Block::updateBlock(
     m_currentBlock = _currentBlock.info;
     unique_ptr<SealEngineFace> se(
         ChainParams(genesisInfo(eth::Network::MainNetwork)).createSealEngine());
-    m_sealEngine = *se;
+    *m_sealEngine = se.release();
 }
 
 void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witnessDb,

@@ -44,7 +44,7 @@ using ProgressCallback = std::function<void(unsigned, unsigned)>;
 
 LastBlockHashesWrapper::LastBlockHashesWrapper(h256s hashes)
 {
-    latestHashes(hashes);
+    latestHashes = hashes;
 }
 
 BlockChainWrapper::BlockChainWrapper(
@@ -77,7 +77,7 @@ h256Hash BlockChainWrapper::allKinFrom(h256 const& _parent, unsigned _generation
     h256 p = _parent;
     h256Hash ret = {p};
     // p and (details(p).parent: i == 5) is likely to be overkill, but can't hurt to be cautious.
-    for (unsigned i = 0; i < _generations && p != _genesisHash; ++i, p = parentHashOfBlock(p))
+    for (unsigned i = 0; i < _generations && p != m_genesisHash; ++i, p = parentHashOfBlock(p))
     {
         ret.insert(parentHashOfBlock(p));
         auto b = block(p);
@@ -94,7 +94,7 @@ bool BlockChainWrapper::isKnown(h256 const& hash)
 
 bytes BlockChainWrapper::block(h256 const& _hash) const
 {
-    for (auto& elem : verifiedBlocks)
+    for (auto& elem : _verifiedBlocks)
     {
         if (elem.info.hash() == _hash)
         {
@@ -106,7 +106,7 @@ bytes BlockChainWrapper::block(h256 const& _hash) const
 
 h256 BlockChainWrapper::parentHashOfBlock(h256 _hash)
 {
-    for (auto& elem : verifiedBlocks)
+    for (auto& elem : _verifiedBlocks)
     {
         if (elem.info.hash() == _hash)
         {

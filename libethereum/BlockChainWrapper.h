@@ -61,7 +61,7 @@ private:
 class BlockChainWrapper
 {
 public:
-    BlockChainWrapper(OverlayDB, std::vector<VerifiedBlockRef>, h256);
+    BlockChainWrapper(OverlayDB, std::vector<VerifiedBlockRef>, h256 const&);
     ~BlockChainWrapper();
 
     eth::LastBlockHashesWrapper lastBlockHashes();

@@ -46,7 +46,7 @@ using ProgressCallback = std::function<void(unsigned, unsigned)>;
 class LastBlockHashesWrapper : public eth::LastBlockHashesFace
 {
 public:
-    LastBlockHashesFace(h256s hashes) { latestHashes(hashes); }
+    LastBlockHashesFace(h256s);
     h256s precedingHashes(h256 const& /* _mostRecentHash */) const override
     {
         return h256s(256, h256());

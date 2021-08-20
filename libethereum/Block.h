@@ -283,8 +283,12 @@ public:
     /// Get the header information on the present block.
     BlockHeader const& info() const { return m_currentBlock; }
 
-    BlockChainWrapper GetBlockChainWrapper(OverlayDB);
+    BlockChainWrapper GetBlockChainWrapper(OverlayDB, vector<VerifiedBlockRef>, h256);
 
+    void updateBlock(VerifiedBlockRef const&, VerifiedBlockRef const&);
+
+    ExecutionResult executeTransactionWithWitness(
+        LastBlockHashesFace const&, Transaction, Permanence, OnOpFunc const&);
     void updateThisBlock();
 
     void ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witnessDb);

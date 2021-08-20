@@ -42,6 +42,11 @@ using h256Hash = std::unordered_set<h256>;
 using ProgressCallback = std::function<void(unsigned, unsigned)>;
 
 
+LastBlockHashesFace::LastBlockHashesFace(h256s hashes)
+{
+    latestHashes(hashes);
+}
+
 BlockChainWrapper::BlockChainWrapper(
     OverlayDB state, std::vector<VerifiedBlockRef> verifiedBlocks, h256 const& genesisHash)
 {

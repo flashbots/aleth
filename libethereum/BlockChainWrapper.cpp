@@ -50,7 +50,7 @@ LastBlockHashesWrapper::LastBlockHashesWrapper(h256s hashes)
 BlockChainWrapper::BlockChainWrapper(
     OverlayDB state, std::vector<VerifiedBlockRef> verifiedBlocks, h256 const& genesisHash)
 {
-    _genesisHash = genesisHash;
+    m_genesisHash = genesisHash;
     _verifiedBlocks = verifiedBlocks;
     _state = state;
 }
@@ -104,7 +104,7 @@ bytes BlockChainWrapper::block(h256 const& _hash) const
     return bytes();
 }
 
-h256 BlockChainWrapper::parentHashOfBlock(h256 _hash)
+h256 BlockChainWrapper::parentHashOfBlock(h256 _hash) const
 {
     for (auto& elem : _verifiedBlocks)
     {

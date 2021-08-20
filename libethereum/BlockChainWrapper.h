@@ -74,7 +74,7 @@ public:
 
     bool isKnown(h256 const&);
     bytes block(h256 const&) const;
-    h256 parentHashOfBlock(h256);
+    h256 parentHashOfBlock(h256) const;
 
     SealEngineFace* sealEngine() const { return m_sealEngine.get(); }
 

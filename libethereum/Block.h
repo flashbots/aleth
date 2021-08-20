@@ -210,7 +210,7 @@ public:
     /// Construct state object from arbitrary point in blockchain.
     void populateFromChain(BlockChain const& _bc, h256 const& _hash);
 
-    void executeTransactionWithWitness(LastBlockHashesWrapper _lh, Transaction _t,
+    ExecutionResult executeTransactionWithWitness(LastBlockHashesWrapper, Transaction,
         Permanence _p = Permanence::Committed, OnOpFunc const& _onOp = OnOpFunc());
     /// Execute a given transaction.
     /// This will append @a _t to the transaction list and change the state accordingly.
@@ -287,8 +287,6 @@ public:
 
     void updateBlock(VerifiedBlockRef const&, VerifiedBlockRef const&);
 
-    ExecutionResult executeTransactionWithWitness(
-        LastBlockHashesFace const&, Transaction, Permanence, OnOpFunc const&);
     void updateThisBlock();
 
     void ExecuteWithWitness(

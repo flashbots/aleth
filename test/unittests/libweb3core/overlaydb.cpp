@@ -18,13 +18,8 @@
 #include <gtest/gtest.h>
 
 using namespace std;
-//using namespace dev;
-//using namespace db;
-//using namespace dev::db;
-//using namespace dev::eth;
-//using namespace dev::test;
-//namespace utf = boost::unit_test;
-// using json = nlohmann::json;
+using namespace dev;
+using namespace db;
 
 TEST(OverlayDB, basicUsage)
 {

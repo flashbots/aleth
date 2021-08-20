@@ -18,6 +18,7 @@
 #include <libethcore/SealEngine.h>
 #include <libevm/VMFactory.h>
 #include <boost/filesystem.hpp>
+#include <libethashseal/GenesisInfo.h>
 #include <ctime>
 using namespace std;
 using namespace dev;
@@ -436,7 +437,7 @@ BlockChainWrapper Block::GetBlockChainWrapper(
     // TODO Ask Tomasz about what should be the value of AccountStartNonce (Not complete sure about
     // the value)
     State temp(256, witnessDb);
-    m_state(temp);
+    m_state = temp;
     BlockChainWrapper _bc = BlockChainWrapper(witnessDb, previousBlocks, genesis);
     return _bc;
     // Need update previous block something like, need get the data from the witness:
@@ -449,8 +450,9 @@ void Block::updateBlock(
 {
     m_previousBlock = _previousBlock.info;
     m_currentBlock = _currentBlock.info;
-    unique_ptr<SealEngineFace> se(ChainParams(genesisInfo(eth::Network::MainNetwork)).createSealEngine());
-    m_sealEngine = &se;
+    unique_ptr<SealEngineFace> se(
+        ChainParams(genesisInfo(eth::Network::MainNetwork)).createSealEngine());
+    m_sealEngine = *se;
 }
 
 void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witnessDb,

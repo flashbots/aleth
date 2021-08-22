@@ -8,7 +8,7 @@
 //#include <libethereum/BlockChain.h>
 //#include <libethereum/ChainParams.h>
 //#include <libethereum/GenesisInfo.h>
-//#include <test/tools/libtesteth/BlockChainHelper.h>
+#include <test/tools/libtesteth/BlockChainHelper.h>
 //#include <test/tools/libtesteth/TestHelper.h>
 //#include <fstream>
 //#include <sstream>

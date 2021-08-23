@@ -78,6 +78,8 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "08945df9b87991262f6ba471f09758cde1c0fc1de734827a69801ca088ff6cf0fefd94db46111149ae4bfc179e"
         "9b94721fffd821d38d16464b3f71d0a045e0aff800961cfce805daef7016b9b675c137a6a41a548f7b60a3484c"
         "06a33ac0");
+    cout << "Search this 1\n";
+    cout << testBlock.blockHeader().number() << "\n";
     BOOST_REQUIRE(testBlock.blockHeader().number()== 10000);
 }
 

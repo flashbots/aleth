@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE(opendb)
     setDatabaseKind(preDatabaseKind);
 }
 
-BOOST_AUTO_TEST_CASE(Mining_1_mineBlockWithTransaction)
+BOOST_AUTO_TEST_CASE(load_block_from_rlp)
 {
     TestBlock testBlock(
         "f90277f90208a05a41d0e66b4120775176c09fcf39e7c0520517a13d2b57b18d33d342df038bfca01dcc4de8de"

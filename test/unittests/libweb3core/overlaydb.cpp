@@ -4,21 +4,11 @@
 
 #include <libdevcore/DBFactory.h>
 #include <libdevcore/OverlayDB.h>
-#include <libethereum/Block.h>
-#include <libethereum/BlockChain.h>
-#include <test/tools/libtesteth/TestHelper.h>
-#include <test/tools/libtesteth/BlockChainHelper.h>
-#include <libethereum/GenesisInfo.h>
-#include <libethereum/ChainParams.h>
 #include <gtest/gtest.h>
 
 using namespace std;
 using namespace dev;
 using namespace db;
-using namespace dev::db;
-using namespace dev::eth;
-using namespace dev::test;
-namespace utf = boost::unit_test;
 
 TEST(OverlayDB, basicUsage)
 {

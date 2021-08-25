@@ -88,7 +88,7 @@ public:
     explicit Block(BlockChain const& _bc) : Block(Null) { noteChain(_bc); }
 
     // Populate from rlp
-    Block(std::string const&);
+    Block(std::string const& _blockRLP);
 
     /// Copy state object.
     Block(Block const& _s);

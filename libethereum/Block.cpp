@@ -40,6 +40,11 @@ public:
 
 }  // namespace
 
+bytes importByteArray(string const& _str)
+{
+    return fromHex(_str.substr(0, 2) == "0x" ? _str.substr(2) : _str, WhenError::Throw);
+}
+
 Block::Block(std::string const& _blockRLP)
 {
     m_currentBytes = importByteArray(_blockRLP);

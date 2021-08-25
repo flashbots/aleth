@@ -14,11 +14,11 @@
 #include <libdevcore/Assertions.h>
 #include <libdevcore/CommonIO.h>
 #include <libdevcore/TrieHash.h>
+#include <libethashseal/GenesisInfo.h>
 #include <libethcore/Exceptions.h>
 #include <libethcore/SealEngine.h>
 #include <libevm/VMFactory.h>
 #include <boost/filesystem.hpp>
-#include <libethashseal/GenesisInfo.h>
 #include <ctime>
 using namespace std;
 using namespace dev;
@@ -45,7 +45,7 @@ bytes importByteArray(string const& _str)
     return fromHex(_str.substr(0, 2) == "0x" ? _str.substr(2) : _str, WhenError::Throw);
 }
 
-Block::Block(std::string const& _blockRLP)
+Block::Block(std::string const& _blockRLP) : m_state(NullType)
 {
     m_currentBytes = importByteArray(_blockRLP);
 
@@ -58,13 +58,13 @@ Block::Block(std::string const& _blockRLP)
         m_transactions.push_back(tx);
     }
 
-//    for (auto const& uRLP : root[2])
-//    {
-//        BlockHeader uBl(uRLP.data(), HeaderData);
-//        TestBlock uncle;
-//        uncle.setBlockHeader(uBl);
-//        m_uncles.push_back(uncle);
-//    }
+    //    for (auto const& uRLP : root[2])
+    //    {
+    //        BlockHeader uBl(uRLP.data(), HeaderData);
+    //        TestBlock uncle;
+    //        uncle.setBlockHeader(uBl);
+    //        m_uncles.push_back(uncle);
+    //    }
 }
 
 Block::Block(BlockChain const& _bc, OverlayDB const& _db, BaseState _bs, Address const& _author)

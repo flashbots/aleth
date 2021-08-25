@@ -40,6 +40,27 @@ public:
 
 }  // namespace
 
+Block::Block(std::string const& _blockRLP)
+{
+    m_currentBytes = importByteArray(_blockRLP);
+
+    RLP root(m_currentBytes);
+    m_currentBlock = BlockHeader(m_currentBytes);
+
+    for (auto const& tr : root[1])
+    {
+        Transaction tx(tr.data(), CheckTransaction::Everything);
+        m_transactions.push_back(tx);
+    }
+
+//    for (auto const& uRLP : root[2])
+//    {
+//        BlockHeader uBl(uRLP.data(), HeaderData);
+//        TestBlock uncle;
+//        uncle.setBlockHeader(uBl);
+//        m_uncles.push_back(uncle);
+//    }
+}
 
 Block::Block(BlockChain const& _bc, OverlayDB const& _db, BaseState _bs, Address const& _author)
   : m_state(Invalid256, _db, _bs), m_precommit(Invalid256), m_author(_author)

@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE(opendb)
 
 BOOST_AUTO_TEST_CASE(load_block_from_rlp)
 {
-    TestBlock testBlock(
+    Block testBlock(
         "f90277f90208a05a41d0e66b4120775176c09fcf39e7c0520517a13d2b57b18d33d342df038bfca01dcc4de8de"
         "c75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d4934794e6a7a1d47ff21b6321162aea7c6cb457d5"
         "476bcaa00e0df2706b0a4fb8bd08c9246d472abbe850af446405d9eba1db41db18b4a169a04513310fcb9f6f61"
@@ -79,8 +79,8 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "9b94721fffd821d38d16464b3f71d0a045e0aff800961cfce805daef7016b9b675c137a6a41a548f7b60a3484c"
         "06a33ac0");
     cout << "Search this 1\n";
-    cout << testBlock.blockHeader().number() << "\n";
-    BOOST_REQUIRE(testBlock.blockHeader().number()== 10000);
+    cout << testBlock.info().number() << "\n";
+    BOOST_REQUIRE(testBlock.info().number()== 10000);
 }
 
 BOOST_AUTO_TEST_CASE(Mining_1_mineBlockWithTransaction)

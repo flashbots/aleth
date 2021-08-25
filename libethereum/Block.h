@@ -87,6 +87,9 @@ public:
     /// Construct from a given blockchain. Empty, but associated with @a _bc 's chain params.
     explicit Block(BlockChain const& _bc) : Block(Null) { noteChain(_bc); }
 
+    // Populate from rlp
+    Block(std::string const&);
+
     /// Copy state object.
     Block(Block const& _s);
 

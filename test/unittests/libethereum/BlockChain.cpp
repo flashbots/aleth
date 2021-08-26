@@ -6204,7 +6204,7 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "0f37ded8c54fc89c52973e88d91d271fd9b11164c0c0"};
 
     std::vector<VerifiedBlockRef> blockRefs;
-    for (int i = 0; (unsigned)i < rlps.size(); i++)
+    for (int i = 1; (unsigned)i < rlps.size(); i++)
     {
         Block blockOld(rlps[i]);
         cout << blockOld.info().number() << " - " << i <<" \n";

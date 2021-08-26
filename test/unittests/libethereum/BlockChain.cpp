@@ -6206,11 +6206,13 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
     for (int i = 0; (unsigned)i < rlps.size(); i++)
     {
         Block blockOld(rlps[i]);
+        cout << blockOld.info().number() << " - " << i <<" \n";
         BOOST_REQUIRE(blockOld.info().number() == 187978 - i - 1);
         VerifiedBlockRef blockRefOld;
         blockRefOld.info = blockOld.info();
         //    blockRef.block = importByteArray(rlp);
         blockRefOld.transactions = blockOld.pending();
+        blockRefs.push_back(blockRefOld);
     }
     BOOST_REQUIRE(blockRef.info.number() == 187978);
 }

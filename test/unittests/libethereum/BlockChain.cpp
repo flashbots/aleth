@@ -6367,6 +6367,7 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470");
     odb.insertAux(
         h256("0x093ae118ee429f7ac5ab6fbbb0ffc98ced2b5d2d44fee43c94a47a424912c92c"), &valueBytes);
+    testBlock.ExecuteWithWitness(blockRef, odb, blockRefs, h256(""));
 }
 
 BOOST_AUTO_TEST_CASE(Mining_1_mineBlockWithTransaction)

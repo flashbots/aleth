@@ -6238,7 +6238,7 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "47a579a0d0ca036bf1098903119339e9f10aed8169dfa14ad2936aae8e3bdc3f7f43408180");
     odb.insertAux(
         h256("0x6a402a73a75bc8057d5d09554d0a4abd2feb565957ef2207a851d0fd607ff612"), &valueBytes);
-    bytes valueBytes = fromHex(
+    valueBytes = fromHex(
         "f90211a0964b81f51da5cb5d73e74cc745af84071eeb8ec4de6d04b6489467715870ec0ca02d6ea4e941077f16"
         "63cb5b5a69d68ba11c13cb5dda82ae1e6420d869262971a6a0997c1a13eb4975c489b12babb9bd58d7ef0cb131"
         "0d10242f5c1ebcdd699cc5d9a048d8f77ba0a7a9a01480a03e953259dfa5eae6c5c3a27f540097a77b64b5d3f4"
@@ -6253,7 +6253,7 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "dc7ffea0d1830238923267a7ceb6f185dbf5e8b2794b0b7d704f98ba56b31a9af287ba8b80");
     odb.insertAux(
         h256("0x7adec3b36697c8ab467e5b4818aa570a65fb5b39088d85ba0456c01cfecce886"), &valueBytes);
-    bytes valueBytes = fromHex(
+    valueBytes = fromHex(
         "f90211a02c31d287bf7c83be9b43acccf2595fe00f9b16a44f38536b76116773add5482ca064ad4cf1f27a5200"
         "37226d82c28c74c5bd175ab8a95de63058d1c1ce6af60e7ca0b56f5b398964c4eb00096141f32d2b6d3f6abd90"
         "ff352d0c37975a663b09cc5fa0d1c3785c321112a38a1bf3e25162b57fbc979e014ed8ce003c1b782c75f0a8e9"
@@ -6268,20 +6268,20 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "88c5a0a090b28df346e715a20c964da819541019a642b7eef1235c36b490f2dce04786f080");
     odb.insertAux(
         h256("0xc9d847d4c4bdc8f401983798676ac1645ff297e8589e0e98f2f936c66d1d9dac"), &valueBytes);
-    bytes valueBytes = fromHex(
+    valueBytes = fromHex(
         "f89180808080a0dc84b226d5a69a4cc4670c8196a9b4f51403bb967f88e0295b8c4a5c106b12e080a0c5f6d949"
         "6c6c10d9d3d00e56efef98ecb3b8da9bdabc951c8d978c768a19ace48080a0e220dd6d966ee261dd1f9d5fb2fb"
         "26930f2dcc36ac0f17a3289a782ace6a291b8080a0dd7f6a773cdd258730e934814875a2c67bf9f7e7f3cbaa6b"
         "d1c58eaed1b932dc80808080");
     odb.insertAux(
         h256("0x90b28df346e715a20c964da819541019a642b7eef1235c36b490f2dce04786f0"), &valueBytes);
-    bytes valueBytes = fromHex(
+    valueBytes = fromHex(
         "f8709f209aebf9cd955dd8d0527b16d42e4f74591aa324eaa8cdb3bb1f9c9463a806b84ef84c0988a076200cab"
         "5d18d0a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c"
         "927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470");
     odb.insertAux(
         h256("0xe220dd6d966ee261dd1f9d5fb2fb26930f2dcc36ac0f17a3289a782ace6a291b"), &valueBytes);
-    bytes valueBytes = fromHex(
+    valueBytes = fromHex(
         "f90211a01fe36e1fed14eedaf6fb62b73401c57532ee887b715de0f43f23991822768a5ea022ecef13b7706b3b"
         "0e75a699dee647f77fd434cb1f5d68710c9a4bff2a758283a0420f3682998b9eb3e9303dc7c375959d2c1d134e"
         "e54df14022e84a16424f7874a0ba43487f183d9c74935643eff1bf3d3cbbbb089ee117c0ee2ace0ff6ab02b6ca"
@@ -6296,7 +6296,7 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "16a22ca079818aa0799d0b095bc546feb476108117722357a605566257707cfcda342b6a80");
     odb.insertAux(
         h256("0xd0ca036bf1098903119339e9f10aed8169dfa14ad2936aae8e3bdc3f7f434081"), &valueBytes);
-    bytes valueBytes = fromHex(
+    valueBytes = fromHex(
         "f90211a0022f94fbe307cbb1e956286f7486e96f668a040b618df1b35b3f1b89e79ae622a0b772452bb564b687"
         "f452a6193d9ab97546ee8e4ad3ebb68bf91ac47ddff175e4a0e3e221863f48013fcd56b216fbbb531d7918a661"
         "7e78bfe9225524b366cb692ca08f77ab9901240950440678e6d97685a648b3837a004c3914d6a9100465e95875"
@@ -6311,23 +6311,23 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "2f80f9a0bd3e06615dce439278e724f20623c80f8db7ecd9eaa5f4d64e2f10bca6b79d8480");
     odb.insertAux(
         h256("0x79818aa0799d0b095bc546feb476108117722357a605566257707cfcda342b6a"), &valueBytes);
-    bytes valueBytes = fromHex(
+    valueBytes = fromHex(
         "f89180a033bdb5d9c06382a88c04ff1feb75ff50fac65aea2c6b0fd2d12f1161f82c0eb2808080a077a929e9b4"
         "50254dda286dc549c3e93a4e0c558429fb41ef8c0b4723b73d1831a0ba4ba8e064b1fc2273267fd1942f211233"
         "edd61388c6c5644d561dd0f2a491518080808080808080a010d3c12c3e1efce1c97c3530a568ebfb38479624a6"
         "6e6f8cab462b9a90b0b43480");
     odb.insertAux(
         h256("0xb772452bb564b687f452a6193d9ab97546ee8e4ad3ebb68bf91ac47ddff175e4"), &valueBytes);
-    bytes valueBytes = fromHex(
+    valueBytes = fromHex(
         "f8749f209f05d2dac481a991ac6466e42d76cfcbfe9d59681d3f255cc95c3b87cbe0b852f8508209ed8a07729a"
         "e0505011a800a8a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d24601"
         "86f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470");
     odb.insertAux(
         h256("0x77a929e9b450254dda286dc549c3e93a4e0c558429fb41ef8c0b4723b73d1831"), &valueBytes);
-    bytes valueBytes = fromHex("");
+    valueBytes = fromHex("");
     odb.insertAux(
         h256("0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"), &valueBytes);
-    bytes valueBytes = fromHex(
+    valueBytes = fromHex(
         "f90211a0eb49110a694279ef88a2b46d3d4776a2762a7664df6fe0ac10e97c364c3e3bb1a0eb77a79390d810ae"
         "a5373eaea969e97fc5052ea3c52cf3def3075002ec5afba4a07a61aec4043be1c4715612496efa23a527434595"
         "745b624540bdf9b9158da758a02271b28be7fb9defae84733d45edc339f6192cb6de41b034f0a1b5eb657c8ef0"
@@ -6342,7 +6342,7 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "a7fd45a085a53007363ed87acfaf5afaefbfe7c8757c6ddb3728e21eddaf93ce5007b38280");
     odb.insertAux(
         h256("0x3946942d4dbd5da11f24ec11b2b6acd433da6cb91b31c53fef832759d5e75f25"), &valueBytes);
-    bytes valueBytes = fromHex(
+    valueBytes = fromHex(
         "f90211a07383074ebabb1618fb0d8b132f95c33556570aacdccc5b58167ca5997ec8bf76a0d6f0e3d9b82dd018"
         "0b230495815a5f0072583168cc5fa46678e966b41fd12a2ea0efc2a553c0915a9bef150472bcdda14324151380"
         "39457ced617e969c674a57c0a021f80ef4df6a12a0fd6685de949b9950605e5c92b0ad11be758a2ec5bc2c7b0d"
@@ -6357,13 +6357,13 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "d76cd4a01d41d52783bb75d29b680e9d018f5e3bd97256d13b0755b5169a2c95b9933c1280");
     odb.insertAux(
         h256("0x2271b28be7fb9defae84733d45edc339f6192cb6de41b034f0a1b5eb657c8ef0"), &valueBytes);
-    bytes valueBytes = fromHex(
+    valueBytes = fromHex(
         "f8718080a0093ae118ee429f7ac5ab6fbbb0ffc98ced2b5d2d44fee43c94a47a424912c92c8080a0b9d5319794"
         "c24aefebfbd2ef844be189ecf6c0a62ab41daf7565cf5a55014d07808080a0bed147feaaaeadd57a80347f230a"
         "169ea9a215b4c8815f2bf6bd4bcfbaa2301480808080808080");
     odb.insertAux(
         h256("0x7c67845488809a46d422cfbc36236c8107e255ef8dfc3229e9880708cc2b97f7"), &valueBytes);
-    bytes valueBytes = fromHex(
+    valueBytes = fromHex(
         "f8739f20c6cc9ad4698bc90e4f827e36bf3930b9a02aa2d626d71dddbf3b9e9eb9d4b851f84f823b1f891c46be"
         "4b8e75ee1e17a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186"
         "f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470");

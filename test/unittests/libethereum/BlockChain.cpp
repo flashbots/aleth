@@ -6221,6 +6221,7 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
 
     OverlayDB odb(std::move(db));
 
+    BOOST_REQUIRE(odb.size() == 0);
     bytes valueBytes = fromHex(
         "f90211a0173b0228b0a3d2fe6ba642208cf6ba1f45d9febe94605e3c5871832b1e80dc00a03946942d4dbd5da1"
         "1f24ec11b2b6acd433da6cb91b31c53fef832759d5e75f25a0c344632e0d19664ac8d7c6b91c19cee6c318d7eb"
@@ -6322,9 +6323,9 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "86f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470");
     odb.insertAux(
         h256("0x77a929e9b450254dda286dc549c3e93a4e0c558429fb41ef8c0b4723b73d1831"), &valueBytes);
-    valueBytes = fromHex("");
-    odb.insertAux(
-        h256("0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"), &valueBytes);
+//    valueBytes = fromHex("");
+//    odb.insertAux(
+//        h256("0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"), &valueBytes);
     valueBytes = fromHex(
         "f90211a0eb49110a694279ef88a2b46d3d4776a2762a7664df6fe0ac10e97c364c3e3bb1a0eb77a79390d810ae"
         "a5373eaea969e97fc5052ea3c52cf3def3075002ec5afba4a07a61aec4043be1c4715612496efa23a527434595"

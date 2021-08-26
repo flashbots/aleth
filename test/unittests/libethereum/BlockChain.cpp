@@ -6221,7 +6221,7 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
 
     OverlayDB odb(std::move(db));
 
-    BOOST_REQUIRE(odb.size() == 0);
+    BOOST_REQUIRE(odb.get().size() == 0);
     bytes valueBytes = fromHex(
         "f90211a0173b0228b0a3d2fe6ba642208cf6ba1f45d9febe94605e3c5871832b1e80dc00a03946942d4dbd5da1"
         "1f24ec11b2b6acd433da6cb91b31c53fef832759d5e75f25a0c344632e0d19664ac8d7c6b91c19cee6c318d7eb"

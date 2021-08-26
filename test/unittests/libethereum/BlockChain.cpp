@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
     BOOST_REQUIRE(testBlock.info().number() == 187978);
     VerifiedBlockRef blockRef;
     blockRef.info = testBlock.info();
-    blockRef.block = importByteArray(rlp);
+//    blockRef.block = importByteArray(rlp);
     blockRef.transactions = testBlock.pending();
 
     BOOST_REQUIRE(blockRef.info.number() == 187978);

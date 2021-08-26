@@ -627,11 +627,11 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
 //            ex << errinfo_uncleIndex(ii);
 //            throw;
 //        }
-    }
+//    }
 
     // Question Should I seal and applyRewards? I think I don't
     //    assert(_bc.sealEngine());
-    DEV_TIMED_ABOVE("applyRewards", 500)
+//    DEV_TIMED_ABOVE("applyRewards", 500)
     //    applyRewards(rewarded, _bc.sealEngine()->blockReward(m_currentBlock.number()));
 
     // Question. I think we don't have to use this
@@ -644,20 +644,20 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
     //                                             State::CommitBehaviour::KeepEmptyAccounts);
 
     // Hash the state trie and check against the state_root hash in m_currentBlock.
-    if (m_currentBlock.stateRoot() != m_previousBlock.stateRoot() &&
-        m_currentBlock.stateRoot() != rootHash())
-    {
-        auto r = rootHash();
-        m_state.db().rollback();  // TODO: API in State for this?
-        BOOST_THROW_EXCEPTION(
-            InvalidStateRoot() << Hash256RequirementError(m_currentBlock.stateRoot(), r));
-    }
-
-    if (m_currentBlock.gasUsed() != gasUsed())
-    {
-        BOOST_THROW_EXCEPTION(InvalidGasUsed() << RequirementError(
-                                  bigint(m_currentBlock.gasUsed()), bigint(gasUsed())));
-    }
+//    if (m_currentBlock.stateRoot() != m_previousBlock.stateRoot() &&
+//        m_currentBlock.stateRoot() != rootHash())
+//    {
+//        auto r = rootHash();
+//        m_state.db().rollback();  // TODO: API in State for this?
+//        BOOST_THROW_EXCEPTION(
+//            InvalidStateRoot() << Hash256RequirementError(m_currentBlock.stateRoot(), r));
+//    }
+//
+//    if (m_currentBlock.gasUsed() != gasUsed())
+//    {
+//        BOOST_THROW_EXCEPTION(InvalidGasUsed() << RequirementError(
+//                                  bigint(m_currentBlock.gasUsed()), bigint(gasUsed())));
+//    }
 }
 
 

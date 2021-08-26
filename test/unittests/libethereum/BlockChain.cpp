@@ -62,6 +62,7 @@ BOOST_AUTO_TEST_CASE(opendb)
 
 BOOST_AUTO_TEST_CASE(load_block_from_rlp)
 {
+    int blockNumber = 187978;
     std::string rlp =
         "f9028bf90217a062a56384569950bb32fca9c7e4c24f85bb87524f691055069c2a0aa069fe9c5ba01dcc4de8de"
         "c75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d493479452bc44d5378309ee2abf1539bf71de1b7d"
@@ -79,7 +80,7 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "801ca06122bf6164a343e2218d4b465e3fcdd554d7443401d22814dfbe9ab89ae112b8a0036518e9c9a3b61059"
         "0f4b88bddd39ba082a8e77af4ed102227cf8408cbf781fc0";
     Block testBlock(rlp);
-    BOOST_REQUIRE(testBlock.info().number() == 187978);
+    BOOST_REQUIRE(testBlock.info().number() == blockNumber);
     VerifiedBlockRef blockRef;
     blockRef.info = testBlock.info();
     //    blockRef.block = importByteArray(rlp);
@@ -6207,14 +6208,14 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
     {
         Block blockOld(rlps[i]);
         cout << blockOld.info().number() << " - " << i <<" \n";
-        BOOST_REQUIRE(blockOld.info().number() == 187978 - i - 1);
+        BOOST_REQUIRE(blockOld.info().number() == blockNumber - i);
         VerifiedBlockRef blockRefOld;
         blockRefOld.info = blockOld.info();
         //    blockRef.block = importByteArray(rlp);
         blockRefOld.transactions = blockOld.pending();
         blockRefs.push_back(blockRefOld);
     }
-    BOOST_REQUIRE(blockRef.info.number() == 187978);
+    BOOST_REQUIRE(blockRef.info.number() == blockNumber);
 }
 
 BOOST_AUTO_TEST_CASE(Mining_1_mineBlockWithTransaction)

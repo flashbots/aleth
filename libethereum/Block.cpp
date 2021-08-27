@@ -866,12 +866,12 @@ u256 Block::enact(VerifiedBlockRef const& _block, BlockChain const& _bc)
 ExecutionResult Block::executeTransactionWithWitness(
     LastBlockHashesWrapper const& _lh, Transaction _t, Permanence _p, OnOpFunc const& _onOp)
 {
-    if (isSealed())
-        BOOST_THROW_EXCEPTION(InvalidOperationOnSealedBlock());
-
-    // Uncommitting is a non-trivial operation - only do it once we've verified as much of the
-    // transaction as possible.
-    uncommitToSeal();
+//    if (isSealed())
+//        BOOST_THROW_EXCEPTION(InvalidOperationOnSealedBlock());
+//
+//    // Uncommitting is a non-trivial operation - only do it once we've verified as much of the
+//    // transaction as possible.
+//    uncommitToSeal();
 
     EnvInfo const envInfo{info(), _lh, gasUsed(), m_sealEngine->chainParams().chainID};
     std::pair<ExecutionResult, TransactionReceipt> resultReceipt =

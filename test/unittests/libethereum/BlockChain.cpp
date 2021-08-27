@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE(opendb)
 
 BOOST_AUTO_TEST_CASE(load_block_from_rlp)
 {
-    int blockNumber = 187978;
+    int blockNumber = 218446;
     std::string rlp =
         "f9028af90215a075b51e9f904238d75dba515b2a5427b3c41f684a6cceb2d104f9e1229343650ca01dcc4de8de"
         "c75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347941dcb8d1f0fcc8cbc8c2d76528e877f915e"
@@ -4220,7 +4220,7 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
         "6e8fef6a728970327cadd1885ceab2b481516132c0c0"};
 
     std::vector<VerifiedBlockRef> blockRefs;
-    for (int i = 1; (unsigned)i < rlps.size(); i++)
+    for (int i = 0; (unsigned)i < rlps.size(); i++)
     {
         Block blockOld(rlps[i]);
         cout << blockOld.info().number() << " - " << i << " \n";

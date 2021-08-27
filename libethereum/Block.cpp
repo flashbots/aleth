@@ -505,9 +505,9 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
 
     vector<bytes> receipts;
 
-//    // All ok with the block generally. Play back the transactions now...
+    // All ok with the block generally. Play back the transactions now...
     unsigned i = 0;
-//    DEV_TIMED_ABOVE("txExec", 500)
+    DEV_TIMED_ABOVE("txExec", 500)
     for (Transaction const& tr : _block.transactions)
     {
         try
@@ -527,111 +527,111 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
         receipts.push_back(receiptRLP.out());
         ++i;
     }
-//
-//    h256 receiptsRoot;
-//    DEV_TIMED_ABOVE(".receiptsRoot()", 500)
-//    receiptsRoot = orderedTrieRoot(receipts);
-//
-//    if (receiptsRoot != m_currentBlock.receiptsRoot())
-//    {
-//        InvalidReceiptsStateRoot ex;
-//        ex << Hash256RequirementError(m_currentBlock.receiptsRoot(), receiptsRoot);
-//        ex << errinfo_receipts(receipts);
-//        BOOST_THROW_EXCEPTION(ex);
-//    }
-//    if (m_currentBlock.logBloom() != logBloom())
-//    {
-//        InvalidLogBloom ex;
-//        ex << LogBloomRequirementError(m_currentBlock.logBloom(), logBloom());
-//        ex << errinfo_receipts(receipts);
-//        BOOST_THROW_EXCEPTION(ex);
-//    }
-//
-//    // Check uncles & apply their rewards to state.
-//    if (rlp[2].itemCount() > 2)
-//    {
-//        TooManyUncles ex;
-//        ex << errinfo_max(2);
-//        ex << errinfo_got(rlp[2].itemCount());
-//        BOOST_THROW_EXCEPTION(ex);
-//    }
-//
-//    vector<BlockHeader> rewarded;
-//    h256Hash excluded;
-//    DEV_TIMED_ABOVE("allKin", 500)
-//    // I need to puts my hands here, at this point I definitely need to precess the witness
-//    excluded = _bc.allKinFrom(m_currentBlock.parentHash(), 6);
-//    excluded.insert(m_currentBlock.hash());
-//
-//    unsigned ii = 0;
-//    DEV_TIMED_ABOVE("uncleCheck", 500)
-//    for (auto const& i : rlp[2])
-//    {
-//        try
-//        {
-//            auto h = sha3(i.data());
-//            if (excluded.count(h))
-//            {
-//                UncleInChain ex;
-//                ex << errinfo_comment("Uncle in block already mentioned");
-//                ex << errinfo_unclesExcluded(excluded);
-//                ex << errinfo_hash256(sha3(i.data()));
-//                BOOST_THROW_EXCEPTION(ex);
-//            }
-//            excluded.insert(h);
-//
-//            // CheckNothing since it's a VerifiedBlock.
-//            BlockHeader uncle(i.data(), HeaderData, h);
-//
-//            BlockHeader uncleParent;
-//            // TODO Check if exist in wrapper the uncle
-//            if (!_bc.isKnown(uncle.parentHash()))
-//                BOOST_THROW_EXCEPTION(UnknownParent() << errinfo_hash256(uncle.parentHash()));
-//            uncleParent = BlockHeader(_bc.block(uncle.parentHash()));
-//
-//            bigint depth = (bigint)m_currentBlock.number() - (bigint)uncle.number();
-//            if (depth > 6)
-//            {
-//                UncleTooOld ex;
-//                ex << errinfo_uncleNumber(uncle.number());
-//                ex << errinfo_currentNumber(m_currentBlock.number());
-//                BOOST_THROW_EXCEPTION(ex);
-//            }
-//            else if (depth < 1)
-//            {
-//                UncleIsBrother ex;
-//                ex << errinfo_uncleNumber(uncle.number());
-//                ex << errinfo_currentNumber(m_currentBlock.number());
-//                BOOST_THROW_EXCEPTION(ex);
-//            }
-//            // TODO Get parent_hash of current block parent
-//            auto expectedUncleParent = _bc.parentHashOfBlock(m_currentBlock.parentHash());
-//            for (unsigned i = 1; i < depth;
-//                 expectedUncleParent = _bc.parentHashOfBlock(expectedUncleParent), ++i)
-//            {
-//            }
-//            if (expectedUncleParent != uncleParent.hash())
-//            {
-//                UncleParentNotInChain ex;
-//                ex << errinfo_uncleNumber(uncle.number());
-//                ex << errinfo_currentNumber(m_currentBlock.number());
-//                BOOST_THROW_EXCEPTION(ex);
-//            }
-//            uncle.verify(CheckNothingNew /*CheckParent*/, uncleParent);
-//
-//            rewarded.push_back(uncle);
-//            ++ii;
-//        }
-//        catch (Exception& ex)
-//        {
-//            ex << errinfo_uncleIndex(ii);
-//            throw;
-//        }
-//    }
+
+    h256 receiptsRoot;
+    DEV_TIMED_ABOVE(".receiptsRoot()", 500)
+    receiptsRoot = orderedTrieRoot(receipts);
+
+    if (receiptsRoot != m_currentBlock.receiptsRoot())
+    {
+        InvalidReceiptsStateRoot ex;
+        ex << Hash256RequirementError(m_currentBlock.receiptsRoot(), receiptsRoot);
+        ex << errinfo_receipts(receipts);
+        BOOST_THROW_EXCEPTION(ex);
+    }
+    if (m_currentBlock.logBloom() != logBloom())
+    {
+        InvalidLogBloom ex;
+        ex << LogBloomRequirementError(m_currentBlock.logBloom(), logBloom());
+        ex << errinfo_receipts(receipts);
+        BOOST_THROW_EXCEPTION(ex);
+    }
+
+    // Check uncles & apply their rewards to state.
+    if (rlp[2].itemCount() > 2)
+    {
+        TooManyUncles ex;
+        ex << errinfo_max(2);
+        ex << errinfo_got(rlp[2].itemCount());
+        BOOST_THROW_EXCEPTION(ex);
+    }
+
+    vector<BlockHeader> rewarded;
+    h256Hash excluded;
+    DEV_TIMED_ABOVE("allKin", 500)
+    // I need to puts my hands here, at this point I definitely need to precess the witness
+    excluded = _bc.allKinFrom(m_currentBlock.parentHash(), 6);
+    excluded.insert(m_currentBlock.hash());
+
+    unsigned ii = 0;
+    DEV_TIMED_ABOVE("uncleCheck", 500)
+    for (auto const& i : rlp[2])
+    {
+        try
+        {
+            auto h = sha3(i.data());
+            if (excluded.count(h))
+            {
+                UncleInChain ex;
+                ex << errinfo_comment("Uncle in block already mentioned");
+                ex << errinfo_unclesExcluded(excluded);
+                ex << errinfo_hash256(sha3(i.data()));
+                BOOST_THROW_EXCEPTION(ex);
+            }
+            excluded.insert(h);
+
+            // CheckNothing since it's a VerifiedBlock.
+            BlockHeader uncle(i.data(), HeaderData, h);
+
+            BlockHeader uncleParent;
+            // TODO Check if exist in wrapper the uncle
+            if (!_bc.isKnown(uncle.parentHash()))
+                BOOST_THROW_EXCEPTION(UnknownParent() << errinfo_hash256(uncle.parentHash()));
+            uncleParent = BlockHeader(_bc.block(uncle.parentHash()));
+
+            bigint depth = (bigint)m_currentBlock.number() - (bigint)uncle.number();
+            if (depth > 6)
+            {
+                UncleTooOld ex;
+                ex << errinfo_uncleNumber(uncle.number());
+                ex << errinfo_currentNumber(m_currentBlock.number());
+                BOOST_THROW_EXCEPTION(ex);
+            }
+            else if (depth < 1)
+            {
+                UncleIsBrother ex;
+                ex << errinfo_uncleNumber(uncle.number());
+                ex << errinfo_currentNumber(m_currentBlock.number());
+                BOOST_THROW_EXCEPTION(ex);
+            }
+            // TODO Get parent_hash of current block parent
+            auto expectedUncleParent = _bc.parentHashOfBlock(m_currentBlock.parentHash());
+            for (unsigned i = 1; i < depth;
+                 expectedUncleParent = _bc.parentHashOfBlock(expectedUncleParent), ++i)
+            {
+            }
+            if (expectedUncleParent != uncleParent.hash())
+            {
+                UncleParentNotInChain ex;
+                ex << errinfo_uncleNumber(uncle.number());
+                ex << errinfo_currentNumber(m_currentBlock.number());
+                BOOST_THROW_EXCEPTION(ex);
+            }
+            uncle.verify(CheckNothingNew /*CheckParent*/, uncleParent);
+
+            rewarded.push_back(uncle);
+            ++ii;
+        }
+        catch (Exception& ex)
+        {
+            ex << errinfo_uncleIndex(ii);
+            throw;
+        }
+    }
 
     // Question Should I seal and applyRewards? I think I don't
     //    assert(_bc.sealEngine());
-//    DEV_TIMED_ABOVE("applyRewards", 500)
+    DEV_TIMED_ABOVE("applyRewards", 500)
     //    applyRewards(rewarded, _bc.sealEngine()->blockReward(m_currentBlock.number()));
 
     // Question. I think we don't have to use this
@@ -644,20 +644,20 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
     //                                             State::CommitBehaviour::KeepEmptyAccounts);
 
     // Hash the state trie and check against the state_root hash in m_currentBlock.
-//    if (m_currentBlock.stateRoot() != m_previousBlock.stateRoot() &&
-//        m_currentBlock.stateRoot() != rootHash())
-//    {
-//        auto r = rootHash();
-//        m_state.db().rollback();  // TODO: API in State for this?
-//        BOOST_THROW_EXCEPTION(
-//            InvalidStateRoot() << Hash256RequirementError(m_currentBlock.stateRoot(), r));
-//    }
-//
-//    if (m_currentBlock.gasUsed() != gasUsed())
-//    {
-//        BOOST_THROW_EXCEPTION(InvalidGasUsed() << RequirementError(
-//                                  bigint(m_currentBlock.gasUsed()), bigint(gasUsed())));
-//    }
+    if (m_currentBlock.stateRoot() != m_previousBlock.stateRoot() &&
+        m_currentBlock.stateRoot() != rootHash())
+    {
+        auto r = rootHash();
+        m_state.db().rollback();  // TODO: API in State for this?
+        BOOST_THROW_EXCEPTION(
+            InvalidStateRoot() << Hash256RequirementError(m_currentBlock.stateRoot(), r));
+    }
+
+    if (m_currentBlock.gasUsed() != gasUsed())
+    {
+        BOOST_THROW_EXCEPTION(InvalidGasUsed() << RequirementError(
+                                  bigint(m_currentBlock.gasUsed()), bigint(gasUsed())));
+    }
 }
 
 

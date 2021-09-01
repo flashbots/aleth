@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(opendb)
 BOOST_AUTO_TEST_CASE(load_block_from_rlp)
 {
     int blockNumber = 246929;
-    std::string blockRlp =
+    std::string rlp =
         "f9028cf90217a02f71290a9fc4e392f4f9a69406fa60de31fcf6429393ba8595de9770242001bba01dcc4de8de"
         "c75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d493479452bc44d5378309ee2abf1539bf71de1b7d"
         "7be3b5a0c91db7d1e76498a1078b8a6ba93590e27d9503cbee80e7622d1ad7b79d5d7692a0d5c7f28f0c071a74"

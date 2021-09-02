@@ -7,6 +7,7 @@
 #include "Transaction.h"
 #include <libdevcore/Log.h>
 #include <libethcore/Common.h>
+#include <libdevcore/StateWrapper.h>
 #include <libevm/ExtVMFace.h>
 #include <functional>
 
@@ -76,6 +77,7 @@ public:
     /// Initializes the executive for evaluating a transaction. You must call finalize() at some point following this.
     void initialize(bytesConstRef _transaction) { initialize(Transaction(_transaction, CheckTransaction::None)); }
     void initialize(Transaction const& _transaction);
+    void initialize(Transaction const& _transaction, StateWrapper stateWrapper);
     /// Finalise a transaction previously set up with initialize().
     /// @warning Only valid after initialize() and execute(), and possibly go().
     /// @returns true if the outermost execution halted normally, false if exceptionally halted.

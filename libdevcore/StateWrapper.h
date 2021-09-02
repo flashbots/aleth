@@ -1,14 +1,11 @@
-//
-// Created by Marcos Maceo on 9/2/21.
-//
-
-#ifndef ALETH_STATEWRAPPER_H
-#define ALETH_STATEWRAPPER_H
-
 #include "OverlayDB.h"
 #include "RLP.h"
 
 using namespace std;
+namespace dev
+{
+namespace eth
+{
 class StateWrapper
 {
     StateWrapper(OverlayDB);
@@ -22,6 +19,5 @@ class StateWrapper
 private:
     OverlayDB _db;
 };
-
-
-#endif  // ALETH_STATEWRAPPER_H
+}  // namespace eth
+}  // namespace dev

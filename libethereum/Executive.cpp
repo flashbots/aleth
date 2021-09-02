@@ -10,6 +10,7 @@
 #include "StandardTrace.h"
 #include "State.h"
 #include <libdevcore/CommonIO.h>
+#include <libdevcore/RLP.h>
 #include <libethcore/CommonJS.h>
 #include <libevm/LegacyVM.h>
 #include <libevm/VMFactory.h>
@@ -534,4 +535,39 @@ void Executive::revert()
     // Set result address to the null one.
     m_newAddress = {};
     m_s.rollback(m_savepoint);
+}
+
+StateWrapper::StateWrapper(OverlayDB db) : _db(db) {}
+
+u256 StateWrapper::getNonce(h256 address)
+{
+    std::string stateBack = getRlp(address);
+
+    RLP state(stateBack);
+    return state[0].toInt<u256>();
+}
+u256 StateWrapper::getBalance(h256 address)
+{
+    std::string stateBack = getRlp(address);
+
+    RLP state(stateBack);
+    return state[1].toInt<u256>();
+}
+h256 StateWrapper::getStorageRoot(h256 address)
+{
+    std::string stateBack = getRlp(address);
+
+    RLP state(stateBack);
+    return state[2].toInt<u256>();
+}
+h256 StateWrapper::getCodeHash(h256 address)
+{
+    std::string stateBack = getRlp(address);
+
+    RLP state(stateBack);
+    return state[3].toInt<u256>();
+}
+std::string StateWrapper::getRlp(h256 address)
+{
+    return _db.lookupAux(address);
 }

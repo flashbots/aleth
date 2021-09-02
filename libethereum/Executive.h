@@ -8,13 +8,13 @@
 #include <libdevcore/Log.h>
 #include <libethcore/Common.h>
 #include <libevm/ExtVMFace.h>
-#include <libdevcore/StateWrapper.h>
 #include <functional>
 
 namespace dev
 {
 
 class OverlayDB;
+class RLP;
 
 namespace eth
 {
@@ -171,5 +171,19 @@ private:
     Logger m_vmTraceLogger{createLogger(VerbosityTrace, "vmtrace")};
 };
 
+class StateWrapper{
+
+public:
+    StateWrapper(OverlayDB);
+
+    u256 getNonce(h256);
+    u256 getBalance(h256);
+    h256 getStorageRoot(h256);
+    h256 getCodeHash(h256);
+    std::string getRlp(h256);
+
+private:
+    OverlayDB _db;
+};
 }
 }

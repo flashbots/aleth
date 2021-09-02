@@ -26,9 +26,9 @@ State::State(u256 const& _accountStartNonce, OverlayDB const& _db, BaseState _bs
     if (_bs != BaseState::PreExisting)
         // Initialise to the state entailed by the genesis block; this guarantees the trie is built
         // correctly.
-        cout << "Passing over here \n";
-//        m_state.init();
-    m_state.init();
+        m_state.init();
+    else
+        m_state.init();
 }
 
 State::State(State const& _s)

@@ -8,6 +8,7 @@ namespace eth
 {
 class StateWrapper
 {
+public:
     StateWrapper(OverlayDB);
 
     u256 getNonce(h256);

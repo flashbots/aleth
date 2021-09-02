@@ -102,6 +102,7 @@ void Executive::initialize(Transaction const& _transaction)
         try
         {
             nonceReq = m_s.getNonce(m_t.sender());
+            cout << "FSender: " << m_t.sender() << " ==== FNonceReq " << nonceReq << "\n";
         }
         catch (InvalidSignature const&)
         {
@@ -111,8 +112,6 @@ void Executive::initialize(Transaction const& _transaction)
         }
         if (m_t.nonce() != nonceReq)
         {
-            cout << "Sender: " << m_t.sender().hex() << " Invalid Nonce: Required "
-                              << nonceReq << ", received " << m_t.nonce();
             m_excepted = TransactionException::InvalidNonce;
             BOOST_THROW_EXCEPTION(
                 InvalidNonce() << RequirementError((bigint)nonceReq, (bigint)m_t.nonce()));

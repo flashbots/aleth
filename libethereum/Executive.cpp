@@ -10,7 +10,6 @@
 #include "StandardTrace.h"
 #include "State.h"
 #include <libdevcore/CommonIO.h>
-#include <libdevcore/StateWrapper.h>
 #include <libethcore/CommonJS.h>
 #include <libevm/LegacyVM.h>
 #include <libevm/VMFactory.h>

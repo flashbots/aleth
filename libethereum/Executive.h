@@ -8,6 +8,7 @@
 #include <libdevcore/Log.h>
 #include <libethcore/Common.h>
 #include <libevm/ExtVMFace.h>
+#include <libdevcore/StateWrapper.h>
 #include <functional>
 
 namespace dev
@@ -17,7 +18,6 @@ class OverlayDB;
 
 namespace eth
 {
-class StateWrapper;
 class State;
 class Block;
 class BlockChain;

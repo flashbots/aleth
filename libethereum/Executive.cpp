@@ -93,6 +93,44 @@ void Executive::initialize(Transaction const& _transaction, StateWrapper stateWr
         m_excepted = toTransactionException(ex);
         throw;
     }
+
+    if (!m_t.hasZeroSignature())
+    {
+        // Avoid invalid transactions.
+        u256 nonceReq;
+        try
+        {
+            nonceReq = stateWrapper.getNonce(m_t.sender());
+        }
+        catch (InvalidSignature const&)
+        {
+            LOG(m_execLogger) << "Invalid Signature";
+            m_excepted = TransactionException::InvalidSignature;
+            throw;
+        }
+        if (m_t.nonce() != nonceReq)
+        {
+            m_excepted = TransactionException::InvalidNonce;
+            BOOST_THROW_EXCEPTION(
+                InvalidNonce() << RequirementError((bigint)nonceReq, (bigint)m_t.nonce()));
+        }
+
+        // Avoid unaffordable transactions.
+        bigint gasCost = (bigint)m_t.gas() * m_t.gasPrice();
+        bigint totalCost = m_t.value() + gasCost;
+        if (m_s.balance(m_t.sender()) < totalCost)
+        {
+            LOG(m_execLogger) << "Not enough cash: Require > " << totalCost << " = " << m_t.gas()
+                              << " * " << m_t.gasPrice() << " + " << m_t.value() << " Got"
+                              << m_s.balance(m_t.sender()) << " for sender: " << m_t.sender();
+            m_excepted = TransactionException::NotEnoughCash;
+            m_excepted = TransactionException::NotEnoughCash;
+            BOOST_THROW_EXCEPTION(NotEnoughCash()
+                                      << RequirementError(totalCost, (bigint)m_s.balance(m_t.sender()))
+                                      << errinfo_comment(m_t.sender().hex()));
+        }
+        m_gasCost = (u256)gasCost;  // Convert back to 256-bit, safe now.
+    }
 }
 
 void Executive::initialize(Transaction const& _transaction)

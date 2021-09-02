@@ -4547,11 +4547,13 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
     bytes valueBytes = fromHex(
         "f84d6189031c5a9e98c638deb0a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b4"
         "21a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470");
-    odb.insertAux(sha3("0xd0aedab61b09d85fbbfaa0d3bd9797c1c13dd5af"), &valueBytes);
+    Address addr1{"d0aedab61b09d85fbbfaa0d3bd9797c1c13dd5af"};
+    odb.insertAux(addr1, &valueBytes);
     valueBytes = fromHex(
         "f84d43890c22698d03605e5000a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b4"
         "21a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470");
-    odb.insertAux(sha3("0x28a0e7b63f86a8aef8d5992cc9683840347a190a"), &valueBytes);
+    Address addr{"28a0e7b63f86a8aef8d5992cc9683840347a190a"};
+    odb.insertAux(addr, &valueBytes);
 
     testBlock.ExecuteWithWitness(blockRef, odb, blockRefs, h256());
 }

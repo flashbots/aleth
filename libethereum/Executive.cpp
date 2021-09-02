@@ -100,7 +100,7 @@ void Executive::initialize(Transaction const& _transaction, StateWrapper stateWr
         u256 nonceReq;
         try
         {
-            nonceReq = stateWrapper.getNonce(m_t.sender());
+            nonceReq = stateWrapper.getNonce(h256(m_t.sender().hex()));
         }
         catch (InvalidSignature const&)
         {

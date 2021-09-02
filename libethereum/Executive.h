@@ -184,7 +184,7 @@ public:
     std::string getRlp(h256);
 
 private:
-    OverlayDB _db;
+    dev::OverlayDB _db;
 };
 }
 }

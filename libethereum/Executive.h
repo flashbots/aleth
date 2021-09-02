@@ -7,6 +7,7 @@
 #include "Transaction.h"
 #include <libdevcore/Log.h>
 #include <libethcore/Common.h>
+#include <libdevcore/OverlayDB.h>
 #include <libevm/ExtVMFace.h>
 #include <functional>
 

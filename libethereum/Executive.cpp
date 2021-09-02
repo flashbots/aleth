@@ -14,6 +14,8 @@
 #include <libethcore/CommonJS.h>
 #include <libevm/LegacyVM.h>
 #include <libevm/VMFactory.h>
+#include <iostream>
+#include <string>
 
 using namespace std;
 using namespace dev;
@@ -569,7 +571,7 @@ h256 StateWrapper::getCodeHash(h256 address)
 }
 std::string StateWrapper::getRlp(h256 address)
 {
-    dev::bytes value = _db.lookupAux(address);
-    std::string ret(value, sizeof(value));
+    bytes value = _db.lookupAux(address);
+    string ret(value, sizeof(value));
     return ret;
 }

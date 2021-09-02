@@ -569,5 +569,7 @@ h256 StateWrapper::getCodeHash(h256 address)
 }
 std::string StateWrapper::getRlp(h256 address)
 {
-    return _db.lookupAux(address);
+    dev::bytes value = _db.lookupAux(address);
+    std::string ret(value, sizeof(value));
+    return ret;
 }

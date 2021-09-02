@@ -462,7 +462,7 @@ BlockChainWrapper Block::GetBlockChainWrapper(
 {
     // TODO Ask Tomasz about what should be the value of AccountStartNonce (Not complete sure about
     // the value)
-    State temp(495, witnessDb);
+    State temp(0, witnessDb);
     m_state = temp;
     BlockChainWrapper _bc = BlockChainWrapper(witnessDb, previousBlocks, genesis);
     return _bc;

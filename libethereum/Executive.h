@@ -23,6 +23,7 @@ class Block;
 class BlockChain;
 class ExtVM;
 class SealEngineFace;
+class StateWrapper;
 struct Manifest;
 
 /**

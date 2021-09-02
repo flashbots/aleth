@@ -169,6 +169,7 @@ Account* State::account(Address const& _addr)
     if (m_nonExistingAccountsCache.count(_addr))
         return nullptr;
 
+    cout << _addr << "\n";
     // Populate basic info.
     string stateBack = m_state.at(_addr);
     if (stateBack.empty())

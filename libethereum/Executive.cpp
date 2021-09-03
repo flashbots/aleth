@@ -81,8 +81,9 @@ void Executive::accrueSubState(SubState& _parentContext)
         _parentContext += m_ext->sub;
 }
 
-void Executive::initialize(Transaction const& _transaction, StateWrapper stateWrapper)
+void Executive::initialize(Transaction const& _transaction, OverlayDB db)
 {
+    StateWrapper stateWrapper(db);
     m_t = _transaction;
     m_baseGasRequired = m_t.baseGasRequired(m_sealEngine.evmSchedule(m_envInfo.number()));
     try

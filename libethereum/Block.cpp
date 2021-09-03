@@ -864,7 +864,7 @@ u256 Block::enact(VerifiedBlockRef const& _block, BlockChain const& _bc)
 }
 
 ExecutionResult Block::executeTransactionWithWitness(
-    LastBlockHashesWrapper const& _lh, Transaction _t, Permanence _p, OnOpFunc const& _onOp)
+    LastBlockHashesWrapper const& _lh, Transaction _t, Permanence _p, OnOpFunc const& _onOp, OverlayDB db)
 {
 //    if (isSealed())
 //        BOOST_THROW_EXCEPTION(InvalidOperationOnSealedBlock());
@@ -875,7 +875,7 @@ ExecutionResult Block::executeTransactionWithWitness(
 
     EnvInfo const envInfo{info(), _lh, gasUsed(), m_sealEngine->chainParams().chainID};
     std::pair<ExecutionResult, TransactionReceipt> resultReceipt =
-        m_state.execute(envInfo, *m_sealEngine, _t, _p, _onOp);
+        m_state.execute(envInfo, *m_sealEngine, _t, db, _p, _onOp);
 
     if (_p == Permanence::Committed)
     {

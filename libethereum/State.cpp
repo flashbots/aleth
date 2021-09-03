@@ -630,7 +630,7 @@ void State::rollback(size_t _savepoint)
 }
 
 std::pair<ExecutionResult, TransactionReceipt> State::execute(EnvInfo const& _envInfo,
-    SealEngineFace const& _sealEngine, Transaction const& _t, Permanence _p, OnOpFunc const& _onOp)
+    SealEngineFace const& _sealEngine, Transaction const& _t, OverlayDB db, Permanence _p, OnOpFunc const& _onOp)
 {
     // Create and initialize the executive. This will throw fairly cheaply and quickly if the
     // transaction is bad in any way.
@@ -643,7 +643,7 @@ std::pair<ExecutionResult, TransactionReceipt> State::execute(EnvInfo const& _en
         onOp = e.simpleTrace();
 
     u256 const startGasUsed = _envInfo.gasUsed();
-    bool const statusCode = executeTransaction(e, _t, onOp);
+    bool const statusCode = executeTransaction(e, _t, db, onOp);
 
     bool removeEmptyAccounts = false;
     switch (_p)
@@ -684,12 +684,12 @@ void State::executeBlockTransactions(Block const& _block, unsigned _txCount,
 
 /// @returns true when normally halted; false when exceptionally halted; throws when internal VM
 /// exception occurred.
-bool State::executeTransaction(Executive& _e, Transaction const& _t, OnOpFunc const& _onOp)
+bool State::executeTransaction(Executive& _e, Transaction const& _t, OverlayDB db, OnOpFunc const& _onOp)
 {
     size_t const savept = savepoint();
     try
     {
-        _e.initialize(_t);
+        _e.initialize(_t, db);
 
         if (!_e.execute())
             _e.go(_onOp);

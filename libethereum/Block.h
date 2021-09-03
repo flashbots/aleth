@@ -214,7 +214,7 @@ public:
     void populateFromChain(BlockChain const& _bc, h256 const& _hash);
 
     ExecutionResult executeTransactionWithWitness(LastBlockHashesWrapper const& _lh, Transaction _t,
-        Permanence _p = Permanence::Committed, OnOpFunc const& _onOp = OnOpFunc());
+        OverlayDB db, Permanence _p = Permanence::Committed, OnOpFunc const& _onOp = OnOpFunc());
     /// Execute a given transaction.
     /// This will append @a _t to the transaction list and change the state accordingly.
     ExecutionResult execute(LastBlockHashesFace const& _lh, Transaction const& _t,

@@ -902,7 +902,7 @@ ExecutionResult Block::execute(
 
     dev::OverlayDB db();
     std::pair<ExecutionResult, TransactionReceipt> resultReceipt =
-        m_state.execute(envInfo, *m_sealEngine, db, _t, _p, _onOp);
+        m_state.execute(envInfo, *m_sealEngine, _t, db, _p, _onOp);
 
     if (_p == Permanence::Committed)
     {

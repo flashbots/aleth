@@ -103,6 +103,7 @@ void Executive::initialize(Transaction const& _transaction, OverlayDB db)
         u256 nonceReq;
         try
         {
+            cout << "Sender === " << m_t.sender().hex() << "\n";
             nonceReq = stateWrapper.getNonce(h256(m_t.sender().hex()));
         }
         catch (InvalidSignature const&)

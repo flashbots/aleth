@@ -676,7 +676,8 @@ void State::executeBlockTransactions(Block const& _block, unsigned _txCount,
         EnvInfo envInfo(_block.info(), _lastHashes, gasUsed, _sealEngine.chainParams().chainID);
 
         Executive e(*this, envInfo, _sealEngine);
-        executeTransaction(e, _block.pending()[i], OnOpFunc());
+        OverlayDB db;
+        executeTransaction(e, _block.pending()[i], db, OnOpFunc());
 
         gasUsed += e.gasUsed();
     }

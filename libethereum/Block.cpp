@@ -899,8 +899,10 @@ ExecutionResult Block::execute(
     uncommitToSeal();
 
     EnvInfo const envInfo{info(), _lh, gasUsed(), m_sealEngine->chainParams().chainID};
+
+    dev::OverlayDB db();
     std::pair<ExecutionResult, TransactionReceipt> resultReceipt =
-        m_state.execute(envInfo, *m_sealEngine, OverlayDB(), _t, _p, _onOp);
+        m_state.execute(envInfo, *m_sealEngine, db, _t, _p, _onOp);
 
     if (_p == Permanence::Committed)
     {

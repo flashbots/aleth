@@ -576,9 +576,7 @@ std::string StateWrapper::getRlp(h256 address)
     cout << " Address: ---- " << address << "\n";
     std::vector<unsigned char> value = _db.lookupAux(address);
     cout << " Value: ---- ";
-    for (auto i = value.begin(); i != value.end(); ++i)
-        cout << *i;
-    cout << "\n";
     string ret(value.begin(), value.end());
+    cout << "Value ---- " << ret << "\n";
     return ret;
 }

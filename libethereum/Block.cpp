@@ -514,7 +514,7 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
         {
             // Need to find a way of get latest Blocks from the witness,
             // Maybe a pre-process of the input? TODO
-            executeTransactionWithWitness(_bc.lastBlockHashes(), tr);
+            executeTransactionWithWitness(_bc.lastBlockHashes(), tr, witnessDb);
         }
         catch (Exception& ex)
         {
@@ -863,15 +863,15 @@ u256 Block::enact(VerifiedBlockRef const& _block, BlockChain const& _bc)
     return tdIncrease;
 }
 
-ExecutionResult Block::executeTransactionWithWitness(
-    LastBlockHashesWrapper const& _lh, Transaction _t, Permanence _p, OnOpFunc const& _onOp, OverlayDB db)
+ExecutionResult Block::executeTransactionWithWitness(LastBlockHashesWrapper const& _lh,
+    Transaction _t, Permanence _p, OnOpFunc const& _onOp, OverlayDB db)
 {
-//    if (isSealed())
-//        BOOST_THROW_EXCEPTION(InvalidOperationOnSealedBlock());
-//
-//    // Uncommitting is a non-trivial operation - only do it once we've verified as much of the
-//    // transaction as possible.
-//    uncommitToSeal();
+    //    if (isSealed())
+    //        BOOST_THROW_EXCEPTION(InvalidOperationOnSealedBlock());
+    //
+    //    // Uncommitting is a non-trivial operation - only do it once we've verified as much of the
+    //    // transaction as possible.
+    //    uncommitToSeal();
 
     EnvInfo const envInfo{info(), _lh, gasUsed(), m_sealEngine->chainParams().chainID};
     std::pair<ExecutionResult, TransactionReceipt> resultReceipt =
@@ -900,7 +900,7 @@ ExecutionResult Block::execute(
 
     EnvInfo const envInfo{info(), _lh, gasUsed(), m_sealEngine->chainParams().chainID};
     std::pair<ExecutionResult, TransactionReceipt> resultReceipt =
-        m_state.execute(envInfo, *m_sealEngine, _t, _p, _onOp);
+        m_state.execute(envInfo, *m_sealEngine, OverlayDB(), _t, _p, _onOp);
 
     if (_p == Permanence::Committed)
     {

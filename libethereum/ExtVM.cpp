@@ -187,6 +187,7 @@ h256 ExtVM::blockHash(u256 _number)
     tx.forceSender(caller);
 
     ExecutionResult res;
-    std::tie(res, std::ignore) = m_s.execute(envInfo(), m_sealEngine, tx, Permanence::Reverted);
+    OverlayDB db;
+    std::tie(res, std::ignore) = m_s.execute(envInfo(), m_sealEngine, tx, db, Permanence::Reverted);
     return h256(res.output);
 }

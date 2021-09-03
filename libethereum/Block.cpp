@@ -900,7 +900,7 @@ ExecutionResult Block::execute(
 
     EnvInfo const envInfo{info(), _lh, gasUsed(), m_sealEngine->chainParams().chainID};
 
-    dev::OverlayDB db();
+    dev::OverlayDB db;
     std::pair<ExecutionResult, TransactionReceipt> resultReceipt =
         m_state.execute(envInfo, *m_sealEngine, _t, db, _p, _onOp);
 

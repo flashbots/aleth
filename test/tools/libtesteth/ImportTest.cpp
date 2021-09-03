@@ -5,6 +5,7 @@
 /// @file
 /// Helper class for managing data when running state tests
 #include <libethereum/ValidationSchemes.h>
+#include <libdevcore/OverlayDB.h>
 #include <test/tools/jsontests/BlockChainTests.h>
 #include <test/tools/libtesteth/BlockChainHelper.h>
 #include <test/tools/libtesteth/ImportTest.h>
@@ -389,7 +390,7 @@ std::tuple<eth::State, ImportTest::ExecOutput, eth::ChangeLog> ImportTest::execu
         unique_ptr<SealEngineFace> se(
             createChainParamsForNetwork(_sealEngineNetwork).createSealEngine());
         removeEmptyAccounts = m_envInfo->number() >= se->chainParams().EIP158ForkBlock;
-        Overlay db;
+        OverlayDB db;
         if (Options::get().jsontrace)
         {
             StandardTrace st{cout};

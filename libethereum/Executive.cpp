@@ -16,6 +16,8 @@
 #include <libevm/VMFactory.h>
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <iomanip>
 
 using namespace std;
 using namespace dev;
@@ -571,12 +573,29 @@ h256 StateWrapper::getCodeHash(h256 address)
     RLP state(stateBack);
     return state[3].toInt<u256>();
 }
+
+template<typename TInputIter>
+std::string make_hex_string(TInputIter first, TInputIter last, bool use_uppercase = true, bool insert_spaces = false)
+{
+    std::ostringstream ss;
+    ss << std::hex << std::setfill('0');
+    if (use_uppercase)
+        ss << std::uppercase;
+    while (first != last)
+    {
+        ss << std::setw(2) << static_cast<int>(*first++);
+        if (insert_spaces && first != last)
+            ss << " ";
+    }
+    return ss.str();
+}
+
 std::string StateWrapper::getRlp(h256 address)
 {
     cout << " Address: ---- " << address << "\n";
-    std::vector<unsigned char> value = _db.lookupAux(address);
+    bytes value = _db.lookupAux(address);
     cout << " Value: ---- ";
-    string ret(value.begin(), value.end());
+    string ret = make_hex_string(value.begin(), value.end());
     cout << "Value ---- " << ret << "\n";
     return ret;
 }

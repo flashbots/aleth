@@ -389,15 +389,16 @@ std::tuple<eth::State, ImportTest::ExecOutput, eth::ChangeLog> ImportTest::execu
         unique_ptr<SealEngineFace> se(
             createChainParamsForNetwork(_sealEngineNetwork).createSealEngine());
         removeEmptyAccounts = m_envInfo->number() >= se->chainParams().EIP158ForkBlock;
+        Overlay db;
         if (Options::get().jsontrace)
         {
             StandardTrace st{cout};
             st.setShowMnemonics();
             st.setOptions(Options::get().jsontraceOptions);
-            out = initialState.execute(_env, *se.get(), _tr, Permanence::Committed, st.onOp());
+            out = initialState.execute(_env, *se.get(), _tr, db, Permanence::Committed, st.onOp());
         }
         else
-            out = initialState.execute(_env, *se.get(), _tr, Permanence::Uncommitted);
+            out = initialState.execute(_env, *se.get(), _tr, db, Permanence::Uncommitted);
 
         if (Options::get().jsontrace || !Options::get().singleTestFile.empty())
         {

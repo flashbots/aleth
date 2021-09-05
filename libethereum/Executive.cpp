@@ -547,55 +547,35 @@ StateWrapper::StateWrapper(OverlayDB db) : _db(db) {}
 
 u256 StateWrapper::getNonce(h256 address)
 {
-    std::string stateBack = getRlp(address);
+    bytes stateBack = getRlp(address);
 
     RLP state(stateBack);
     return state[0].toInt<u256>();
 }
 u256 StateWrapper::getBalance(h256 address)
 {
-    std::string stateBack = getRlp(address);
+    bytes stateBack = getRlp(address);
 
     RLP state(stateBack);
     return state[1].toInt<u256>();
 }
 h256 StateWrapper::getStorageRoot(h256 address)
 {
-    std::string stateBack = getRlp(address);
+    bytes stateBack = getRlp(address);
 
     RLP state(stateBack);
     return state[2].toInt<u256>();
 }
 h256 StateWrapper::getCodeHash(h256 address)
 {
-    std::string stateBack = getRlp(address);
+    bytes stateBack = getRlp(address);
 
     RLP state(stateBack);
     return state[3].toInt<u256>();
 }
 
-template<typename TInputIter>
-std::string make_hex_string(TInputIter first, TInputIter last, bool use_uppercase = false, bool insert_spaces = false)
+bytes StateWrapper::getRlp(h256 address)
 {
-    std::ostringstream ss;
-    ss << std::hex << std::setfill('0');
-    if (use_uppercase)
-        ss << std::uppercase;
-    while (first != last)
-    {
-        ss << std::setw(2) << static_cast<int>(*first++);
-        if (insert_spaces && first != last)
-            ss << " ";
-    }
-    return ss.str();
-}
-
-std::string StateWrapper::getRlp(h256 address)
-{
-    cout << " Address: ---- " << address << "\n";
     bytes value = _db.lookupAux(address);
-    cout << " Value: ---- ";
-    string ret = make_hex_string(value.begin(), value.end());
-    cout << "Value ---- " << ret << "\n";
-    return "f84d43890c22698d03605e5000a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470";
+    return value;
 }

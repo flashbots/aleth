@@ -182,7 +182,7 @@ public:
     u256 getBalance(h256);
     h256 getStorageRoot(h256);
     h256 getCodeHash(h256);
-    std::string getRlp(h256);
+    bytes getRlp(h256);
 
 private:
     dev::OverlayDB _db;

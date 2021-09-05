@@ -575,7 +575,7 @@ h256 StateWrapper::getCodeHash(h256 address)
 }
 
 template<typename TInputIter>
-std::string make_hex_string(TInputIter first, TInputIter last, bool use_uppercase = true, bool insert_spaces = false)
+std::string make_hex_string(TInputIter first, TInputIter last, bool use_uppercase = false, bool insert_spaces = false)
 {
     std::ostringstream ss;
     ss << std::hex << std::setfill('0');

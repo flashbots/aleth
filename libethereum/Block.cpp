@@ -462,7 +462,7 @@ BlockChainWrapper Block::GetBlockChainWrapper(
 {
     // TODO Ask Tomasz about what should be the value of AccountStartNonce (Not complete sure about
     // the value)
-    State temp(0, witnessDb);
+    State temp(495, witnessDb);
     m_state = temp;
     BlockChainWrapper _bc = BlockChainWrapper(witnessDb, previousBlocks, genesis);
     return _bc;
@@ -514,7 +514,7 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
         {
             // Need to find a way of get latest Blocks from the witness,
             // Maybe a pre-process of the input? TODO
-            executeTransactionWithWitness(_bc.lastBlockHashes(), tr, witnessDb);
+            executeTransactionWithWitness(_bc.lastBlockHashes(), tr);
         }
         catch (Exception& ex)
         {
@@ -863,19 +863,19 @@ u256 Block::enact(VerifiedBlockRef const& _block, BlockChain const& _bc)
     return tdIncrease;
 }
 
-ExecutionResult Block::executeTransactionWithWitness(LastBlockHashesWrapper const& _lh,
-    Transaction _t, OverlayDB db, Permanence _p, OnOpFunc const& _onOp)
+ExecutionResult Block::executeTransactionWithWitness(
+    LastBlockHashesWrapper const& _lh, Transaction _t, Permanence _p, OnOpFunc const& _onOp)
 {
-    //    if (isSealed())
-    //        BOOST_THROW_EXCEPTION(InvalidOperationOnSealedBlock());
-    //
-    //    // Uncommitting is a non-trivial operation - only do it once we've verified as much of the
-    //    // transaction as possible.
-    //    uncommitToSeal();
+//    if (isSealed())
+//        BOOST_THROW_EXCEPTION(InvalidOperationOnSealedBlock());
+//
+//    // Uncommitting is a non-trivial operation - only do it once we've verified as much of the
+//    // transaction as possible.
+//    uncommitToSeal();
 
     EnvInfo const envInfo{info(), _lh, gasUsed(), m_sealEngine->chainParams().chainID};
     std::pair<ExecutionResult, TransactionReceipt> resultReceipt =
-        m_state.execute(envInfo, *m_sealEngine, _t, db, _p, _onOp);
+        m_state.execute(envInfo, *m_sealEngine, _t, _p, _onOp);
 
     if (_p == Permanence::Committed)
     {
@@ -899,10 +899,8 @@ ExecutionResult Block::execute(
     uncommitToSeal();
 
     EnvInfo const envInfo{info(), _lh, gasUsed(), m_sealEngine->chainParams().chainID};
-
-    dev::OverlayDB db;
     std::pair<ExecutionResult, TransactionReceipt> resultReceipt =
-        m_state.execute(envInfo, *m_sealEngine, _t, db, _p, _onOp);
+        m_state.execute(envInfo, *m_sealEngine, _t, _p, _onOp);
 
     if (_p == Permanence::Committed)
     {

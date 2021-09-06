@@ -7,7 +7,6 @@
 #include "Transaction.h"
 #include <libdevcore/Log.h>
 #include <libethcore/Common.h>
-#include <libdevcore/OverlayDB.h>
 #include <libevm/ExtVMFace.h>
 #include <functional>
 
@@ -15,16 +14,15 @@ namespace dev
 {
 
 class OverlayDB;
-class RLP;
 
 namespace eth
 {
+
 class State;
 class Block;
 class BlockChain;
 class ExtVM;
 class SealEngineFace;
-class StateWrapper;
 struct Manifest;
 
 /**
@@ -78,7 +76,6 @@ public:
     /// Initializes the executive for evaluating a transaction. You must call finalize() at some point following this.
     void initialize(bytesConstRef _transaction) { initialize(Transaction(_transaction, CheckTransaction::None)); }
     void initialize(Transaction const& _transaction);
-    void initialize(Transaction const& _transaction, OverlayDB db);
     /// Finalise a transaction previously set up with initialize().
     /// @warning Only valid after initialize() and execute(), and possibly go().
     /// @returns true if the outermost execution halted normally, false if exceptionally halted.
@@ -173,19 +170,5 @@ private:
     Logger m_vmTraceLogger{createLogger(VerbosityTrace, "vmtrace")};
 };
 
-class StateWrapper{
-
-public:
-    StateWrapper(OverlayDB);
-
-    u256 getNonce(h256);
-    u256 getBalance(h256);
-    h256 getStorageRoot(h256);
-    h256 getCodeHash(h256);
-    bytes getRlp(h256);
-
-private:
-    dev::OverlayDB _db;
-};
 }
 }

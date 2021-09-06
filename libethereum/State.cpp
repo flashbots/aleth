@@ -26,9 +26,9 @@ State::State(u256 const& _accountStartNonce, OverlayDB const& _db, BaseState _bs
     if (_bs != BaseState::PreExisting)
         // Initialise to the state entailed by the genesis block; this guarantees the trie is built
         // correctly.
-        m_state.init();
-    else
-        m_state.init();
+        cout << "Passing over here \n";
+//        m_state.init();
+    m_state.init();
 }
 
 State::State(State const& _s)
@@ -169,7 +169,6 @@ Account* State::account(Address const& _addr)
     if (m_nonExistingAccountsCache.count(_addr))
         return nullptr;
 
-    cout << _addr << "\n";
     // Populate basic info.
     string stateBack = m_state.at(_addr);
     if (stateBack.empty())
@@ -630,7 +629,7 @@ void State::rollback(size_t _savepoint)
 }
 
 std::pair<ExecutionResult, TransactionReceipt> State::execute(EnvInfo const& _envInfo,
-    SealEngineFace const& _sealEngine, Transaction const& _t, OverlayDB db, Permanence _p, OnOpFunc const& _onOp)
+    SealEngineFace const& _sealEngine, Transaction const& _t, Permanence _p, OnOpFunc const& _onOp)
 {
     // Create and initialize the executive. This will throw fairly cheaply and quickly if the
     // transaction is bad in any way.
@@ -643,7 +642,7 @@ std::pair<ExecutionResult, TransactionReceipt> State::execute(EnvInfo const& _en
         onOp = e.simpleTrace();
 
     u256 const startGasUsed = _envInfo.gasUsed();
-    bool const statusCode = executeTransaction(e, _t, db, onOp);
+    bool const statusCode = executeTransaction(e, _t, onOp);
 
     bool removeEmptyAccounts = false;
     switch (_p)
@@ -676,8 +675,7 @@ void State::executeBlockTransactions(Block const& _block, unsigned _txCount,
         EnvInfo envInfo(_block.info(), _lastHashes, gasUsed, _sealEngine.chainParams().chainID);
 
         Executive e(*this, envInfo, _sealEngine);
-        OverlayDB db;
-        executeTransaction(e, _block.pending()[i], db, OnOpFunc());
+        executeTransaction(e, _block.pending()[i], OnOpFunc());
 
         gasUsed += e.gasUsed();
     }
@@ -685,12 +683,12 @@ void State::executeBlockTransactions(Block const& _block, unsigned _txCount,
 
 /// @returns true when normally halted; false when exceptionally halted; throws when internal VM
 /// exception occurred.
-bool State::executeTransaction(Executive& _e, Transaction const& _t, OverlayDB db, OnOpFunc const& _onOp)
+bool State::executeTransaction(Executive& _e, Transaction const& _t, OnOpFunc const& _onOp)
 {
     size_t const savept = savepoint();
     try
     {
-        _e.initialize(_t, db);
+        _e.initialize(_t);
 
         if (!_e.execute())
             _e.go(_onOp);

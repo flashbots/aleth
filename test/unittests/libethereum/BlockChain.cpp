@@ -4528,6 +4528,7 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
     for (int i = 0; (unsigned)i < rlps.size(); i++)
     {
         Block blockOld(rlps[i]);
+        cout << "Process block number: " << i << " \n";
         BOOST_REQUIRE(blockOld.info().number() == blockNumber - i - 1);
         VerifiedBlockRef blockRefOld;
         blockRefOld.info = blockOld.info();
@@ -4547,11 +4548,11 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
     bytes valueBytes = fromHex(
         "f84d6189031c5a9e98c638deb0a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b4"
         "21a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470");
-    odb.insertAux(h256("d0aedab61b09d85fbbfaa0d3bd9797c1c13dd5af"), &valueBytes);
+    odb.insertAux(h256("0xd0aedab61b09d85fbbfaa0d3bd9797c1c13dd5af"), &valueBytes);
     valueBytes = fromHex(
         "f84d43890c22698d03605e5000a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b4"
         "21a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470");
-    odb.insertAux(h256("28a0e7b63f86a8aef8d5992cc9683840347a190a"), &valueBytes);
+    odb.insertAux(h256("0x28a0e7b63f86a8aef8d5992cc9683840347a190a"), &valueBytes);
 
     testBlock.ExecuteWithWitness(blockRef, odb, blockRefs, h256());
 }

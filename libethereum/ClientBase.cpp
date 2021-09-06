@@ -41,8 +41,7 @@ std::pair<u256, ExecutionResult> ClientBase::estimateGas(Address const& _from, u
             EnvInfo const env(bk.info(), bc().lastBlockHashes(), 0, mid);
             State tempState(bk.state());
             tempState.addBalance(_from, (u256)(t.gas() * t.gasPrice() + t.value()));
-            OverlayDB db;
-            er = tempState.execute(env, *bc().sealEngine(), t, db, Permanence::Reverted).first;
+            er = tempState.execute(env, *bc().sealEngine(), t, Permanence::Reverted).first;
             if (er.excepted == TransactionException::OutOfGas ||
                 er.excepted == TransactionException::OutOfGasBase ||
                 er.excepted == TransactionException::OutOfGasIntrinsic ||
@@ -131,7 +130,7 @@ LocalisedLogEntries ClientBase::logs(LogFilter const& _f) const
     LocalisedLogEntries ret;
     unsigned begin = min(bc().number() + 1, (unsigned)numberFromHash(_f.latest()));
     unsigned end = min(bc().number(), min(begin, (unsigned)numberFromHash(_f.earliest())));
-
+    
     // Handle pending transactions differently as they're not on the block chain.
     if (begin > bc().number())
     {
@@ -242,13 +241,13 @@ bool ClientBase::uninstallWatch(unsigned _i)
     LOG(m_loggerWatch) << "XXX" << _i;
 
     Guard l(x_filtersWatches);
-
+    
     auto it = m_watches.find(_i);
     if (it == m_watches.end())
         return false;
     auto id = it->second.id;
     m_watches.erase(it);
-
+    
     auto fit = m_filters.find(id);
     if (fit != m_filters.end())
         if (!--fit->second.refCount)
@@ -346,7 +345,7 @@ LocalisedTransactionReceipt ClientBase::localisedTransactionReceipt(h256 const& 
         tl.first,
         numberFromHash(tl.first),
         t.from(),
-        t.to(),
+        t.to(), 
         tl.second,
         gasUsed,
         toAddress(t.from(), t.nonce()));

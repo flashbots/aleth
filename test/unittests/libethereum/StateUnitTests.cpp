@@ -13,6 +13,7 @@
 
 using namespace std;
 using namespace dev;
+using namespace dev::db;
 using namespace dev::eth;
 
 namespace dev
@@ -243,8 +244,8 @@ BOOST_AUTO_TEST_CASE(StateSetRootTest)
     State test(0, odb);
     test.setRoot(h256("0xbc4da42c51a54602e97563f49e236495284a4efdd4514d2de45f25b6f1ffd5a8"));
 
-    Address* addr{"0xfbb1b73c4f0bda4f67dca266ce6ef42f520fbb98"};
-    BOOST_CHECK(test.getNonce(addr) > 10)
+    Address addr{"fbb1b73c4f0bda4f67dca266ce6ef42f520fbb98"};
+    BOOST_CHECK(test.getNonce(&addr) > 10)
 }
 
 BOOST_AUTO_TEST_CASE(SetEmptyCodeNonZeroVersion)

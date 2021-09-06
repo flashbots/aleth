@@ -512,8 +512,6 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
     {
         try
         {
-            // Need to find a way of get latest Blocks from the witness,
-            // Maybe a pre-process of the input? TODO
             executeTransactionWithWitness(_bc.lastBlockHashes(), tr);
         }
         catch (Exception& ex)

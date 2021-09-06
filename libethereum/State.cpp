@@ -163,6 +163,7 @@ Account const* State::account(Address const& _a) const
 
 Account* State::account(Address const& _addr)
 {
+    cout << "Trying to get the account\n";
     auto it = m_cache.find(_addr);
     if (it != m_cache.end())
         return &it->second;
@@ -433,8 +434,10 @@ u256 State::getNonce(Address const& _addr) const
 {
     if (auto a = account(_addr))
         return a->nonce();
-    else
+    else {
+        cout << "Didn't find account \n";
         return m_accountStartNonce;
+    }
 }
 
 u256 State::storage(Address const& _id, u256 const& _key) const

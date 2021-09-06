@@ -3869,7 +3869,6 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
     for (int i = 0; (unsigned)i < rlps.size(); i++)
     {
         Block blockOld(rlps[i]);
-        cout << "Process block number: " << i << " \n";
         BOOST_REQUIRE(blockOld.info().number() == blockNumber - i - 1);
         VerifiedBlockRef blockRefOld;
         blockRefOld.info = blockOld.info();

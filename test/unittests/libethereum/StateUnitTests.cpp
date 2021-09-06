@@ -242,8 +242,10 @@ BOOST_AUTO_TEST_CASE(StateSetRootTest)
         h256("0x45f97b36dd902edb23c07c25656410f67bda6a7fd8eadb0de59b5d8027d666ba"), &valueBytes);
 
     State test(0, odb);
+    cout << "Setting the root \n";
     test.setRoot(h256("0xbc4da42c51a54602e97563f49e236495284a4efdd4514d2de45f25b6f1ffd5a8"));
 
+    cout << "Already set the root\n";
     Address addr{"fbb1b73c4f0bda4f67dca266ce6ef42f520fbb98"};
     BOOST_CHECK(test.getNonce(addr) > 10);
 }

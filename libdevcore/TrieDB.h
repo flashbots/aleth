@@ -11,6 +11,8 @@
 #include "SHA3.h"
 #include "TrieCommon.h"
 
+using namespace std;
+
 namespace dev
 {
 
@@ -54,14 +56,19 @@ public:
     void setRoot(h256 const& _root, Verification _v = Verification::Normal)
     {
         m_root = _root;
+        cout << m_root << " -------\n";
         if (_v == Verification::Normal)
         {
+            cout << " for here 1\n";
             if (m_root == EmptyTrie && !m_db->exists(m_root))
                 init();
         }
         if (_v == Verification::Normal)
+        {
+            cout << " for here 2\n";
             if (!node(m_root).size())
                 BOOST_THROW_EXCEPTION(RootNotFound());
+        }
     }
 
     /// True if the trie is uninitialised (i.e. that the DB doesn't contain the root node).

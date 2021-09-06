@@ -3868,12 +3868,12 @@ BOOST_AUTO_TEST_CASE(load_block_from_rlp)
     std::vector<VerifiedBlockRef> blockRefs;
     for (int i = 0; (unsigned)i < rlps.size(); i++)
     {
-        Block blockOld(rlps[i]);
-        BOOST_REQUIRE(blockOld.info().number() == blockNumber - i - 1);
+        Block oldBlock(rlps[i]);
+        BOOST_REQUIRE(oldBlock.info().number() == blockNumber - i - 1);
         VerifiedBlockRef blockRefOld;
-        blockRefOld.info = blockOld.info();
+        blockRefOld.info = oldBlock.info();
         //    blockRef.block = importByteArray(rlp);
-        blockRefOld.transactions = blockOld.pending();
+        blockRefOld.transactions = oldBlock.pending();
         blockRefs.push_back(blockRefOld);
     }
     BOOST_REQUIRE(blockRef.info.number() == blockNumber);

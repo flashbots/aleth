@@ -460,10 +460,8 @@ u256 Block::enactOn(VerifiedBlockRef const& _block, BlockChain const& _bc)
 BlockChainWrapper Block::GetBlockChainWrapper(
     OverlayDB witnessDb, vector<VerifiedBlockRef> previousBlocks, h256 genesis)
 {
-    // TODO Ask Tomasz about what should be the value of AccountStartNonce (Not complete sure about
-    // the value)
-    State temp(256, witnessDb);
-    m_state = temp;
+    State state(0, witnessDb, genesis);
+    m_state = state;
     BlockChainWrapper _bc = BlockChainWrapper(witnessDb, previousBlocks, genesis);
     return _bc;
     // Need update previous block something like, need get the data from the witness:

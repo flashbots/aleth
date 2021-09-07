@@ -276,7 +276,7 @@ private:
     bool isTwoItemNode(RLP const& _n) const;
     std::string deref(RLP const& _n) const;
 
-    std::string node(h256 const& _h) const { return m_db->lookupAuxStr(_h); }
+    std::string node(h256 const& _h) const { return m_db->lookup(_h); }
 
     // These are low-level node insertion functions that just go straight through into the DB.
     h256 forceInsertNode(bytesConstRef _v) { auto h = sha3(_v); forceInsertNode(h, _v); return h; }

@@ -258,7 +258,7 @@ BOOST_AUTO_TEST_CASE(StateSetRootTest)
     Block block(rlp);
     State test(0, odb);
     cout << "Setting the root \n";
-    test.setRoot(block.stateRootBeforeTx(0));
+    test.setRoot(sha3("0xbc4da42c51a54602e97563f49e236495284a4efdd4514d2de45f25b6f1ffd5a8"));
 
     cout << "Already set the root\n";
     Address addr{"fbb1b73c4f0bda4f67dca266ce6ef42f520fbb98"};

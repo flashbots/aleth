@@ -100,6 +100,21 @@ bytes OverlayDB::lookupAux(h256 const& _h) const
     return asBytes(v);
 }
 
+std::string OverlayDB::lookupAuxStr(h256 const& _h) const
+{
+    bytes ret = StateCacheDB::lookupAux(_h);
+    if (!ret.empty() || !m_db)
+        return asString(ret);
+
+    bytes b = _h.asBytes();
+    b.push_back(255);   // for aux
+    std::string const v = m_db->lookup(toSlice(b));
+    if (v.empty())
+        cwarn << "Aux not found: " << _h;
+
+    return v;
+}
+
 void OverlayDB::rollback()
 {
 #if DEV_GUARDED_DB

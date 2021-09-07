@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE(StateSetRootTest)
         "5f8637a7ca4f15b66832bca1f5d130a0976f8be12bf9d64b02da5df38a631bda7052ea05a8e789fcfd1d16f21d"
         "341b35a0d5f52284d31ba2841b854af70c0f589b05177052c0c154cdac57ea687f6632b080");
     odb.insertAux(
-        sha3("0xbc4da42c51a54602e97563f49e236495284a4efdd4514d2de45f25b6f1ffd5a8"), &valueBytes);
+        h256{"0xbc4da42c51a54602e97563f49e236495284a4efdd4514d2de45f25b6f1ffd5a8"}, &valueBytes);
     valueBytes = fromHex(
         "f90211a05bb628177c51d51037059156bc38749b184010b19cfb2bccf2984c035c7ca4dda0de7e2901f1149a8b"
         "d665b7c533eebb5bf4b693800f92d5e6e5780cf7ec1103dba0534c416a7c0a6bd3b91cfb29440aa6c4b0075f8b"
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE(StateSetRootTest)
         "8725accabe1b4450aafeb4d3501319a0e41a03dd53a8831ea93f52f719caf26c7de8f4bbb8470f437eda754c6e"
         "bf748aa08c374d9655045bf8a0f62996d5d2ce6683be819fd24b455aa8a9dfaf273eda7780");
     odb.insertAux(
-        sha3("0x0cd280b8354ecf96060702eba54ca02112ed8e46abc4968caa27756cda7aba22"), &valueBytes);
+        h256{"0x0cd280b8354ecf96060702eba54ca02112ed8e46abc4968caa27756cda7aba22"}, &valueBytes);
     valueBytes = fromHex(
         "f90211a04c502308723955334eae281a825a0bc4cc9199cf7efe6e88b9a76be41d3729d0a079e239bfa186a7c4"
         "2b68aba4e9e42d6899148a4de0d7a1a7f657ed5137b59fcca0b8865e7852fa2a54d7101bd79570e8e279acc0fc"
@@ -141,20 +141,20 @@ BOOST_AUTO_TEST_CASE(StateSetRootTest)
         "87c0c567f6577f39fb8b5ea3a92677a0b407375cdb6af7783f976238230ad494b6e07b7263c0b1e8176b22d0ad"
         "e5b35aa06aae033c38b9b0e7c8407410fbf99ec2b554e016a6bc182e3a47ee097876a6b080");
     odb.insertAux(
-        sha3("0x63c479ab438d6ff07a95644478048d02668725accabe1b4450aafeb4d3501319"), &valueBytes);
+        h256{"0x63c479ab438d6ff07a95644478048d02668725accabe1b4450aafeb4d3501319"}, &valueBytes);
     valueBytes = fromHex(
         "f891808080a0208ffdee9912762dce630a8274550d83ee931de1f5d91945d3f64451e9f57b908080a0044c21be"
         "c02b96201e05b104f6c18a9fff309236d14a217d8675d1375a3ebc88a010973a3632910c50a255e8ff10f827d9"
         "25ffd19c8607859544bc5d597282803580a0aa98138a6a7a7e1b77edf735cf1ae4dc4df7fd86a9d5d8c3b184f8"
         "0ce87f1d2080808080808080");
     odb.insertAux(
-        sha3("0xb8865e7852fa2a54d7101bd79570e8e279acc0fc20f26dfe5a95e6f901a5a00f"), &valueBytes);
+        h256{"0xb8865e7852fa2a54d7101bd79570e8e279acc0fc20f26dfe5a95e6f901a5a00f"}, &valueBytes);
     valueBytes = fromHex(
         "f8749f2083c03ce0b55c830c915be63e218bc20ad607e774fe830315146a47a6bc75b852f8508201ef8a13884d"
         "700f7cea738f17a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d24601"
         "86f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470");
     odb.insertAux(
-        sha3("0x208ffdee9912762dce630a8274550d83ee931de1f5d91945d3f64451e9f57b90"), &valueBytes);
+        h256{"0x208ffdee9912762dce630a8274550d83ee931de1f5d91945d3f64451e9f57b90"}, &valueBytes);
     valueBytes = fromHex(
         "f90211a08aefa559db8519ef6990d4ec4926f38832f994ecc52c0c8db3647bb10a07f750a06f2eff35c9bdf856"
         "8105a98a969b0b1bf567330d1666cefc4d64aa55203404f0a05b1f3e4b64ae3955e39846c845f21f94a71fa38c"
@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_CASE(StateSetRootTest)
         "c370aa516f24ffad4a6c20c34b26aaa0e04cc02856f81fab0368368c8de5394b7e8e840dc6072009b2a1fcb5be"
         "0f81f6a0fdcfad86e1a0648afb8681166d0706d3fdb808437a596b20f86d4aefc25058e080");
     odb.insertAux(
-        sha3("0xdd2fb81d97f565eb14cf0172ca3f4e79711804178adce020c45bd51e44065f77"), &valueBytes);
+        h256{"0xdd2fb81d97f565eb14cf0172ca3f4e79711804178adce020c45bd51e44065f77"}, &valueBytes);
     valueBytes = fromHex(
         "f90211a05a959eb3c42a1cf362d5b922934439310840ad23f4e0fc42649542e3a9c75c1da0071dc96890977be0"
         "280a52a27f7e746e24d2353df8caf99d36b09029c4704ce4a066d634eda8a94ad69bad9642473ccad235b85c1d"
@@ -184,14 +184,14 @@ BOOST_AUTO_TEST_CASE(StateSetRootTest)
         "26f55e058b41769d004965d35278cba0799f350e70e4fd7a0462bb089c3da811d9ec8943716f150edd4b6e09d9"
         "502ae4a0322d430a8ec0223a3971997513554bdc43db0a4b0570f6d257b32ae345cd143380");
     odb.insertAux(
-        sha3("0x96bdd03dcabf36f1e930dd0459aa1c056bc370aa516f24ffad4a6c20c34b26aa"), &valueBytes);
+        h256{"0x96bdd03dcabf36f1e930dd0459aa1c056bc370aa516f24ffad4a6c20c34b26aa"}, &valueBytes);
     valueBytes = fromHex(
         "f89180808080808080a0e0d591322c0bf95c92b1ca958bc78dfabb2276d751c2d77a77e9029056e14de180a0c9"
         "379825c422eebbfe47962472482f90997d3a9f9d5d66ed40a07a03368d776ba0391efd69111c636706b144b0fe"
         "be9c4c40e34453cb59f1e85cff0812cd784c0180a060ef5cfed04275d55724081d388b3d36d12e661ea96d3c79"
         "ee92048a4d55b81680808080");
     odb.insertAux(
-        sha3("0x5a959eb3c42a1cf362d5b922934439310840ad23f4e0fc42649542e3a9c75c1d"), &valueBytes);
+        h256{"0x5a959eb3c42a1cf362d5b922934439310840ad23f4e0fc42649542e3a9c75c1d"}, &valueBytes);
     valueBytes = fromHex(
         "f90211a0237cf50605b17be42ad83914204158eee344b6c1fb471a7e3bcd6f4ba6c35aa1a0a0e4a692227359be"
         "f80b39a637439a03d4e302fd210cbd64665e7ee2fcd632b1a053bba9baa0b1713099c96329b18843a3f850374c"
@@ -206,7 +206,7 @@ BOOST_AUTO_TEST_CASE(StateSetRootTest)
         "fce2261335dabe77c0afb70161dd81a0ed9050ae68ec78afccca4a659d7e5bc994a29369ff4860eb48ee7ee22e"
         "bfdde4a0e0535dc0cb928846619a29b7c727e849931f335bc31db9cee08c3bffc5db9d0080");
     odb.insertAux(
-        sha3("0xb468e2fc9424bf8bcf64cc3100123f6ddb417c4678736211d9dc315d0fdae53e"), &valueBytes);
+        h256{"0xb468e2fc9424bf8bcf64cc3100123f6ddb417c4678736211d9dc315d0fdae53e"}, &valueBytes);
     valueBytes = fromHex(
         "f90211a0fe58ebbf1b3967e59caaf962aa5149fc6f73de8824005902d385a0a9f10a7e59a0fcd91bb862a83f1d"
         "6f12a4cf71be5f29374e0eaf93d8c806298d798547fe075fa0dc13694e325490027df153d7d359a57fa4d2e20e"
@@ -221,25 +221,25 @@ BOOST_AUTO_TEST_CASE(StateSetRootTest)
         "3c252b5ca6284111a9bbd69babcfc2a01caafbe33b5dd92147a30523c42ece802664f72db7cc81be1f6b765ed4"
         "75e960a05b6683eeef3fb246da89e3773d4b2e0c4d65ad9ef5484396918d55372271673a80");
     odb.insertAux(
-        sha3("0x9eb56b480144ab26072a6dc13b959715757a4a8e9f6aa5d24fe421c7d22107c7"), &valueBytes);
+        h256{"0x9eb56b480144ab26072a6dc13b959715757a4a8e9f6aa5d24fe421c7d22107c7"}, &valueBytes);
     valueBytes = fromHex(
         "f8b1808080a0147106df653127b1633f2192c27b5565c742873a72d8fd4baea5781e06ab949580808080a050bf"
         "8d407a0638955a89b2cb1c0237a0b8e561f9dcab89c638a204a823a23a3f80a01c626bae0d4a3bbc67251b097e"
         "cdc46f099b045d06077ca13c1351feaf21a97480a0569a8ad3fa1f34dcffa2eac7fea3237912372f00a5c9e156"
         "9e0fcafe970a945080a0b4937c33bc00f4b5119a267a02117bafee772f8a08a448b751bf47fae879a4818080");
     odb.insertAux(
-        sha3("0x047be678b8d6e4540dc37e192ebfadbfbde5e9a3835d1a8e087429d6455de593"), &valueBytes);
+        h256{"0x047be678b8d6e4540dc37e192ebfadbfbde5e9a3835d1a8e087429d6455de593"}, &valueBytes);
     valueBytes = fromHex(
         "f85180808080a045f97b36dd902edb23c07c25656410f67bda6a7fd8eadb0de59b5d8027d666ba8080808080a0"
         "040a878d39e577a175308d815d07eedb77e3b75c1e5ca7f22ee3cdf3f5d8ba14808080808080");
     odb.insertAux(
-        sha3("0xb4937c33bc00f4b5119a267a02117bafee772f8a08a448b751bf47fae879a481"), &valueBytes);
+        h256{"0xb4937c33bc00f4b5119a267a02117bafee772f8a08a448b751bf47fae879a481"}, &valueBytes);
     valueBytes = fromHex(
         "f8729e3236a9a856bf5bed4d5dbd59e1c6194206269ddd1402847d2c38d3721fabb851f84f8240f1898bce2ec2"
         "48cc449cf7a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7"
         "233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470");
     odb.insertAux(
-        sha3("0x45f97b36dd902edb23c07c25656410f67bda6a7fd8eadb0de59b5d8027d666ba"), &valueBytes);
+        h256{"0x45f97b36dd902edb23c07c25656410f67bda6a7fd8eadb0de59b5d8027d666ba"}, &valueBytes);
 
     std::string rlp =
         "f9021af90215a0abec7af08dfaf663ff46e645eab70a168e82a03a227cbcaccba9e455d1e42522a01dcc4de8de"
@@ -256,13 +256,13 @@ BOOST_AUTO_TEST_CASE(StateSetRootTest)
         "7578a00ae8d616f3aad20be71ec927e731b4202f24ed0e88f8a35422fb6d15fa5c2d1088f54d19221bacb6b4c0"
         "c0";
     Block block(rlp);
-    State test(0, odb);
     cout << "Setting the root \n";
-    test.setRoot(sha3("0xbc4da42c51a54602e97563f49e236495284a4efdd4514d2de45f25b6f1ffd5a8"));
+    State state(0, odb, h256{"0xbc4da42c51a54602e97563f49e236495284a4efdd4514d2de45f25b6f1ffd5a8"});
+//    state.setRoot(h256{"0xbc4da42c51a54602e97563f49e236495284a4efdd4514d2de45f25b6f1ffd5a8"});
 
     cout << "Already set the root\n";
     Address addr{"fbb1b73c4f0bda4f67dca266ce6ef42f520fbb98"};
-    BOOST_CHECK(test.getNonce(addr) > 10);
+    BOOST_CHECK(state.getNonce(addr) > 10);
 }
 
 BOOST_AUTO_TEST_CASE(SetEmptyCodeNonZeroVersion)

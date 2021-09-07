@@ -35,7 +35,8 @@ StateCacheDB& StateCacheDB::operator=(StateCacheDB const& _c)
     return *this;
 }
 
-std::string StateCacheDB::lookup(h256 const& _h) const
+std::string
+StateCacheDB::lookup(h256 const& _h) const
 {
 #if DEV_GUARDED_DB
     ReadGuard l(x_this);
@@ -102,6 +103,17 @@ bytes StateCacheDB::lookupAux(h256 const& _h) const
     if (it != m_aux.end() && (!m_enforceRefs || it->second.second))
         return it->second.first;
     return bytes();
+}
+
+std::string StateCacheDB::lookupAuxStr(h256 const& _h) const
+{
+#if DEV_GUARDED_DB
+    ReadGuard l(x_this);
+#endif
+    auto it = m_aux.find(_h);
+    if (it != m_aux.end() && (!m_enforceRefs || it->second.second))
+        return asString(it->second.first);
+    return "";
 }
 
 void StateCacheDB::removeAux(h256 const& _h)

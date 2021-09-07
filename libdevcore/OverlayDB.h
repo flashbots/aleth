@@ -40,6 +40,7 @@ public:
 	void kill(h256 const& _h);
 
 	bytes lookupAux(h256 const& _h) const;
+	std::string lookupAuxStr(h256 const& _h) const;
 
 private:
 	using StateCacheDB::clear;

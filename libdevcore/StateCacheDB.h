@@ -35,6 +35,7 @@ public:
     void purge();
 
     bytes lookupAux(h256 const& _h) const;
+    std::string lookupAuxStr(h256 const& _h) const;
     void removeAux(h256 const& _h);
     void insertAux(h256 const& _h, bytesConstRef _v);
 

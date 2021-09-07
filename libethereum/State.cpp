@@ -32,6 +32,12 @@ State::State(u256 const& _accountStartNonce, OverlayDB const& _db, BaseState _bs
         m_state.init();
 }
 
+State::State(u256 const& _accountStartNonce, OverlayDB const& _db, h256 root)
+  : m_db(_db), m_state(&m_db), m_accountStartNonce(_accountStartNonce)
+{
+        m_state.setRoot(root);
+}
+
 State::State(State const& _s)
   : m_db(_s.m_db),
     m_state(&m_db, _s.m_state.root(), Verification::Skip),

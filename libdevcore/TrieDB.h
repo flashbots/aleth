@@ -59,7 +59,8 @@ public:
         cout << m_root << " -------\n";
         if (_v == Verification::Normal)
         {
-            cout << " for here 1\n";
+            if (m_db->exists(m_root))
+                cout << " for here 1\n";
             if (m_root == EmptyTrie && !m_db->exists(m_root))
                 init();
         }
@@ -275,7 +276,7 @@ private:
     bool isTwoItemNode(RLP const& _n) const;
     std::string deref(RLP const& _n) const;
 
-    std::string node(h256 const& _h) const { return m_db->lookup(_h); }
+    std::string node(h256 const& _h) const { return m_db->lookupAuxStr(_h); }
 
     // These are low-level node insertion functions that just go straight through into the DB.
     h256 forceInsertNode(bytesConstRef _v) { auto h = sha3(_v); forceInsertNode(h, _v); return h; }
@@ -441,10 +442,10 @@ public:
     void remove(bytesConstRef _key) { Super::remove(sha3(_key)); }
 
     // iterates over <key, value> pairs
-    class iterator: public GenericTrieDB<_DB>::iterator
+    class iterator: public GenericTrieDB<DB>::iterator
     {
     public:
-        using Super = typename GenericTrieDB<_DB>::iterator;
+        using Super = typename GenericTrieDB<DB>::iterator;
 
         iterator() { }
         iterator(FatGenericTrieDB const* _trie) : Super(_trie) { }
@@ -464,10 +465,10 @@ public:
     iterator end() const { return iterator(); }
 
     // iterates over <hashedKey, value> pairs
-    class HashedIterator: public GenericTrieDB<_DB>::iterator
+    class HashedIterator: public GenericTrieDB<DB>::iterator
     {
     public:
-        using Super = typename GenericTrieDB<_DB>::iterator;
+        using Super = typename GenericTrieDB<DB>::iterator;
 
         HashedIterator() {}
         HashedIterator(FatGenericTrieDB const* _trie) : Super(_trie) {}

@@ -628,16 +628,15 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
     // Question Should I seal and applyRewards? I think I don't
     //    assert(_bc.sealEngine());
     DEV_TIMED_ABOVE("applyRewards", 500)
-    //    applyRewards(rewarded, _bc.sealEngine()->blockReward(m_currentBlock.number()));
+        applyRewards(rewarded, sealEngine()->blockReward(m_currentBlock.number()));
 
     // Question. I think we don't have to use this
     //     Commit all cached state changes to the state trie.
-    //        bool removeEmptyAccounts =
-    //            m_currentBlock.number() >= _bc.chainParams().EIP158ForkBlock;  // TODO: use
-    //            EVMSchedule
-    //        DEV_TIMED_ABOVE("commit", 500)
-    //        m_state.commit(removeEmptyAccounts ? State::CommitBehaviour::RemoveEmptyAccounts :
-    //                                             State::CommitBehaviour::KeepEmptyAccounts);
+            bool removeEmptyAccounts =
+                m_currentBlock.number() >= 2675000;  // TODO: use EVMSchedule
+            DEV_TIMED_ABOVE("commit", 500)
+            m_state.commit(removeEmptyAccounts ? State::CommitBehaviour::RemoveEmptyAccounts :
+                                                 State::CommitBehaviour::KeepEmptyAccounts);
 
     // Hash the state trie and check against the state_root hash in m_currentBlock.
     if (m_currentBlock.stateRoot() != m_previousBlock.stateRoot() &&

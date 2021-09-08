@@ -1,0 +1,19 @@
+# stage 1 build
+FROM ubuntu:18.04 AS base-image
+
+RUN apt update && apt install -y g++ gcc cmake 
+
+ADD . /src
+RUN mkdir -p /src/build \
+ && cd /src/build \
+ && cmake .. \
+ && cmake --build . \
+ && make
+
+# stage2 get binaries
+FROM ubuntu:18.04
+
+RUN apt install libstdc++
+
+WORKDIR /src/
+COPY --from=base-image /src .

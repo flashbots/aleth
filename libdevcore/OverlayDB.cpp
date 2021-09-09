@@ -125,11 +125,9 @@ void OverlayDB::rollback()
 
 std::string OverlayDB::lookup(h256 const& _h) const
 {
-    std::cout << _h << " ------ lookup \n";
     std::string ret = StateCacheDB::lookup(_h);
     if (!ret.empty() || !m_db)
         return ret;
-    std::cout << "We have values!!!!\n";
     return m_db->lookup(toSlice(_h));
 }
 

@@ -24,7 +24,4 @@ namespace bi = ba::ip;
 
 BOOST_AUTO_TEST_SUITE(network)
 
-BOOST_FIXTURE_TEST_SUITE(net, TestOutputHelperFixture)
-
-BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()

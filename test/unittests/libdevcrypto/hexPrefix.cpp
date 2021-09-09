@@ -20,7 +20,4 @@ namespace js = json_spirit;
 
 BOOST_AUTO_TEST_SUITE(Crypto)
 
-BOOST_FIXTURE_TEST_SUITE(Basic, TestOutputHelperFixture)
-
-BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()

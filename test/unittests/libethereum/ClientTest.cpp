@@ -15,7 +15,3 @@ using namespace dev::eth;
 using namespace dev::test;
 using namespace dev::p2p;
 namespace fs = boost::filesystem;
-
-BOOST_FIXTURE_TEST_SUITE(ClientTestSuite, TestClientFixture)
-
-BOOST_AUTO_TEST_SUITE_END()

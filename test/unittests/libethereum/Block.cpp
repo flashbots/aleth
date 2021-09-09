@@ -14,11 +14,3 @@ using namespace std;
 using namespace dev;
 using namespace dev::eth;
 using namespace dev::test;
-
-BOOST_FIXTURE_TEST_SUITE(BlockSuite, TestOutputHelperFixture)
-
-BOOST_FIXTURE_TEST_SUITE(FrontierBlockSuite, FrontierNoProofTestFixture)
-
-BOOST_AUTO_TEST_SUITE_END()
-
-BOOST_AUTO_TEST_SUITE_END()

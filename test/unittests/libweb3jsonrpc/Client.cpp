@@ -24,15 +24,3 @@ using namespace std;
 using namespace dev;
 using namespace dev::eth;
 using namespace dev::p2p;
-
-namespace dev
-{
-namespace test
-{
-
-BOOST_FIXTURE_TEST_SUITE(ClientTests, TestOutputHelperFixture)
-
-BOOST_AUTO_TEST_SUITE_END()
-
-}
-}

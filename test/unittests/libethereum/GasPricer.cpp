@@ -19,7 +19,3 @@ using namespace dev::eth;
 using namespace dev::test;
 namespace fs = boost::filesystem;
 
-
-BOOST_FIXTURE_TEST_SUITE(GasPricer, TestOutputHelperFixture)
-
-BOOST_AUTO_TEST_SUITE_END()

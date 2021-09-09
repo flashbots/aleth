@@ -11,11 +11,3 @@
 using namespace std;
 using namespace dev;
 using namespace dev::test;
-
-BOOST_FIXTURE_TEST_SUITE(TestHelperSuite, TestOutputHelperFixture)
-
-BOOST_AUTO_TEST_SUITE(TranslateNetworks)
-
-BOOST_AUTO_TEST_SUITE_END()
-
-BOOST_AUTO_TEST_SUITE_END()

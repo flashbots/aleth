@@ -23,7 +23,3 @@ using namespace dev::test;
 
 namespace fs = boost::filesystem;
 namespace js = json_spirit;
-
-BOOST_FIXTURE_TEST_SUITE(BasicTests, TestOutputHelperFixture)
-
-BOOST_AUTO_TEST_SUITE_END()

@@ -13,7 +13,3 @@ using namespace dev;
 using namespace dev::eth;
 using namespace dev::test;
 namespace ut = boost::unit_test;
-
-BOOST_FIXTURE_TEST_SUITE(PrecompiledTests, TestOutputHelperFixture)
-
-BOOST_AUTO_TEST_SUITE_END()

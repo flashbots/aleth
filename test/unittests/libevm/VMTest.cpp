@@ -16,11 +16,3 @@ using namespace dev;
 using namespace dev::test;
 using namespace dev::eth;
 
-
-BOOST_FIXTURE_TEST_SUITE(LegacyVMSuite, TestOutputHelperFixture)
-BOOST_FIXTURE_TEST_SUITE(LegacyVMCreate2Suite, LegacyVMCreate2TestFixture)
-
-
-BOOST_AUTO_TEST_SUITE_END()
-
-BOOST_AUTO_TEST_SUITE_END()

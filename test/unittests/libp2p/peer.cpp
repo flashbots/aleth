@@ -17,12 +17,4 @@ using namespace dev::p2p;
 
 BOOST_AUTO_TEST_SUITE(libp2p)
 
-BOOST_FIXTURE_TEST_SUITE(p2p, TestOutputHelperFixture)
-
-BOOST_AUTO_TEST_SUITE_END()
-
-
-BOOST_FIXTURE_TEST_SUITE(peerTypes, TestOutputHelperFixture)
-
-BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()

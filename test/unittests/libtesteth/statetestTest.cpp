@@ -9,7 +9,3 @@
 
 using namespace std;
 using namespace dev::test;
-BOOST_FIXTURE_TEST_SUITE(StateTestTestSuite, TestOutputHelperFixture)
-
-
-BOOST_AUTO_TEST_SUITE_END()

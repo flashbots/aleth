@@ -11,7 +11,3 @@
 #include <boost/test/unit_test.hpp>
 
 using namespace dev::test;
-
-BOOST_FIXTURE_TEST_SUITE(BlockChainTestSuite, TestOutputHelperFixture)
-
-BOOST_AUTO_TEST_SUITE_END()

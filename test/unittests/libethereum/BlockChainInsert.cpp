@@ -18,15 +18,3 @@ using namespace std;
 using namespace json_spirit;
 using namespace dev;
 using namespace dev::eth;
-
-namespace dev {
-
-namespace test {
-
-BOOST_FIXTURE_TEST_SUITE(BlockChainInsertTests, TestOutputHelperFixture)
-
-BOOST_AUTO_TEST_SUITE_END()
-
-}
-}
-

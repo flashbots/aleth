@@ -487,7 +487,7 @@ void Block::ExecuteWithWitness(VerifiedBlockRef const& _block, OverlayDB witness
 
     updateBlock(_block, previousBlocks[0]);
 
-    // m_currentBlock is assumed to be prepopulated and reset.
+    // m_curlrentBlock is assumed to be prepopulated and reset.
     assert(m_previousBlock.hash() == _block.info.parentHash());
     assert(m_currentBlock.parentHash() == _block.info.parentHash());
 

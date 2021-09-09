@@ -56,17 +56,14 @@ public:
     void setRoot(h256 const& _root, Verification _v = Verification::Normal)
     {
         m_root = _root;
-        cout << m_root << " -------\n";
+
         if (_v == Verification::Normal)
         {
-            if (m_db->exists(m_root))
-                cout << " for here 1\n";
             if (m_root == EmptyTrie && !m_db->exists(m_root))
                 init();
         }
         if (_v == Verification::Normal)
         {
-            cout << " for here 2\n";
             if (!node(m_root).size())
                 BOOST_THROW_EXCEPTION(RootNotFound());
         }
@@ -837,7 +834,7 @@ template <class DB> bytes GenericTrieDB<DB>::mergeAt(RLP const& _orig, h256 cons
         }
 
         auto sh = _k.shared(k);
-//		std::cout << _k << " sh " << k << " = " << sh << std::endl;
+
         if (sh)
         {
             // shared stuff - cleve at disagreement.
@@ -885,7 +882,7 @@ template <class DB> void GenericTrieDB<DB>::mergeAtAux(RLPStream& _out, RLP cons
     if (!r.isList() && !r.isEmpty())
     {
         h256 h = _orig.toHash<h256>();
-        //        std::cerr << "going down non-inline node " << h << "\n";
+
         s = node(h);
         r = RLP(s);
         assert(!r.isNull());

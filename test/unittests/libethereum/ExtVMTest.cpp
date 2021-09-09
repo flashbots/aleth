@@ -12,8 +12,3 @@
 using namespace dev;
 using namespace dev::eth;
 using namespace dev::test;
-
-BOOST_FIXTURE_TEST_SUITE(ExtVmExperimentalSuite, ExtVMExperimentalTestFixture)
-
-
-BOOST_AUTO_TEST_SUITE_END()

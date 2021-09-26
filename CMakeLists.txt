@@ -98,11 +98,11 @@ set(UTILS_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/utils")
 
 configure_project()
 
-if(TESTS)
-    # Import binaryen library for testeth.
-    # TODO: remove this once testeth uses binaryen as a CLI tool.
-    include(ProjectBinaryen)
-endif()
+#if(TESTS)
+#    # Import binaryen library for testeth.
+#    # TODO: remove this once testeth uses binaryen as a CLI tool.
+#    include(ProjectBinaryen)
+#endif()
 
 add_subdirectory(evmc)
 
@@ -132,11 +132,11 @@ if (TOOLS)
     add_subdirectory(rlp)
     add_subdirectory(aleth-bootnode)
 endif()
-
-if (TESTS)
-    enable_testing()
-    add_subdirectory(test)
-endif()
+#
+#if (TESTS)
+#    enable_testing()
+#    add_subdirectory(test)
+#endif()
 
 
 install(FILES ${PROJECT_BINARY_DIR}/aleth/buildinfo.json DESTINATION ${CMAKE_INSTALL_DATADIR}/aleth)

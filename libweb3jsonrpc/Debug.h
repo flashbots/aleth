@@ -39,6 +39,7 @@ public:
 	virtual Json::Value debug_storageRangeAt(std::string const& _blockHashOrNumber, int _txIndex, std::string const& _address, std::string const& _begin, int _maxResults) override;
 	virtual std::string debug_preimage(std::string const& _hashedKey) override;
 	virtual Json::Value debug_traceBlock(std::string const& _blockRlp, Json::Value const& _json);
+	virtual Json::Value debug_getWitness(std::string const& blockNumber);
 
 private:
 

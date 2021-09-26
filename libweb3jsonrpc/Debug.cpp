@@ -257,3 +257,34 @@ Json::Value Debug::debug_traceCall(Json::Value const& _call, std::string const& 
     }
     return ret;
 }
+
+Json::Value Debug::debug_getWitness(std::string const& blockNumber)
+{
+    Json::Value ret;
+    try
+    {
+        Block temp = m_eth.blockByNumber(jsToBlockNumber(_blockNumber));
+        TransactionSkeleton ts = toTransactionSkeleton(_call);
+        if (!ts.from) {
+            ts.from = Address();
+        }
+        u256 nonce = temp.transactionsFrom(ts.from);
+        u256 gas = ts.gas == Invalid256 ? m_eth.gasLimitRemaining() : ts.gas;
+        u256 gasPrice = ts.gasPrice == Invalid256 ? m_eth.gasBidPrice() : ts.gasPrice;
+        temp.mutableState().addBalance(ts.from, gas * gasPrice + ts.value);
+        Transaction transaction(ts.value, gasPrice, gas, ts.to, ts.data, nonce);
+        transaction.forceSender(ts.from);
+        eth::ExecutionResult er;
+        Executive e(temp, m_eth.blockChain().lastBlockHashes());
+        e.setResultRecipient(er);
+        Json::Value trace = traceTransaction(e, transaction, _options);
+        ret["gas"] = toJS(transaction.gas());
+        ret["return"] = toHexPrefixed(er.output);
+        ret["structLogs"] = trace;
+    }
+    catch(Exception const& _e)
+    {
+        cwarn << diagnostic_information(_e);
+    }
+    return ret;
+}

@@ -34,6 +34,13 @@ hunter_config(
     CMAKE_ARGS BUILD_GMOCK=OFF gtest_force_shared_crt=ON
 )
 
+hunter_config(
+    rpclib
+    VERSION 1.0.0
+    URL https://github.com/rpclib/rpclib/archive/refs/tags/v2.3.0.tar.gz
+    SHA1 1a750fa727e3cbc67b9009ef1085f3e6cf397ed4
+)
+
 if (MSVC)
     hunter_config(
         libscrypt

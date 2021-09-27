@@ -39,7 +39,7 @@ namespace dev {
                 {
                     response = this->debug_preimage(request[0u].asString());
                 }
-                inline virtual void debug_getWitness(const Json::Value &request, Json::Value &response)
+                inline virtual void debug_getWitnessI(const Json::Value &request, Json::Value &response)
                 {
                     response = this->debug_getWitness(request[0u].asString());
                 }

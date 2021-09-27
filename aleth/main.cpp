@@ -2,11 +2,11 @@
 // Copyright 2015-2019 Aleth Authors.
 // Licensed under the GNU General Public License, Version 3.
 
+#include <iostream>
 using namespace std;
-
 
 int main(/*int argc, char** argv*/)
 {
-    std::cout << "testing\n";
+    cout << "testing\n";
     return 0;
 }

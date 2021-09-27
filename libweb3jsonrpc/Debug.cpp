@@ -12,8 +12,7 @@ using namespace dev;
 using namespace dev::rpc;
 using namespace dev::eth;
 
-Debug::Debug():
-{}
+Debug::Debug(){}
 
 Json::Value Debug::debug_getWitness(std::string const& blockNumber)
 {

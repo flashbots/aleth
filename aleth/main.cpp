@@ -1,4 +1,4 @@
-#include "include/rpc/server.h"
+#include "rpc/server.h"
 #include <iostream>
 
 void foo()

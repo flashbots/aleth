@@ -2,9 +2,12 @@
 // Created by Marcos Maceo on 9/28/21.
 //
 
-#include "ServerBaseFace.h"
-#include "Eth.h"
+#include "ServerBase.h"
 #include <jsonrpccpp/common/exception.h>
+#include <libdevcore/CommonData.h>
+#include <libethashseal/Ethash.h>
+#include <libethcore/CommonJS.h>
+#include <libethereum/Client.h>
 #include <libweb3jsonrpc/JsonHelper.h>
 #include <libwebthree/WebThree.h>
 #include <csignal>
@@ -16,15 +19,7 @@ using namespace eth;
 using namespace shh;
 using namespace dev::rpc;
 
-class ServerBase : public AbstractStubServer
+std::string ServerBase::ping(std::string const& message)
 {
-public:
-    ServerBase(AbstractServerConnector& connector, serverVersion_t type);
-
-    virtual std::string ping(const std::string& param01) = 0;
-};
-
-string ServerBase::ping(const string& ping)
-{
-    return "Hello " + ping;
+    return "Hello " + message;
 }

@@ -1,6 +1,6 @@
 #include "libweb3jsonrpc/Server.h"
 #include <iostream>
-#include <jsonrpccpp/client/connectors/httpclient.h>
+#include <jsonrpccpp/client/connectors/httpserver.h>
 
 using namespace jsonrpc;
 using namespace std;

@@ -1067,7 +1067,7 @@ int main(int argc, char** argv)
                 new rpc::Personal(keyManager, *accountHolder, *web3.ethereum()),
                 new rpc::AdminEth(
                     *web3.ethereum(), *gasPricer.get(), keyManager, *sessionManager.get()),
-                new rpc::AdminNet(web3, *sessionManager.get()), new rpc::Debug(*web3.ethereum()),
+                new rpc::AdminNet(web3, *sessionManager.get()), new rpc::Debug(),
                 testEth, new rpc::ServerBase()));
         auto ipcConnector = new IpcServer("geth");
         jsonrpcIpcServer->addConnector(ipcConnector);

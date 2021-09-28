@@ -25,7 +25,7 @@
 #include <libweb3jsonrpc/AccountHolder.h>
 #include <libweb3jsonrpc/Eth.h>
 #include <libweb3jsonrpc/ModularServer.h>
-#include "libweb3jsonrpc/Serverbase.h"
+#include "libweb3jsonrpc/ServerBase.h"
 #include <libweb3jsonrpc/IpcServer.h>
 #include <libweb3jsonrpc/Net.h>
 #include <libweb3jsonrpc/Web3.h>

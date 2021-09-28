@@ -2,11 +2,11 @@
 // Copyright 2015-2019 Aleth Authors.
 // Licensed under the GNU General Public License, Version 3.
 
-#include <thread>
+#include <signal.h>
 #include <fstream>
 #include <iostream>
 #include <regex>
-#include <signal.h>
+#include <thread>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
@@ -27,20 +27,20 @@
 #include <libwebthree/WebThree.h>
 
 #include <libweb3jsonrpc/AccountHolder.h>
-#include <libweb3jsonrpc/Eth.h>
-#include <libweb3jsonrpc/ModularServer.h>
-#include <libweb3jsonrpc/IpcServer.h>
-#include <libweb3jsonrpc/ServerBase.h>
-#include <libweb3jsonrpc/Net.h>
-#include <libweb3jsonrpc/Web3.h>
-#include <libweb3jsonrpc/AdminNet.h>
 #include <libweb3jsonrpc/AdminEth.h>
-#include <libweb3jsonrpc/Personal.h>
+#include <libweb3jsonrpc/AdminNet.h>
 #include <libweb3jsonrpc/Debug.h>
+#include <libweb3jsonrpc/Eth.h>
+#include <libweb3jsonrpc/IpcServer.h>
+#include <libweb3jsonrpc/ModularServer.h>
+#include <libweb3jsonrpc/Net.h>
+#include <libweb3jsonrpc/Personal.h>
+#include <libweb3jsonrpc/ServerBase.h>
 #include <libweb3jsonrpc/Test.h>
+#include <libweb3jsonrpc/Web3.h>
 
-#include "MinerAux.h"
 #include "AccountManager.h"
+#include "MinerAux.h"
 
 #include <aleth/buildinfo.h>
 
@@ -53,7 +53,6 @@ namespace fs = boost::filesystem;
 
 namespace
 {
-
 std::atomic<bool> g_silence = {false};
 constexpr const char* c_networkConfigFileName = "network.rlp";
 
@@ -68,31 +67,31 @@ void version()
 
 void importPresale(KeyManager& _km, string const& _file, function<string()> _pass)
 {
-    KeyPair k = _km.presaleSecret(contentsString(_file), [&](bool){ return _pass(); });
+    KeyPair k = _km.presaleSecret(contentsString(_file), [&](bool) { return _pass(); });
     _km.import(k.secret(), "Presale wallet" + _file + " (insecure)");
 }
 
 enum class OperationMode
-    {
+{
     Node,
     Import,
     ImportSnapshot,
     Export
-    };
+};
 
 enum class Format
-    {
+{
     Binary,
     Hex,
     Human
-    };
+};
 
 void stopSealingAfterXBlocks(eth::Client* _c, unsigned _start, unsigned& io_mining)
 {
     try
     {
         if (io_mining != ~(unsigned)0 && io_mining && asEthash(*_c->sealEngine()).isMining() &&
-        _c->blockChain().details().number - _start == io_mining)
+            _c->blockChain().details().number - _start == io_mining)
         {
             _c->stopSealing();
             io_mining = ~(unsigned)0;
@@ -104,7 +103,7 @@ void stopSealingAfterXBlocks(eth::Client* _c, unsigned _start, unsigned& io_mini
 
     this_thread::sleep_for(chrono::milliseconds(100));
 }
-}
+}  // namespace
 
 int main(int argc, char** argv)
 {
@@ -187,7 +186,9 @@ int main(int argc, char** argv)
             RLP config(b);
             author = config[1].toHash<Address>();
         }
-        catch (...) {}
+        catch (...)
+        {
+        }
     }
 
     if (argc > 1 && (string(argv[1]) == "wallet" || string(argv[1]) == "account"))
@@ -210,93 +211,101 @@ int main(int argc, char** argv)
     addClientOption("ropsten", "Use the Ropsten testnet");
     addClientOption("test", "Testing mode; disable PoW and provide test rpc interface");
     addClientOption("config", po::value<string>()->value_name("<file>"),
-                    "Configure specialised blockchain using given JSON information\n");
+        "Configure specialised blockchain using given JSON information\n");
     addClientOption("ipc", "Enable IPC server (default: on)");
     addClientOption("ipcpath", po::value<string>()->value_name("<path>"),
-                    "Set .ipc socket path (default: data directory)");
+        "Set .ipc socket path (default: data directory)");
     addClientOption("no-ipc", "Disable IPC server");
     addClientOption("admin", po::value<string>()->value_name("<password>"),
-                    "Specify admin session key for JSON-RPC (default: auto-generated and printed at "
-                    "start-up)");
+        "Specify admin session key for JSON-RPC (default: auto-generated and printed at "
+        "start-up)");
     addClientOption("kill,K", "Kill the blockchain first. This will remove all blocks and state.");
     addClientOption("rebuild,R",
-                    "Rebuild the blockchain from the existing database. This involves reimporting all blocks "
-                    "and will probably take a while.");
+        "Rebuild the blockchain from the existing database. This involves reimporting all blocks "
+        "and will probably take a while.");
     addClientOption("rescue", "Attempt to rescue a corrupt database\n");
     addClientOption("import-presale", po::value<string>()->value_name("<file>"),
-                    "Import a pre-sale key; you'll need to specify the password to this key");
+        "Import a pre-sale key; you'll need to specify the password to this key");
     addClientOption("import-secret,s", po::value<string>()->value_name("<secret>"),
-                    "Import a secret key into the key store");
+        "Import a secret key into the key store");
     addClientOption("import-session-secret,S", po::value<string>()->value_name("<secret>"),
-                    "Import a secret session into the key store");
+        "Import a secret session into the key store");
     addClientOption("master", po::value<string>()->value_name("<password>"),
-                    "Give the master password for the key store; use --master \"\" to show a prompt");
+        "Give the master password for the key store; use --master \"\" to show a prompt");
     addClientOption("password", po::value<string>()->value_name("<password>"),
-                    "Give a password for a private key\n");
+        "Give a password for a private key\n");
 
     po::options_description clientTransacting("CLIENT TRANSACTING", c_lineWidth);
     auto addTransactingOption = clientTransacting.add_options();
     addTransactingOption("ask", po::value<u256>()->value_name("<wei>"),
-                         ("Set the minimum ask gas price under which no transaction will be mined (default: " +
-                         toString(DefaultGasPrice) + ")")
-                         .c_str());
+        ("Set the minimum ask gas price under which no transaction will be mined (default: " +
+            toString(DefaultGasPrice) + ")")
+            .c_str());
     addTransactingOption("bid", po::value<u256>()->value_name("<wei>"),
-                         ("Set the bid gas price to pay for transactions (default: " + toString(DefaultGasPrice) +
-                         ")")
-                         .c_str());
+        ("Set the bid gas price to pay for transactions (default: " + toString(DefaultGasPrice) +
+            ")")
+            .c_str());
     addTransactingOption("unsafe-transactions",
-                         "Allow all transactions to proceed without verification; EXTREMELY UNSAFE\n");
+        "Allow all transactions to proceed without verification; EXTREMELY UNSAFE\n");
 
     po::options_description clientMining("CLIENT MINING", c_lineWidth);
     auto addMininigOption = clientMining.add_options();
     addMininigOption("address,a", po::value<Address>()->value_name("<addr>"),
-                     "Set the author (mining payout) address (default: auto)");
+        "Set the author (mining payout) address (default: auto)");
     addMininigOption("mining,m", po::value<string>()->value_name("<on/off/number>"),
-                     "Enable mining; optionally for a specified number of blocks (default: off)");
+        "Enable mining; optionally for a specified number of blocks (default: off)");
     addMininigOption("extra-data", po::value<string>(), "Set extra data for the sealed blocks\n");
 
     po::options_description clientNetworking("CLIENT NETWORKING", c_lineWidth);
     auto addNetworkingOption = clientNetworking.add_options();
     addNetworkingOption("bootstrap,b",
-                        "Connect to the default Ethereum peer servers (default unless --no-discovery used)");
+        "Connect to the default Ethereum peer servers (default unless --no-discovery used)");
     addNetworkingOption("no-bootstrap",
-                        "Do not connect to the default Ethereum peer servers (default only when --no-discovery is "
-                        "used)");
+        "Do not connect to the default Ethereum peer servers (default only when --no-discovery is "
+        "used)");
     addNetworkingOption("peers,x", po::value<int>()->value_name("<number>"),
-                        "Attempt to connect to a given number of peers (default: 11)");
+        "Attempt to connect to a given number of peers (default: 11)");
     addNetworkingOption("peer-stretch", po::value<int>()->value_name("<number>"),
-                        "Give the accepted connection multiplier (default: 7)");
+        "Give the accepted connection multiplier (default: 7)");
     addNetworkingOption("public-ip", po::value<string>()->value_name("<ip>"),
-                        "Force advertised public IP to the given IP (default: auto)");
+        "Force advertised public IP to the given IP (default: auto)");
     addNetworkingOption("listen-ip", po::value<string>()->value_name("<ip>(:<port>)"),
-                        "Listen on the given IP for incoming connections (default: 0.0.0.0)");
+        "Listen on the given IP for incoming connections (default: 0.0.0.0)");
     addNetworkingOption("listen", po::value<unsigned short>()->value_name("<port>"),
-                        "Listen on the given port for incoming connections (default: 30303)");
+        "Listen on the given port for incoming connections (default: 30303)");
     addNetworkingOption("remote,r", po::value<string>()->value_name("<host>(:<port>)"),
-                        "Connect to the given remote host (default: none)");
+        "Connect to the given remote host (default: none)");
     addNetworkingOption("port", po::value<short>()->value_name("<port>"),
-                        "Connect to the given remote port (default: 30303)");
+        "Connect to the given remote port (default: 30303)");
     addNetworkingOption("network-id", po::value<unsigned>()->value_name("<n>"),
-                        "Only connect to other hosts with this network id");
+        "Only connect to other hosts with this network id");
     addNetworkingOption("allow-local-discovery", po::bool_switch(&allowLocalDiscovery),
-                        "Include local addresses in the discovery process. Used for testing purposes.");
+        "Include local addresses in the discovery process. Used for testing purposes.");
 #if ETH_MINIUPNPC
     addNetworkingOption(
         "upnp", po::value<string>()->value_name("<on/off>"), "Use UPnP for NAT (default: on)");
 #endif
 
     stringstream peersetDescriptionStream;
-    peersetDescriptionStream << "Comma delimited list of peers; element format: type:enode://publickey@ipAddress[:port[?discport=port]]\n"
-                                "        Types:\n"
-                                "        default     Attempt connection when no other peers are available and pinning is disabled\n"
-                                "        required    Keep connected at all times\n\n"
-                                "        Ports:\n"
-                                "        The first port argument is the tcp port used for direct communication among peers. If the second port\n"
-                                "        argument isn't supplied, the first port argument will also be the udp port used for node discovery.\n"
-                                "        If neither the first nor second port arguments are supplied, a default port of " << dev::p2p::c_defaultListenPort << " will be used for\n"
-                                                                                                                                                              "        both peer communication and node discovery.";
+    peersetDescriptionStream
+        << "Comma delimited list of peers; element format: "
+           "type:enode://publickey@ipAddress[:port[?discport=port]]\n"
+           "        Types:\n"
+           "        default     Attempt connection when no other peers are available and pinning "
+           "is disabled\n"
+           "        required    Keep connected at all times\n\n"
+           "        Ports:\n"
+           "        The first port argument is the tcp port used for direct communication among "
+           "peers. If the second port\n"
+           "        argument isn't supplied, the first port argument will also be the udp port "
+           "used for node discovery.\n"
+           "        If neither the first nor second port arguments are supplied, a default port of "
+        << dev::p2p::c_defaultListenPort
+        << " will be used for\n"
+           "        both peer communication and node discovery.";
     string peersetDescription = peersetDescriptionStream.str();
-    addNetworkingOption("peerset", po::value<string>()->value_name("<list>"), peersetDescription.c_str());
+    addNetworkingOption(
+        "peerset", po::value<string>()->value_name("<list>"), peersetDescription.c_str());
     addNetworkingOption("no-discovery", "Disable node discovery; implies --no-bootstrap");
     addNetworkingOption("pin", "Only accept or connect to trusted peers\n");
 
@@ -308,39 +317,41 @@ int main(int argc, char** argv)
     addImportExportOption(
         "export,E", po::value<string>()->value_name("<file>"), "Export blocks to file");
     addImportExportOption("from", po::value<string>()->value_name("<n>"),
-                          "Export only from block n; n may be a decimal, a '0x' prefixed hash, or 'latest'");
+        "Export only from block n; n may be a decimal, a '0x' prefixed hash, or 'latest'");
     addImportExportOption("to", po::value<string>()->value_name("<n>"),
-                          "Export only to block n (inclusive); n may be a decimal, a '0x' prefixed hash, or "
-                          "'latest'");
+        "Export only to block n (inclusive); n may be a decimal, a '0x' prefixed hash, or "
+        "'latest'");
     addImportExportOption("only", po::value<string>()->value_name("<n>"),
-                          "Equivalent to --export-from n --export-to n");
+        "Equivalent to --export-from n --export-to n");
     addImportExportOption(
         "format", po::value<string>()->value_name("<binary/hex/human>"), "Set export format");
     addImportExportOption("dont-check",
-                          "Prevent checking some block aspects. Faster importing, but to apply only when the data is "
-                          "known to be valid");
+        "Prevent checking some block aspects. Faster importing, but to apply only when the data is "
+        "known to be valid");
     addImportExportOption("download-snapshot",
-                          po::value<string>(&snapshotPath)->value_name("<path>"),
-                          "Download Parity Warp Sync snapshot data to the specified path");
+        po::value<string>(&snapshotPath)->value_name("<path>"),
+        "Download Parity Warp Sync snapshot data to the specified path");
     addImportExportOption("import-snapshot", po::value<string>()->value_name("<path>"),
-                          "Import blockchain and state data from the Parity Warp Sync snapshot\n");
+        "Import blockchain and state data from the Parity Warp Sync snapshot\n");
 
     std::string const logChannels =
         "block blockhdr bq chain client debug discov error ethcap exec host impolite info net "
-        "overlaydb p2pcap peer rlpx rpc snap statedb sync timer tq trace vmtrace warn warpcap watch";
+        "overlaydb p2pcap peer rlpx rpc snap statedb sync timer tq trace vmtrace warn warpcap "
+        "watch";
     LoggingOptions loggingOptions;
     po::options_description loggingProgramOptions(
         createLoggingProgramOptions(c_lineWidth, loggingOptions, logChannels));
     // log-vmtrace is needed only in aleth
     auto addLoggingOption = loggingProgramOptions.add_options();
     addLoggingOption("log-vmtrace", po::bool_switch(&loggingOptions.vmTrace),
-                     "Enable VM trace log (requires log-verbosity 4).\n");
+        "Enable VM trace log (requires log-verbosity 4).\n");
 
 
     po::options_description generalOptions("GENERAL OPTIONS", c_lineWidth);
     auto addGeneralOption = generalOptions.add_options();
     addGeneralOption("data-dir,d", po::value<string>()->value_name("<path>"),
-                     ("Load configuration files and keystore from path (default: " + getDataDir().string() + ")").c_str());
+        ("Load configuration files and keystore from path (default: " + getDataDir().string() + ")")
+            .c_str());
     addGeneralOption("version,V", "Show the version and exit");
     addGeneralOption("help,h", "Show this help message and exit\n");
 
@@ -350,15 +361,15 @@ int main(int argc, char** argv)
 
     po::options_description allowedOptions("Allowed options");
     allowedOptions.add(clientDefaultMode)
-    .add(clientTransacting)
-    .add(clientMining)
-    .add(minerOptions)
-    .add(clientNetworking)
-    .add(importExportMode)
-    .add(vmOptions)
-    .add(dbOptions)
-    .add(loggingProgramOptions)
-    .add(generalOptions);
+        .add(clientTransacting)
+        .add(clientMining)
+        .add(minerOptions)
+        .add(clientNetworking)
+        .add(importExportMode)
+        .add(vmOptions)
+        .add(dbOptions)
+        .add(loggingProgramOptions)
+        .add(generalOptions);
 
     po::variables_map vm;
 
@@ -453,7 +464,8 @@ int main(int argc, char** argv)
             {
                 mining = stoi(m);
             }
-            catch (...) {
+            catch (...)
+            {
                 cerr << "Unknown --mining option: " << m << "\n";
                 return AlethErrors::UnknownMiningOption;
             }
@@ -500,18 +512,22 @@ int main(int argc, char** argv)
         }
         catch (...)
         {
-            cerr << "Bad " << "--extra-data" << " option: " << vm["extra-data"].as<string>() << "\n";
+            cerr << "Bad "
+                 << "--extra-data"
+                 << " option: " << vm["extra-data"].as<string>() << "\n";
             return AlethErrors::BadExtraDataOption;
         }
     }
     if (vm.count("mainnet"))
     {
-        chainParams = ChainParams(genesisInfo(eth::Network::MainNetwork), genesisStateRoot(eth::Network::MainNetwork));
+        chainParams = ChainParams(
+            genesisInfo(eth::Network::MainNetwork), genesisStateRoot(eth::Network::MainNetwork));
         chainConfigIsSet = true;
     }
     if (vm.count("ropsten"))
     {
-        chainParams = ChainParams(genesisInfo(eth::Network::Ropsten), genesisStateRoot(eth::Network::Ropsten));
+        chainParams = ChainParams(
+            genesisInfo(eth::Network::Ropsten), genesisStateRoot(eth::Network::Ropsten));
         chainConfigIsSet = true;
     }
     if (vm.count("ask"))
@@ -543,11 +559,13 @@ int main(int argc, char** argv)
         listenIP = vm["listen-ip"].as<string>();
         listenSet = true;
     }
-    if (vm.count("listen")) {
+    if (vm.count("listen"))
+    {
         listenPort = vm["listen"].as<unsigned short>();
         listenSet = true;
     }
-    if (vm.count("public-ip")) {
+    if (vm.count("public-ip"))
+    {
         publicIP = vm["public-ip"].as<string>();
     }
     if (vm.count("remote"))
@@ -596,7 +614,9 @@ int main(int argc, char** argv)
             exportFormat = Format::Human;
         else
         {
-            cerr << "Bad " << "--format" << " option: " << m << "\n";
+            cerr << "Bad "
+                 << "--format"
+                 << " option: " << m << "\n";
             return AlethErrors::BadFormatOption;
         }
     }
@@ -616,21 +636,25 @@ int main(int argc, char** argv)
             upnp = false;
         else
         {
-            cerr << "Bad " << "--upnp" << " option: " << m << "\n";
+            cerr << "Bad "
+                 << "--upnp"
+                 << " option: " << m << "\n";
             return AlethErrors::BadUpnpOption;
         }
     }
 #endif
-if (vm.count("network-id"))
-    try
-    {
-        networkID = vm["network-id"].as<unsigned>();
-    }
-    catch (...)
-    {
-        cerr << "Bad " << "--network-id" << " option: " << vm["network-id"].as<string>() << "\n";
-        return AlethErrors::BadNetworkIdOption;
-    }
+    if (vm.count("network-id"))
+        try
+        {
+            networkID = vm["network-id"].as<unsigned>();
+        }
+        catch (...)
+        {
+            cerr << "Bad "
+                 << "--network-id"
+                 << " option: " << vm["network-id"].as<string>() << "\n";
+            return AlethErrors::BadNetworkIdOption;
+        }
     if (vm.count("kill"))
         withExisting = WithExisting::Kill;
     if (vm.count("rebuild"))
@@ -642,16 +666,20 @@ if (vm.count("network-id"))
         {
             author = vm["address"].as<Address>();
         }
-    catch (BadHexCharacter&)
-    {
-        cerr << "Bad hex in " << "--address" << " option: " << vm["address"].as<string>() << "\n";
-        return AlethErrors::BadHexValueInAddressOption;
-    }
-    catch (...)
-    {
-        cerr << "Bad " << "--address" << " option: " << vm["address"].as<string>() << "\n";
-        return AlethErrors::BadAddressOption;
-    }
+        catch (BadHexCharacter&)
+        {
+            cerr << "Bad hex in "
+                 << "--address"
+                 << " option: " << vm["address"].as<string>() << "\n";
+            return AlethErrors::BadHexValueInAddressOption;
+        }
+        catch (...)
+        {
+            cerr << "Bad "
+                 << "--address"
+                 << " option: " << vm["address"].as<string>() << "\n";
+            return AlethErrors::BadAddressOption;
+        }
     if ((vm.count("import-secret")))
     {
         Secret s(fromHex(vm["import-secret"].as<string>()));
@@ -665,14 +693,16 @@ if (vm.count("network-id"))
     if (vm.count("help"))
     {
         cout << "NAME:\n"
-        << "   aleth " << Version << '\n'
-        << "USAGE:\n"
-        << "   aleth [options]\n\n"
-        << "WALLET USAGE:\n";
+             << "   aleth " << Version << '\n'
+             << "USAGE:\n"
+             << "   aleth [options]\n\n"
+             << "WALLET USAGE:\n";
         AccountManager::streamAccountHelp(cout);
         AccountManager::streamWalletHelp(cout);
-        cout << clientDefaultMode << clientTransacting << clientNetworking << clientMining << minerOptions;
-        cout << importExportMode << dbOptions << vmOptions << loggingProgramOptions << generalOptions;
+        cout << clientDefaultMode << clientTransacting << clientNetworking << clientMining
+             << minerOptions;
+        cout << importExportMode << dbOptions << vmOptions << loggingProgramOptions
+             << generalOptions;
         return AlethErrors::Success;
     }
 
@@ -687,7 +717,7 @@ if (vm.count("network-id"))
         {
             cerr << "provided configuration is not well-formatted\n";
             cerr << "well-formatted sample: \n"
-            << genesisInfo(eth::Network::MainNetworkTest) << "\n";
+                 << genesisInfo(eth::Network::MainNetworkTest) << "\n";
             return AlethErrors::ConfigFileInvalid;
         }
     }
@@ -696,8 +726,10 @@ if (vm.count("network-id"))
 
 
     if (!chainConfigIsSet)
-        // default to mainnet if not already set with any of `--mainnet`, `--ropsten`, `--genesis`, `--config`
-        chainParams = ChainParams(genesisInfo(eth::Network::MainNetwork), genesisStateRoot(eth::Network::MainNetwork));
+        // default to mainnet if not already set with any of `--mainnet`, `--ropsten`, `--genesis`,
+        // `--config`
+        chainParams = ChainParams(
+            genesisInfo(eth::Network::MainNetwork), genesisStateRoot(eth::Network::MainNetwork));
 
     if (loggingOptions.verbosity > 0)
         cout << EthGrayBold "aleth, a C++ Ethereum client" EthReset << "\n";
@@ -710,7 +742,7 @@ if (vm.count("network-id"))
     else
         secretsPath = SecretStore::defaultPath();
     KeyManager keyManager(KeyManager::defaultPath(), secretsPath);
-    for (auto const& s: passwordsToNote)
+    for (auto const& s : passwordsToNote)
         keyManager.notePassword(s);
 
     // the first value is deprecated (never used)
@@ -743,11 +775,13 @@ if (vm.count("network-id"))
         g_silence = s;
         return ret;
     };
-    auto getAccountPassword = [&](Address const& a){
-        return getPassword("Enter password for address " + keyManager.accountName(a) + " (" + a.abridged() + "; hint:" + keyManager.passwordHint(a) + "): ");
+    auto getAccountPassword = [&](Address const& a) {
+        return getPassword("Enter password for address " + keyManager.accountName(a) + " (" +
+                           a.abridged() + "; hint:" + keyManager.passwordHint(a) + "): ");
     };
 
-    auto netPrefs = publicIP.empty() ? NetworkConfig(listenIP, listenPort, upnp) : NetworkConfig(publicIP, listenIP ,listenPort, upnp);
+    auto netPrefs = publicIP.empty() ? NetworkConfig(listenIP, listenPort, upnp) :
+                                       NetworkConfig(publicIP, listenIP, listenPort, upnp);
     netPrefs.discovery = !disableDiscovery;
     netPrefs.allowLocalDiscovery = allowLocalDiscovery;
     netPrefs.pin = vm.count("pin") != 0;
@@ -758,7 +792,7 @@ if (vm.count("network-id"))
         chainParams.allowFutureBlocks = true;
 
     dev::WebThreeDirect web3(WebThreeDirect::composeClientVersion("aleth"), db::databasePath(),
-                             snapshotPath, chainParams, withExisting, netPrefs, &nodesState, testingMode);
+        snapshotPath, chainParams, withExisting, netPrefs, &nodesState, testingMode);
 
     if (!extraData.empty())
         web3.ethereum()->setExtraData(extraData);
@@ -787,12 +821,19 @@ if (vm.count("network-id"))
         unsigned last = toNumber(exportTo);
         for (unsigned i = toNumber(exportFrom); i <= last; ++i)
         {
-            bytes block = web3.ethereum()->blockChain().block(web3.ethereum()->blockChain().numberHash(i));
+            bytes block =
+                web3.ethereum()->blockChain().block(web3.ethereum()->blockChain().numberHash(i));
             switch (exportFormat)
             {
-            case Format::Binary: out.write((char const*)block.data(), block.size()); break;
-            case Format::Hex: out << toHex(block) << "\n"; break;
-            case Format::Human: out << RLP(block) << "\n"; break;
+            case Format::Binary:
+                out.write((char const*)block.data(), block.size());
+                break;
+            case Format::Hex:
+                out << toHex(block) << "\n";
+                break;
+            case Format::Human:
+                out << RLP(block) << "\n";
+                break;
             default:;
             }
         }
@@ -821,24 +862,43 @@ if (vm.count("network-id"))
 
             switch (web3.ethereum()->queueBlock(block, safeImport))
             {
-            case ImportResult::Success: good++; break;
-            case ImportResult::AlreadyKnown: alreadyHave++; break;
-            case ImportResult::UnknownParent: unknownParent++; break;
-            case ImportResult::FutureTimeUnknown: unknownParent++; futureTime++; break;
-            case ImportResult::FutureTimeKnown: futureTime++; break;
-            default: bad++; break;
+            case ImportResult::Success:
+                good++;
+                break;
+            case ImportResult::AlreadyKnown:
+                alreadyHave++;
+                break;
+            case ImportResult::UnknownParent:
+                unknownParent++;
+                break;
+            case ImportResult::FutureTimeUnknown:
+                unknownParent++;
+                futureTime++;
+                break;
+            case ImportResult::FutureTimeKnown:
+                futureTime++;
+                break;
+            default:
+                bad++;
+                break;
             }
 
             // sync chain with queue
             tuple<ImportRoute, bool, unsigned> r = web3.ethereum()->syncQueue(10);
             imported += get<2>(r);
 
-            double e = chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - t).count() / 1000.0;
+            double e = chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - t)
+                           .count() /
+                       1000.0;
             if ((unsigned)e >= last + 10)
             {
                 auto i = imported - lastImported;
                 auto d = e - last;
-                cout << i << " more imported at " << (round(i * 10 / d) / 10) << " blocks/s. " << imported << " imported in " << e << " seconds at " << (round(imported * 10 / e) / 10) << " blocks/s (#" << web3.ethereum()->number() << ")" << "\n";
+                cout << i << " more imported at " << (round(i * 10 / d) / 10) << " blocks/s. "
+                     << imported << " imported in " << e << " seconds at "
+                     << (round(imported * 10 / e) / 10) << " blocks/s (#"
+                     << web3.ethereum()->number() << ")"
+                     << "\n";
                 last = (unsigned)e;
                 lastImported = imported;
             }
@@ -850,8 +910,12 @@ if (vm.count("network-id"))
             this_thread::sleep_for(chrono::seconds(1));
             tie(ignore, moreToImport, ignore) = web3.ethereum()->syncQueue(100000);
         }
-        double e = chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - t).count() / 1000.0;
-        cout << imported << " imported in " << e << " seconds at " << (round(imported * 10 / e) / 10) << " blocks/s (#" << web3.ethereum()->number() << ")\n";
+        double e =
+            chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - t).count() /
+            1000.0;
+        cout << imported << " imported in " << e << " seconds at "
+             << (round(imported * 10 / e) / 10) << " blocks/s (#" << web3.ethereum()->number()
+             << ")\n";
         return AlethErrors::Success;
     }
 
@@ -866,7 +930,9 @@ if (vm.count("network-id"))
                     masterPassword = getPassword("Please enter your MASTER password: ");
                     if (keyManager.load(masterPassword))
                         break;
-                    cout << "The password you entered is incorrect. If you have forgotten your password, and you wish to start afresh, manually remove the file: " << (getDataDir("ethereum") / fs::path("keys.info")).string() << "\n";
+                    cout << "The password you entered is incorrect. If you have forgotten your "
+                            "password, and you wish to start afresh, manually remove the file: "
+                         << (getDataDir("ethereum") / fs::path("keys.info")).string() << "\n";
                 }
             }
         }
@@ -878,16 +944,18 @@ if (vm.count("network-id"))
                 keyManager.create(std::string());
         }
     }
-    catch(...)
+    catch (...)
     {
-        cerr << "Error initializing key manager: " << boost::current_exception_diagnostic_information() << "\n";
+        cerr << "Error initializing key manager: "
+             << boost::current_exception_diagnostic_information() << "\n";
         return AlethErrors::KeyManagerInitializationFailure;
     }
 
-    for (auto const& presale: presaleImports)
-        importPresale(keyManager, presale, [&](){ return getPassword("Enter your wallet password for " + presale + ": "); });
+    for (auto const& presale : presaleImports)
+        importPresale(keyManager, presale,
+            [&]() { return getPassword("Enter your wallet password for " + presale + ": "); });
 
-    for (auto const& s: toImport)
+    for (auto const& s : toImport)
     {
         keyManager.import(s, "Imported key (UNSAFE)");
     }
@@ -908,7 +976,8 @@ if (vm.count("network-id"))
         }
         catch (...)
         {
-            cerr << "Error during importing the snapshot: " << boost::current_exception_diagnostic_information() << endl;
+            cerr << "Error during importing the snapshot: "
+                 << boost::current_exception_diagnostic_information() << endl;
             return AlethErrors::SnapshotImportFailure;
         }
     }
@@ -925,21 +994,22 @@ if (vm.count("network-id"))
     if (networkID != NoNetworkID)
         c.setNetworkId(networkID);
 
-    auto renderFullAddress = [&](Address const& _a) -> std::string
-        {
+    auto renderFullAddress = [&](Address const& _a) -> std::string {
         return toUUID(keyManager.uuid(_a)) + " - " + _a.hex();
-        };
+    };
 
     if (author)
         cout << "Mining Beneficiary: " << renderFullAddress(author) << "\n";
 
-    if (bootstrap || !remoteHost.empty() || !disableDiscovery || listenSet || !preferredNodes.empty())
+    if (bootstrap || !remoteHost.empty() || !disableDiscovery || listenSet ||
+        !preferredNodes.empty())
     {
         web3.startNetwork();
         cout << "Node ID: " << web3.enode() << "\n";
     }
     else
-        cout << "Networking disabled. To start, use netstart or pass --bootstrap or a remote host.\n";
+        cout << "Networking disabled. To start, use netstart or pass --bootstrap or a remote "
+                "host.\n";
 
     unique_ptr<rpc::SessionManager> sessionManager;
     unique_ptr<SimpleAccountHolder> accountHolder;
@@ -953,57 +1023,59 @@ if (vm.count("network-id"))
         authenticator = [](TransactionSkeleton const&, bool) -> bool { return true; };
     else
         authenticator = [&](TransactionSkeleton const& _t, bool isProxy) -> bool {
-        // "unlockAccount" functionality is done in the AccountHolder.
-        if (!alwaysConfirm || allowedDestinations.count(_t.to))
-            return true;
+            // "unlockAccount" functionality is done in the AccountHolder.
+            if (!alwaysConfirm || allowedDestinations.count(_t.to))
+                return true;
 
-        string r = getResponse(_t.userReadable(isProxy,
-                                               [&](TransactionSkeleton const& _t) -> pair<bool, string>
-                                               {
-            h256 contractCodeHash = web3.ethereum()->postState().codeHash(_t.to);
-            if (contractCodeHash == EmptySHA3)
-                return std::make_pair(false, std::string());
-            // TODO: actually figure out the natspec. we'll need the natspec database here though.
-            return std::make_pair(true, std::string());
-            }, [&](Address const& _a) { return _a.hex(); }
-            ) + "\nEnter yes/no/always (always to this address): ", {"yes", "n", "N", "no", "NO", "always"});
-        if (r == "always")
-            allowedDestinations.insert(_t.to);
-        return r == "yes" || r == "always";
-    };
+            string r = getResponse(_t.userReadable(
+                                       isProxy,
+                                       [&](TransactionSkeleton const& _t) -> pair<bool, string> {
+                                           h256 contractCodeHash =
+                                               web3.ethereum()->postState().codeHash(_t.to);
+                                           if (contractCodeHash == EmptySHA3)
+                                               return std::make_pair(false, std::string());
+                                           // TODO: actually figure out the natspec. we'll need the
+                                           // natspec database here though.
+                                           return std::make_pair(true, std::string());
+                                       },
+                                       [&](Address const& _a) { return _a.hex(); }) +
+                                       "\nEnter yes/no/always (always to this address): ",
+                {"yes", "n", "N", "no", "NO", "always"});
+            if (r == "always")
+                allowedDestinations.insert(_t.to);
+            return r == "yes" || r == "always";
+        };
 
     ExitHandler exitHandler;
 
     if (ipc)
     {
-        using FullServer = ModularServer<
-            rpc::EthFace,
-            rpc::NetFace, rpc::Web3Face, rpc::PersonalFace,
-            rpc::AdminEthFace, rpc::AdminNetFace,
-            rpc::DebugFace, rpc::TestFace, rpc::ServerBaseFace
-            >;
+        using FullServer = ModularServer<rpc::EthFace, rpc::NetFace, rpc::Web3Face,
+            rpc::PersonalFace, rpc::AdminEthFace, rpc::AdminNetFace, rpc::DebugFace, rpc::TestFace,
+            rpc::ServerBaseFace>;
 
         sessionManager.reset(new rpc::SessionManager());
-        accountHolder.reset(new SimpleAccountHolder([&](){ return web3.ethereum(); }, getAccountPassword, keyManager, authenticator));
+        accountHolder.reset(new SimpleAccountHolder(
+            [&]() { return web3.ethereum(); }, getAccountPassword, keyManager, authenticator));
         auto ethFace = new rpc::Eth(*web3.ethereum(), *accountHolder.get());
         rpc::TestFace* testEth = nullptr;
         if (testingMode)
             testEth = new rpc::Test(*web3.ethereum());
 
-        jsonrpcIpcServer.reset(new FullServer(
-            ethFace, new rpc::Net(web3),
-            new rpc::Web3(web3.clientVersion()), new rpc::Personal(keyManager, *accountHolder, *web3.ethereum()),
-            new rpc::AdminEth(*web3.ethereum(), *gasPricer.get(), keyManager, *sessionManager.get()),
-            new rpc::AdminNet(web3, *sessionManager.get()),
-            new rpc::Debug(*web3.ethereum()),
-            testEth, new rpc::ServerBase()
-            ));
+        jsonrpcIpcServer.reset(
+            new FullServer(ethFace, new rpc::Net(web3), new rpc::Web3(web3.clientVersion()),
+                new rpc::Personal(keyManager, *accountHolder, *web3.ethereum()),
+                new rpc::AdminEth(
+                    *web3.ethereum(), *gasPricer.get(), keyManager, *sessionManager.get()),
+                new rpc::AdminNet(web3, *sessionManager.get()), new rpc::Debug(*web3.ethereum()),
+                testEth, new rpc::ServerBase()));
         auto ipcConnector = new IpcServer("geth");
         jsonrpcIpcServer->addConnector(ipcConnector);
         ipcConnector->StartListening();
 
         if (jsonAdmin.empty())
-            jsonAdmin = sessionManager->newSession(rpc::SessionPermissions{{rpc::Privilege::Admin}});
+            jsonAdmin =
+                sessionManager->newSession(rpc::SessionPermissions{{rpc::Privilege::Admin}});
         else
             sessionManager->addSession(jsonAdmin, rpc::SessionPermissions{{rpc::Privilege::Admin}});
 
@@ -1012,17 +1084,17 @@ if (vm.count("network-id"))
 
     if (web3.isNetworkStarted())
     {
-        for (auto const& p: preferredNodes)
+        for (auto const& p : preferredNodes)
             if (p.second.second)
                 web3.requirePeer(p.first, p.second.first);
             else
                 web3.addNode(p.first, p.second.first);
 
-            if (bootstrap)
-                for (auto const& i : defaultBootNodes())
-                    web3.addNode(i.first, i.second);
-                if (!remoteHost.empty())
-                    web3.addNode(p2p::NodeID(), remoteHost + ":" + toString(remotePort));
+        if (bootstrap)
+            for (auto const& i : defaultBootNodes())
+                web3.addNode(i.first, i.second);
+        if (!remoteHost.empty())
+            web3.addNode(p2p::NodeID(), remoteHost + ":" + toString(remotePort));
     }
 
     signal(SIGABRT, &ExitHandler::exitHandler);

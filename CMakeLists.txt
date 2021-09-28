@@ -77,9 +77,6 @@ find_package(cryptopp CONFIG REQUIRED)
 hunter_add_package(libjson-rpc-cpp)
 find_package(libjson-rpc-cpp CONFIG REQUIRED)
 
-hunter_add_package(rpclib)
-find_package(rpclib CONFIG REQUIRED)
-
 hunter_add_package(libscrypt)
 find_package(libscrypt CONFIG REQUIRED)
 
